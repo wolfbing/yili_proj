@@ -30,14 +30,15 @@ logger = logging.getLogger('wechat')
 
 # wechat 请求入口
 def main(request):
-    tmp_logger = logging.getLogger('django')
-    tmp_logger.info('come here!!')
-    try:
-        data = parse_msg(request.body)
-        return text_msg(data)
-    except Exception, e:
-        logger.debug(e)
-        return HttpResponse("error occur!")
+    #tmp_logger = logging.getLogger('django')
+    # tmp_logger.info('come here!!')
+    # try:
+    #     data = parse_msg(request.body)
+    #     return text_msg(data)
+    # except Exception, e:
+    #     logger.debug(e)
+    #     return HttpResponse("error occur!")
+    return connect_to_wechat_server(request)
 
 
 # 接入微信服务器
