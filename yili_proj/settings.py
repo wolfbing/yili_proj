@@ -117,11 +117,17 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': './logs/debug.log',
             'formatter': 'verbose'
+        },
+        'access': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': './logs/access.log',
+            'formatter': 'verbose'
         }
     },
     'loggers': {
         'django': {
-            'handlers': ['null'],
+            'handlers': ['access'],
             'propagate': True,
             'level': 'INFO',
         },
