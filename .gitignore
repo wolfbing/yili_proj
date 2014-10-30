@@ -1,0 +1,13 @@
+
+# pycharm project files
+.idea/
+
+# compiled file
+*.py~
+*.pyc
+
+
+*.sqlite3
+
+*/migrations/
+
