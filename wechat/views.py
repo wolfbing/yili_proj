@@ -12,10 +12,12 @@ import hashlib
 
 # wechat 请求入口
 def main(request):
-    return HttpResponse("request entrance")
+    return connect_to_wechat_server(request)
+    #return HttpResponse("request entrance")
 
 
-def check_signature(request):
+# 接入微信服务器
+def connect_to_wechat_server(request):
     signature = request.GET['signatue']
     ts = request.GET['timestamp']
     nonce = request.GET['nonce']
@@ -25,7 +27,7 @@ def check_signature(request):
     arr.sort()
     tmp_str = string.join(arr, '')
     sha1_obj = hashlib.sha1(tmp_str)
-    sha1_str = sha1_obj.digest()
+    sha1_str = sha1_obj.hexdigest()
     if sha1_str == signature:
         return HttpResponse(echo_str)
     else:
