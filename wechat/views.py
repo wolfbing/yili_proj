@@ -8,6 +8,7 @@ import string
 import hashlib
 import time
 from xml.etree import ElementTree as ET
+import logging
 
 # Create your views here.
 
@@ -25,11 +26,16 @@ BFX = 'BFX'
 # msg type
 TEXT_MSG = "text"
 
+logger = logging.getLogger('wechat')
 
 # wechat 请求入口
 def main(request):
-    data = parse_msg(request.body)
-    return text_msg(data)
+    try:
+        data = parse_msg(request.body)
+        return text_msg(data)
+    except Exception, e:
+        logger.debug(e)
+        return HttpResponse("error occur!")
 
 
 # 接入微信服务器
