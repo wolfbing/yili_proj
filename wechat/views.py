@@ -30,6 +30,8 @@ logger = logging.getLogger('wechat')
 
 # wechat 请求入口
 def main(request):
+    tmp_logger = logging.getLogger('django')
+    tmp_logger.info('come here!!')
     try:
         data = parse_msg(request.body)
         return text_msg(data)
