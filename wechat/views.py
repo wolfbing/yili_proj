@@ -24,16 +24,29 @@ JDHG = 'JDHG'
 BSBS = 'BSBS'
 BFX = 'BFX'
 
-# msg type
+# MsgType
 TEXT_MSG = "text"
+EVENT_MSG = "event"
+CLICK_EVENT = "CLICK"
+
+# msg judget
+EVENT = "Event"
+EVENT_KEY = "EventKey"
+MSG_TYPE = "MsgType"
 
 logger = logging.getLogger('wechat')
 
 # wechat 请求入口
 def main(request):
     try:
-        data = parse_msg(request.body)
-        return text_msg(data)
+        req_data = parse_msg(request.body)
+        if req_data[MSG_TYPE] == EVENT_MSG:
+            if req_data[EVENT_KEY] == NS:
+                return news_msg(req_data)
+            else:
+                return text_msg(req_data)
+        else:
+            return text_msg(req_data)
     except Exception, e:
         logger.debug(e)
         return HttpResponse("error occur!")
@@ -66,8 +79,6 @@ def text_msg(request_data):
         "create_time": create_time,
         "content": content
     }
-    t = loader.get_template('text_msg.xml')
-    print t.render(Context(res_data))
     return render_to_response('text_msg.xml', res_data)
 
 
@@ -79,6 +90,26 @@ def parse_msg(msg):
         dict[child.tag] = child.text
     return dict
 
+
+def news_msg(req_data):
+    create_time = int(time.time())
+    article_count = 1
+    articles = [
+        {
+            "title": u"欢迎关注 ‘有些’ ！",
+            "description": u"早饭们，欢迎关注有些！",
+            "pic_url": "http://121.199.32.77/media/avatar.jpg",
+            "url": "http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=200725485&idx=1&sn=26061f0bc214aa445e00e81264b9908c#rd"
+        }
+    ]
+    res_data = {
+        "to_user": req_data['FromUserName'],
+        "from_user": req_data['ToUserName'],
+        "create_time": create_time,
+        "article_count": article_count,
+        "articles": articles
+    }
+    return render_to_response('news_msg.xml', res_data)
 
 
 

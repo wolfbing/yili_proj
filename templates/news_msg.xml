@@ -1,0 +1,17 @@
+<xml>
+<ToUserName>{{ to_user }}</ToUserName>
+<FromUserName>{{ from_user }}</FromUserName>
+<CreateTime>{{ create_time }}</CreateTime>
+<MsgType>news</MsgType>
+<ArticleCount>{{ article_count }}</ArticleCount>
+<Articles>
+{% for article in articles %}
+    <item>
+    <Title>{{ article.title }}</Title>
+    <Description>{{ article.description }}</Description>
+    <PicUrl>{{ article.pic_url }}</PicUrl>
+    <Url>{{ article.url }}</Url>
+    </item>
+{% endfor %}
+</Articles>
+</xml>
