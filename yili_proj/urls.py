@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from wechat import views as wechat_view
+import settings
 
 urlpatterns = patterns('',
     # Examples:
@@ -10,3 +11,9 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^wechat/$', wechat_view.main),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        url(r'^wechat/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+        url(r'^wechat/media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+    )
