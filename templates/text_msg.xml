@@ -3,5 +3,5 @@
 <FromUserName>{{ from_user }}</FromUserName>
 <CreateTime>{{ create_time }}</CreateTime>
 <MsgType>text</MsgType>
-<Content>{{ content }}}</Content>
+<Content>{{ content }}</Content>
 </xml>

@@ -64,6 +64,11 @@ DATABASES = {
     }
 }
 
+# template dir
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates').replace("\\", '/'),
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 

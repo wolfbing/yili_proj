@@ -3,6 +3,7 @@
 
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
+from django.template import loader, Context
 
 import string
 import hashlib
@@ -65,9 +66,10 @@ def text_msg(request_data):
         "create_time": create_time,
         "content": content
     }
-    str = "%s" % (res_data)
-    logger.debug(str)
+    t = loader.get_template('text_msg.xml')
+    print t.render(Context(res_data))
     return render_to_response('text_msg.xml', res_data)
+
 
 def parse_msg(msg):
     dict = {}
