@@ -28,25 +28,69 @@ BFX = 'BFX'
 TEXT_MSG = "text"
 EVENT_MSG = "event"
 CLICK_EVENT = "CLICK"
+SUBSCRIBE_EVENT = "subscribe"
+UNSUBSCRIBE_EVENT = "unsubscribe"
 
 # msg judget
+MSG_TYPE = "MsgType"
 EVENT = "Event"
 EVENT_KEY = "EventKey"
-MSG_TYPE = "MsgType"
 
+
+# logger
 logger = logging.getLogger('wechat')
+
+# News num
+BOYS_AND_GIRLS_NUM = 5
+FINE_FOOD_NUM = 5
+VOICE_NUM = 5
+
+# static text msg
+WELCOME_MSG = u"欢迎关注 aiyouxie ！"
+BYE_MSG = u'对您有些留恋，期待与您再会！'
+HELP_MSG = u'您可以回复...'
 
 # wechat 请求入口
 def main(request):
     try:
         req_data = parse_msg(request.body)
-        if req_data[MSG_TYPE] == EVENT_MSG:
-            if req_data[EVENT_KEY] == NS:
-                return news_msg(req_data)
+        if req_data[MSG_TYPE] == TEXT_MSG:
+            return text_msg(req_data, HELP_MSG)
+        elif req_data[MSG_TYPE] == EVENT_MSG:
+            ###  订阅与取消订阅
+            if req_data[EVENT] == SUBSCRIBE_EVENT:
+                return text_msg(req_data, WELCOME_MSG)
+            elif req_data[EVENT] == UNSUBSCRIBE_EVENT:
+                return text_msg(req_data, BYE_MSG)
+            ###  菜单点击事件
+            elif req_data[EVENT] == CLICK_EVENT:
+                ###  有些朋友
+                if req_data[EVENT_KEY] == NS:
+                    return news_msg(req_data)
+                elif req_data[EVENT_KEY] == NVS:
+                    return news_msg(req_data)
+                elif req_data[EVENT_KEY] == BZNS:
+                    return news_msg(req_data)
+                elif req_data[EVENT_KEY] == BZNVS:
+                    return news_msg(req_data)
+                ###  有些美食
+                elif req_data[EVENT_KEY] == ST:
+                    return news_msg(req_data)
+                elif req_data[EVENT_KEY] == BX:
+                    return news_msg(req_data)
+                ###  有些声音
+                elif req_data[EVENT_KEY] == JDHG:
+                    return news_msg(req_data)
+                elif req_data[EVENT_KEY] == BSBS:
+                    return news_msg(req_data)
+                elif req_data[EVENT_KEY] == BFX:
+                    return news_msg(req_data)
+                else:
+                    return text_msg(req_data, HELP_MSG)
             else:
-                return text_msg(req_data)
+                return text_msg(req_data, HELP_MSG)
         else:
-            return text_msg(req_data)
+            return text_msg(req_data, HELP_MSG)
     except Exception, e:
         logger.debug(e)
         return HttpResponse("error occur!")
@@ -70,9 +114,8 @@ def connect_to_wechat_server(request):
         return HttpResponse('')
 
 
-def text_msg(request_data):
+def text_msg(request_data, content):
     create_time = int(time.time())
-    content = "this is text msg"
     res_data = {
         "to_user": request_data['FromUserName'],
         "from_user": request_data['ToUserName'],
