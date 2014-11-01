@@ -87,12 +87,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 # static_root
 STATIC_ROOT = os.path.join(BASE_DIR, 'static').replace('\\', '/')
-STATIC_URL = '/wechat/static/'
+STATIC_URL = '/static/'
 
 
 # media_root
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
-MEDIA_URL = '/wechat/media/'
+MEDIA_URL = '/media/'
 
 
 # logging

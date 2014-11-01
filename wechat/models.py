@@ -66,7 +66,7 @@ class BoysAndGirls(models.Model):
     type = models.CharField(choices=pt, max_length=10, help_text=u'选择人物类型')
     intro = models.TextField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
-    photo = models.ImageField(upload_to='boysandgirls/%Y/%m', max_length=255, help_text=u'建议尺寸：大图360*200，小图200*200')
+    photo = models.ImageField(upload_to='wechat/boysandgirls/%Y/%m', max_length=255, help_text=u'建议尺寸：大图360*200，小图200*200')
     url = models.URLField(max_length=500, blank=True, default='')
 
     objects = BoysAndGirlsManager()
@@ -104,7 +104,7 @@ class FineFood(models.Model):
     type = models.CharField(choices=ft, max_length=10, help_text=u'选择美食类型')
     intro = models.TextField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
-    photo = models.ImageField(upload_to='findfood/%Y/%m', max_length=255, help_text=u'建议尺寸：大图360*200，小图200*200')
+    photo = models.ImageField(upload_to='wechat/findfood/%Y/%m', max_length=255, help_text=u'建议尺寸：大图360*200，小图200*200')
     url = models.URLField(max_length=500, blank=True, default='')
 
     objects = FineFoodManager()
@@ -151,7 +151,7 @@ class Voice(models.Model):
     type = models.CharField(choices=vt, max_length=10, help_text=u'选择节目类型')
     intro = models.TextField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
-    audio = models.FileField(upload_to='voice/%Y/%m', max_length=255)
+    audio = models.FileField(upload_to='wechat/voice/%Y/%m', max_length=255)
     url = models.URLField(max_length=500, blank=True, default='')
 
     objects = VoiceManager()
