@@ -52,8 +52,8 @@ BYE_MSG = u'对您有些留恋，期待与您再会！'
 HELP_MSG = u'您可以回复...'
 
 # base url
-MEDIA_BASE_URL = 'http://121.199.32.77/media/'
-STATIC_BASE_URL = 'http://121.199.32.77/static/'
+MEDIA_BASE_URL = 'http://121.199.32.77'
+STATIC_BASE_URL = 'http://121.199.32.77'
 
 # wechat 请求入口
 def main(request):
