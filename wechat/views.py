@@ -3,6 +3,9 @@
 
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
+from django.template.loader import get_template
+from django.template import Context
+from django.core.urlresolvers import reverse
 
 import string
 import hashlib
@@ -42,9 +45,14 @@ EVENT_KEY = "EventKey"
 logger = logging.getLogger('wechat')
 
 # News num
-BOYS_AND_GIRLS_NUM = 5
+BOYS_AND_GIRLS_NUM = 100
 FINE_FOOD_NUM = 5
 VOICE_NUM = 5
+
+# detail num
+MORE_BOYS_AND_GIRLS_NUM = 3
+MORE_FINE_FOOD_NUM = 10
+MORE_VOICE_NUM = 10
 
 # static text msg
 WELCOME_MSG = u"欢迎关注 aiyouxie ！"
@@ -52,8 +60,12 @@ BYE_MSG = u'对您有些留恋，期待与您再会！'
 HELP_MSG = u'您可以回复...'
 
 # base url
-MEDIA_BASE_URL = 'http://121.199.32.77'
-STATIC_BASE_URL = 'http://121.199.32.77'
+#MEDIA_BASE_URL = 'http://121.199.32.77'
+#STATIC_BASE_URL = 'http://121.199.32.77'
+#HOST_NAME = 'http://121.199.32.77'
+HOST_NAME = "http://121.199.32.77" #"http://127.0.0.1:8000"
+STATIC_BASE_URL = HOST_NAME + "/static/"
+MEDIA_BASE_URL = HOST_NAME + "/media/"
 
 # wechat 请求入口
 def main(request):
@@ -108,6 +120,30 @@ def main(request):
     except Exception, e:
         logger.debug(e)
         return HttpResponse("error occur!")
+
+
+def all_ns(request):
+    pics = some_ns(1)
+    res_data = {"pics": pics, "static_url": STATIC_BASE_URL}
+    return render_to_response("image_flow.html", res_data)
+
+
+def more_ns(request):
+    # page_num = int(request.GET['page'])
+    # pics = some_ns(page_num)
+    # res_data = {"pics": pics}
+    # t = get_template("image_item.htm")
+    # html = t.render(Context(res_data))
+    # print html
+    html = '''
+    <div class="box"><a href=""><img src="http://127.0.0.1:8000/media/boysandgirls/2014/11/%E5%A4%B4%E5%83%8F.jpg"></a></div>
+
+    <div class="box"><a href="http://www.baidu.com/"><img src="http://127.0.0.1:8000/media/wechat/boysandgirls/2014/11/ns1.jpg"></a></div>
+
+    <div class="box"><a href="http://www.baidu.com/"><img src="http://127.0.0.1:8000/media/wechat/boysandgirls/2014/11/ns2.jpg"></a></div>
+    '''
+    #return render_to_response("image_item.htm", res_data)
+    return HttpResponse(html)
 
 
 # 接入微信服务器
@@ -169,14 +205,14 @@ def get_ns():
         ns = {}
         ns['title'] = obj.title
         ns['description'] = obj.intro
-        ns['pic_url'] = MEDIA_BASE_URL + obj.photo.url
+        ns['pic_url'] = HOST_NAME + obj.photo.url
         ns['url'] = obj.url
         nsl.append(ns)
     more = {
         "title": u"点击欣赏更多男神！！",
         "description": u"点击欣赏更多男神！！",
-        "pic_url": "",
-        "url": "http:www.baidu.com"
+        "pic_url": STATIC_BASE_URL + "images/ns.jpg",
+        "url": HOST_NAME + reverse("wechat.views.all_ns")
     }
     nsl.append(more)
     return nsl
@@ -190,7 +226,7 @@ def get_nvs():
         nvs = {}
         nvs['title'] = obj.title
         nvs['description'] = obj.intro
-        nvs['pic_url'] = MEDIA_BASE_URL + obj.photo.url
+        nvs['pic_url'] = HOST_NAME + obj.photo.url
         nvs['url'] = obj.url
         nvsl.append(nvs)
     more = {
@@ -211,7 +247,7 @@ def get_bznd():
     if obj is not None:
         nd['title'] = obj.title
         nd['description'] = obj.intro
-        nd['pic_url'] = MEDIA_BASE_URL + obj.photo.url
+        nd['pic_url'] = HOST_NAME + obj.photo.url
         nd['url'] = obj.url
     else:
         nd['title'] = u"男帝还没产生呢~"
@@ -230,7 +266,7 @@ def get_bznvd():
     if obj is not None:
         nd['title'] = obj.title
         nd['description'] = obj.intro
-        nd['pic_url'] = MEDIA_BASE_URL + obj.photo.url
+        nd['pic_url'] = HOST_NAME + obj.photo.url
         nd['url'] = obj.url
     else:
         nd['title'] = u"女帝还没产生呢~"
@@ -249,7 +285,7 @@ def get_st():
         st = {}
         st['title'] = obj.title
         st['description'] = obj.intro
-        st['pic_url'] = MEDIA_BASE_URL + obj.photo.url
+        st['pic_url'] = HOST_NAME + obj.photo.url
         st['url'] = obj.url
         stl.append(st)
     more = {
@@ -270,7 +306,7 @@ def get_bx():
         bx = {}
         bx['title'] = obj.title
         bx['description'] = obj.intro
-        bx['pic_url'] = MEDIA_BASE_URL + obj.photo.url
+        bx['pic_url'] = HOST_NAME + obj.photo.url
         bx['url'] = obj.url
         bxl.append(bx)
     more = {
@@ -291,7 +327,7 @@ def get_jdhg():
         jd = {}
         jd['title'] = obj.title
         jd['description'] = obj.intro
-        jd['pic_url'] = MEDIA_BASE_URL + obj.photo.url
+        jd['pic_url'] = HOST_NAME + obj.photo.url
         jd['url'] = obj.url
         jdl.append(jd)
     more = {
@@ -312,7 +348,7 @@ def get_bsbs():
         bs = {}
         bs['title'] = obj.title
         bs['description'] = obj.intro
-        bs['pic_url'] = MEDIA_BASE_URL + obj.photo.url
+        bs['pic_url'] = HOST_NAME + obj.photo.url
         bs['url'] = obj.url
         bsl.append(bs)
     more = {
@@ -333,7 +369,7 @@ def get_bfx():
         bf = {}
         bf['title'] = obj.title
         bf['description'] = obj.intro
-        bf['pic_url'] = MEDIA_BASE_URL + obj.photo.url
+        bf['pic_url'] = HOST_NAME + obj.photo.url
         bf['url'] = obj.url
         bfl.append(bf)
     more = {
@@ -345,6 +381,63 @@ def get_bfx():
     bfl.append(more)
     return bfl
 
+def some_ns(page_num):
+    start = (page_num-1) * MORE_BOYS_AND_GIRLS_NUM
+    end = page_num * MORE_BOYS_AND_GIRLS_NUM
+    objs = BoysAndGirls.objects.some_ns(start, end)
+    pics = []
+    for obj in objs:
+        pic = {}
+        pic['url'] = obj.url
+        pic['src'] = HOST_NAME + obj.photo.url
+        pics.append(pic)
+    return pics
+
+def some_nvs(page_num):
+    start = (page_num-1) * MORE_BOYS_AND_GIRLS_NUM
+    end = page_num * MORE_BOYS_AND_GIRLS_NUM
+    objs = BoysAndGirls.objects.some_nvs(start, end)
+    pics = []
+    for obj in objs:
+        pic = {}
+        pic['url'] = obj.url
+        pic['src'] = HOST_NAME + obj.photo.url
+        pics.append(pic)
+    return pics
+
+def some_food(page_num, type):
+    start = (page_num-1) * MORE_FINE_FOOD_NUM
+    end = page_num * MORE_FINE_FOOD_NUM
+    objs = []
+    if type is BX:
+        objs = FineFood.objects.some_bx(start, end)
+    else:
+        objs = FineFood.objects.some_st(start, end)
+    pics = []
+    for obj in objs:
+        pic = {}
+        pic['url'] = obj.url
+        pic['src'] = HOST_NAME + obj.photo.url
+        pics.append(pic)
+    return pics
+
+def some_voice(page_num, type):
+    start = (page_num-1) * MORE_VOICE_NUM
+    end = page_num * MORE_VOICE_NUM
+    objs = []
+    if type is JDHG:
+        objs = Voice.objects.some_jdhg(start, end)
+    elif type is BSBS:
+        objs = Voice.objects.some_bsbs(start, end)
+    else:
+        objs = Voice.objects.some_bfx(start, end)
+    vs = []
+    for obj in objs:
+        v = {}
+        v['url'] = obj.url
+        v['title'] = HOST_NAME + obj.title
+        vs.append(v)
+    return vs
 
 
 
