@@ -11,9 +11,10 @@
 *.sqlite3
 
 /media/
-
+/static/
 */migrations/
 
+/static/admin/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
