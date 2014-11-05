@@ -158,6 +158,12 @@ def all_food(request, ft=BX):
     return render_to_response("image_flow.html", res_data)
 
 
+def all_voice(request, ft=JDHG):
+    vs = some_voice(1, ft)
+    res_data = {"vs": vs}
+    return render_to_response("voice_list.html", res_data)
+
+
 # 接入微信服务器
 def connect_to_wechat_server(request):
     signature = request.GET['signature']
@@ -339,14 +345,14 @@ def get_jdhg():
         jd = {}
         jd['title'] = obj.title
         jd['description'] = obj.intro
-        jd['pic_url'] = HOST_NAME + obj.photo.url
+        jd['pic_url'] = STATIC_BASE_URL + "images/voice.jpg"
         jd['url'] = obj.url
         jdl.append(jd)
     more = {
         "title": u"点击查看更多经典回顾！！",
         "description": u"点击查看更多经典回顾！！",
-        "pic_url": "",
-        "url": "http:www.baidu.com"
+        "pic_url": STATIC_BASE_URL + "images/voice.jpg",
+        "url": HOST_NAME + reverse("wechat.views.all_voice", kwargs={"vt": JDHG})
     }
     jdl.append(more)
     return jdl
@@ -360,14 +366,14 @@ def get_bsbs():
         bs = {}
         bs['title'] = obj.title
         bs['description'] = obj.intro
-        bs['pic_url'] = HOST_NAME + obj.photo.url
+        bs['pic_url'] = STATIC_BASE_URL + "images/voice.jpg"
         bs['url'] = obj.url
         bsl.append(bs)
     more = {
         "title": u"点击查看更多不三不四！！",
         "description": u"点击查看更多不三不四！！",
-        "pic_url": "",
-        "url": "http:www.baidu.com"
+        "pic_url": STATIC_BASE_URL + "images/voice.jpg",
+        "url":  HOST_NAME + reverse("wechat.views.all_voice", kwargs={"vt": BSBS})
     }
     bsl.append(more)
     return bsl
@@ -381,14 +387,14 @@ def get_bfx():
         bf = {}
         bf['title'] = obj.title
         bf['description'] = obj.intro
-        bf['pic_url'] = HOST_NAME + obj.photo.url
+        bf['pic_url'] = STATIC_BASE_URL + "images/voice.jpg"
         bf['url'] = obj.url
         bfl.append(bf)
     more = {
         "title": u"点击查看更多摆饭秀！！",
         "description": u"点击查看更多摆饭秀！！",
-        "pic_url": "",
-        "url": "http:www.baidu.com"
+        "pic_url": STATIC_BASE_URL + "images/voice.jpg",
+        "url": HOST_NAME + reverse("wechat.views.all_voice", kwargs={"vt": BFX})
     }
     bfl.append(more)
     return bfl

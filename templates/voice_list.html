@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<ul>
+    {% for v in vs %}
+    <li><a href="{{ v.url }}">{{ v.title }}</a></li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
