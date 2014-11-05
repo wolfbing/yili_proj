@@ -68,6 +68,11 @@ HOST_NAME = "http://121.199.32.77"
 STATIC_BASE_URL = HOST_NAME + "/static/"
 MEDIA_BASE_URL = HOST_NAME + "/media/"
 
+
+def test(request):
+    return render_to_response("test.html")
+
+
 # wechat 请求入口
 def main(request):
     try:
