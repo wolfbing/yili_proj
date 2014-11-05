@@ -1,0 +1,40 @@
+<html>
+<head>
+<script src="{{ static_url }}/js/jquery-1.11.1.min.js"></script>
+<script src="{{ static_url }}/js/jquery.masonry.min.js"></script>
+<style type="text/css">
+.container-fluid {
+  padding: 0px;
+}
+.box {
+  margin-bottom: 10px;
+  float: left;
+  width: 48%;
+  padding-left: 1%;
+  padding-right: 1%;
+  }
+  .box img {
+  max-width: 100%;
+  }
+</style>
+<script>
+  $(function(){
+  var $container = $('#masonry');
+  $container.imagesLoaded( function(){
+  $container.masonry({
+  itemSelector : '.box',
+  gutterWidth : 0,
+  isAnimated: true
+  });
+  });
+  });
+</script>
+</head>
+<body>
+<div id="masonry" class="container-fluid">
+    {% for pic in pics %}
+        <div class="box"><a href="{{ pic.url }}"><img src="{{ pic.src }}"></a></div>
+    {% endfor %}
+</div>
+</body>
+</html>

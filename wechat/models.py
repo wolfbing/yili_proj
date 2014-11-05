@@ -54,6 +54,26 @@ class BoysAndGirlsManager(models.Manager):
         else:
             return None
 
+    # 一些男神
+    def some_ns(self, start, end):
+        n = self.filter(type=NS).count()
+        if n<=start:
+            return []
+        elif n<end:
+            return self.filter(type=NS).order_by('date')[start:n]
+        else:
+            return self.filter(type=NS).order_by('date')[start:end]
+
+    # 一些女神
+    def some_nvs(self, start, end):
+        n = self.filter(type=NVS).count()
+        if n<=start:
+            return []
+        elif n<end:
+            return self.filter(type=NVS).order_by('date')[start:n]
+        else:
+            return self.filter(type=NVS).order_by('date')[start:end]
+
 
 class BoysAndGirls(models.Model):
     pt = (
@@ -92,6 +112,26 @@ class FineFoodManager(models.Manager):
             return self.filter(type=ST).order_by('date')
         else:
             return self.filter(type=ST).order_by('date')[0:num]
+
+    # 一些‘包厢’
+    def some_bx(self, start, end):
+        n = self.filter(type=BX).count()
+        if n<=start:
+            return []
+        elif n<end:
+            return self.filter(type=BX).order_by('date')[start:n]
+        else:
+            return self.filter(type=BX).order_by('date')[start:end]
+
+    # 一些‘食堂’
+    def some_st(self, start, end):
+        n = self.filter(type=ST).count()
+        if n<=start:
+            return []
+        elif n<end:
+            return self.filter(type=ST).order_by('date')[start:n]
+        else:
+            return self.filter(type=ST).order_by('date')[start:end]
 
 
 class FineFood(models.Model):
@@ -138,6 +178,36 @@ class VoiceManager(models.Manager):
             return self.filter(type=BFX).order_by('date')
         else:
             return self.filter(type=BFX).order_by('date')[0:num]
+
+    # 一些 经典回顾
+    def some_jdhg(self, start, end):
+        n = self.filter(type=JDHG).count()
+        if n<=start:
+            return []
+        elif n<end:
+            return self.filter(type=JDHG).order_by('date')[start:n]
+        else:
+            return self.filter(type=JDHG).order_by('date')[start:end]
+
+    # 一些BSBS
+    def some_bsbs(self, start, end):
+        n = self.filter(type=BSBS).count()
+        if n<=start:
+            return []
+        elif n<end:
+            return self.filter(type=BSBS).order_by('date')[start:n]
+        else:
+            return self.filter(type=BSBS).order_by('date')[start:end]
+
+    # 一些摆饭秀
+    def some_bfx(self, start, end):
+        n = self.filter(type=BFX).count()
+        if n<=start:
+            return []
+        elif n<end:
+            return self.filter(type=BFX).order_by('date')[start:n]
+        else:
+            return self.filter(type=BFX).order_by('date')[start:end]
 
 
 class Voice(models.Model):
