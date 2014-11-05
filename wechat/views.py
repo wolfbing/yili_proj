@@ -146,6 +146,12 @@ def more_ns(request):
     return HttpResponse(html)
 
 
+def all_nvs(request):
+    pics = some_nvs(1)
+    res_data = {"pics": pics, "static_url": STATIC_BASE_URL}
+    return render_to_response("image_flow.html", res_data)
+
+
 # 接入微信服务器
 def connect_to_wechat_server(request):
     signature = request.GET['signature']
@@ -232,8 +238,8 @@ def get_nvs():
     more = {
         "title": u"点击欣赏更多女神！！",
         "description": u"点击欣赏更多女神！！",
-        "pic_url": "",
-        "url": "http:www.baidu.com"
+        "pic_url": STATIC_BASE_URL + "images/nvs.jpg",
+        "url": HOST_NAME + reverse("wechat.views.all_nvs")
     }
     nvsl.append(more)
     return nvsl
@@ -381,6 +387,7 @@ def get_bfx():
     bfl.append(more)
     return bfl
 
+
 def some_ns(page_num):
     start = (page_num-1) * MORE_BOYS_AND_GIRLS_NUM
     end = page_num * MORE_BOYS_AND_GIRLS_NUM
@@ -393,6 +400,7 @@ def some_ns(page_num):
         pics.append(pic)
     return pics
 
+
 def some_nvs(page_num):
     start = (page_num-1) * MORE_BOYS_AND_GIRLS_NUM
     end = page_num * MORE_BOYS_AND_GIRLS_NUM
@@ -404,6 +412,7 @@ def some_nvs(page_num):
         pic['src'] = HOST_NAME + obj.photo.url
         pics.append(pic)
     return pics
+
 
 def some_food(page_num, type):
     start = (page_num-1) * MORE_FINE_FOOD_NUM
@@ -420,6 +429,7 @@ def some_food(page_num, type):
         pic['src'] = HOST_NAME + obj.photo.url
         pics.append(pic)
     return pics
+
 
 def some_voice(page_num, type):
     start = (page_num-1) * MORE_VOICE_NUM
