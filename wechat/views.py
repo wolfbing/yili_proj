@@ -158,8 +158,8 @@ def all_food(request, ft=BX):
     return render_to_response("image_flow.html", res_data)
 
 
-def all_voice(request, ft=JDHG):
-    vs = some_voice(1, ft)
+def all_voice(request, vt=JDHG):
+    vs = some_voice(1, vt)
     res_data = {"vs": vs}
     return render_to_response("voice_list.html", res_data)
 
