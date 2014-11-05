@@ -45,13 +45,13 @@ EVENT_KEY = "EventKey"
 logger = logging.getLogger('wechat')
 
 # News num
-BOYS_AND_GIRLS_NUM = 100
+BOYS_AND_GIRLS_NUM = 5
 FINE_FOOD_NUM = 5
 VOICE_NUM = 5
 
 # detail num
-MORE_BOYS_AND_GIRLS_NUM = 3
-MORE_FINE_FOOD_NUM = 10
+MORE_BOYS_AND_GIRLS_NUM = 100
+MORE_FINE_FOOD_NUM = 100
 MORE_VOICE_NUM = 10
 
 # static text msg
