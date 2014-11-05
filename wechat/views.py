@@ -63,7 +63,8 @@ HELP_MSG = u'您可以回复...'
 #MEDIA_BASE_URL = 'http://121.199.32.77'
 #STATIC_BASE_URL = 'http://121.199.32.77'
 #HOST_NAME = 'http://121.199.32.77'
-HOST_NAME = "http://121.199.32.77" #"http://127.0.0.1:8000"
+HOST_NAME = "http://121.199.32.77"
+#HOST_NAME = "http://127.0.0.1:8000"
 STATIC_BASE_URL = HOST_NAME + "/static/"
 MEDIA_BASE_URL = HOST_NAME + "/media/"
 
@@ -160,7 +161,14 @@ def all_food(request, ft=BX):
 
 def all_voice(request, vt=JDHG):
     vs = some_voice(1, vt)
-    res_data = {"vs": vs}
+    cn = ''
+    if vt is JDHG:
+        cn = u"经典回顾"
+    elif vt is BSBS:
+        cn = u"不三不四"
+    else:
+        cn = u"摆饭秀"
+    res_data = {"vs": vs, "column_name": cn, "static_url": STATIC_BASE_URL}
     return render_to_response("voice_list.html", res_data)
 
 
@@ -458,7 +466,7 @@ def some_voice(page_num, type):
     for obj in objs:
         v = {}
         v['url'] = obj.url
-        v['title'] = HOST_NAME + obj.title
+        v['title'] = obj.title
         vs.append(v)
     return vs
 
