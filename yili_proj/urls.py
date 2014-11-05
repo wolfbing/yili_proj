@@ -13,6 +13,8 @@ urlpatterns = patterns('',
     url(r'^wechat/allns/$', wechat_view.all_ns),
     url(r'^wechat/morens/$', wechat_view.more_ns),
     url(r'^wechat/allnvs/$', wechat_view.all_nvs),
+    url(r'^wechat/allst/$', wechat_view.all_food, {"ft": "ST"}),
+    url(r'^wechat/allbx/$', wechat_view.all_food, {"ft": "BX"}),
 )
 
 if settings.DEBUG:

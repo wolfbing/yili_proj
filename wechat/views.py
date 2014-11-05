@@ -152,6 +152,12 @@ def all_nvs(request):
     return render_to_response("image_flow.html", res_data)
 
 
+def all_food(request, ft=BX):
+    pics = some_food(1, ft)
+    res_data = {"pics": pics, "static_url": STATIC_BASE_URL}
+    return render_to_response("image_flow.html", res_data)
+
+
 # 接入微信服务器
 def connect_to_wechat_server(request):
     signature = request.GET['signature']
@@ -297,8 +303,8 @@ def get_st():
     more = {
         "title": u"点击查看更多美食小吃！！",
         "description": u"点击查看更多美食小吃！！",
-        "pic_url": "",
-        "url": "http:www.baidu.com"
+        "pic_url": STATIC_BASE_URL + "images/st.jpg",
+        "url": HOST_NAME + reverse("wechat.views.all_food", kwargs={"ft": ST})
     }
     stl.append(more)
     return stl
@@ -318,8 +324,8 @@ def get_bx():
     more = {
         "title": u"点击查看更多丰盛大餐！！",
         "description": u"点击查看更多丰盛大餐！！",
-        "pic_url": "",
-        "url": "http:www.baidu.com"
+        "pic_url": STATIC_BASE_URL + "images/bx.jpg",
+        "url": HOST_NAME + reverse("wechat.views.all_food", kwargs={"ft": BX})
     }
     bxl.append(more)
     return bxl
@@ -420,6 +426,7 @@ def some_food(page_num, type):
     objs = []
     if type is BX:
         objs = FineFood.objects.some_bx(start, end)
+
     else:
         objs = FineFood.objects.some_st(start, end)
     pics = []
