@@ -358,8 +358,8 @@ def get_jdhg():
         jd = {}
         jd['title'] = obj.title
         jd['description'] = obj.intro
-        jd['pic_url'] = STATIC_BASE_URL + "images/voice.jpg"
-        jd['url'] = obj.url
+        jd['pic_url'] = HOST_NAME + obj.pic.url
+        jd['url'] = HOST_NAME + obj.audio.url
         jdl.append(jd)
     more = {
         "title": u"点击查看更多经典回顾！！",
@@ -379,8 +379,8 @@ def get_bsbs():
         bs = {}
         bs['title'] = obj.title
         bs['description'] = obj.intro
-        bs['pic_url'] = STATIC_BASE_URL + "images/voice.jpg"
-        bs['url'] = obj.url
+        bs['pic_url'] = HOST_NAME + obj.pic.url
+        bs['url'] = HOST_NAME + obj.audio.url
         bsl.append(bs)
     more = {
         "title": u"点击查看更多不三不四！！",
@@ -400,8 +400,8 @@ def get_bfx():
         bf = {}
         bf['title'] = obj.title
         bf['description'] = obj.intro
-        bf['pic_url'] = STATIC_BASE_URL + "images/voice.jpg"
-        bf['url'] = obj.url
+        bf['pic_url'] = HOST_NAME + obj.pic.url
+        bf['url'] = HOST_NAME + obj.audio.url
         bfl.append(bf)
     more = {
         "title": u"点击查看更多摆饭秀！！",
