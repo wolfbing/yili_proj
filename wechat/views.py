@@ -177,6 +177,14 @@ def all_voice(request, vt=JDHG):
     return render_to_response("voice_list.html", res_data)
 
 
+def play_audio(request):
+    url = request.GET['audio']
+    res_data = {
+        'audio_url': url
+    }
+    return render_to_response('play_voice.html', res_data)
+
+
 # 接入微信服务器
 def connect_to_wechat_server(request):
     signature = request.GET['signature']
@@ -359,7 +367,7 @@ def get_jdhg():
         jd['title'] = obj.title
         jd['description'] = obj.intro
         jd['pic_url'] = HOST_NAME + obj.pic.url
-        jd['url'] = HOST_NAME + obj.audio.url
+        jd['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + obj.audio.url
         jdl.append(jd)
     more = {
         "title": u"点击查看更多经典回顾！！",
