@@ -69,9 +69,6 @@ STATIC_BASE_URL = HOST_NAME + "/static/"
 MEDIA_BASE_URL = HOST_NAME + "/media/"
 
 
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 
 def test(request):
