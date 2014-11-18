@@ -230,5 +230,13 @@ class Voice(models.Model):
         return self.title
 
 
+class StaticMedia(models.Model):
+    title = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
+    media = models.FileField(upload_to='wechat/staticmedia/%Y/%m', max_length=255, help_text=u'请上传多媒体文件')
+
+    def __unicode__(self):
+        return self.title
+
 
 
