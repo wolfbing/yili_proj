@@ -159,25 +159,25 @@ class VoiceManager(models.Manager):
     def jdhg(self, num):
         n = self.filter(type=JDHG).count()
         if num>n:
-            return self.filter(type=JDHG).order_by('date')
+            return self.filter(type=JDHG).order_by('-date')
         else:
-            return self.filter(type=JDHG).order_by('date')[0:num]
+            return self.filter(type=JDHG).order_by('-date')[0:num]
 
     # 不三不四
     def bsbs(self, num):
         n = self.filter(type=BSBS).count()
         if num>n:
-            return self.filter(type=BSBS).order_by('date')
+            return self.filter(type=BSBS).order_by('-date')
         else:
-            return self.filter(type=BSBS).order_by('date')[0:num]
+            return self.filter(type=BSBS).order_by('-date')[0:num]
 
     # 摆饭秀
     def bfx(self, num):
         n = self.filter(type=BFX).count()
         if num>n:
-            return self.filter(type=BFX).order_by('date')
+            return self.filter(type=BFX).order_by('-date')
         else:
-            return self.filter(type=BFX).order_by('date')[0:num]
+            return self.filter(type=BFX).order_by('-date')[0:num]
 
     # 一些 经典回顾
     def some_jdhg(self, start, end):
@@ -185,9 +185,9 @@ class VoiceManager(models.Manager):
         if n<=start:
             return []
         elif n<end:
-            return self.filter(type=JDHG).order_by('date')[start:n]
+            return self.filter(type=JDHG).order_by('-date')[start:n]
         else:
-            return self.filter(type=JDHG).order_by('date')[start:end]
+            return self.filter(type=JDHG).order_by('-date')[start:end]
 
     # 一些BSBS
     def some_bsbs(self, start, end):
@@ -195,9 +195,9 @@ class VoiceManager(models.Manager):
         if n<=start:
             return []
         elif n<end:
-            return self.filter(type=BSBS).order_by('date')[start:n]
+            return self.filter(type=BSBS).order_by('-date')[start:n]
         else:
-            return self.filter(type=BSBS).order_by('date')[start:end]
+            return self.filter(type=BSBS).order_by('-date')[start:end]
 
     # 一些摆饭秀
     def some_bfx(self, start, end):
@@ -205,9 +205,9 @@ class VoiceManager(models.Manager):
         if n<=start:
             return []
         elif n<end:
-            return self.filter(type=BFX).order_by('date')[start:n]
+            return self.filter(type=BFX).order_by('-date')[start:n]
         else:
-            return self.filter(type=BFX).order_by('date')[start:end]
+            return self.filter(type=BFX).order_by('-date')[start:end]
 
 
 class Voice(models.Model):

@@ -129,7 +129,7 @@ def main(request):
         logger.debug(e)
         return HttpResponse("error occur!")
 
-
+#
 def all_ns(request):
     pics = some_ns(1)
     res_data = {"pics": pics, "static_url": STATIC_BASE_URL}
