@@ -480,7 +480,7 @@ def some_voice(page_num, type):
     vs = []
     for obj in objs:
         v = {}
-        v['url'] = obj.url
+        v['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + obj.audio.url
         v['title'] = obj.title
         vs.append(v)
     return vs
