@@ -26,23 +26,23 @@ class BoysAndGirlsManager(models.Manager):
     def ns(self, num):
         n = self.filter(type=NS).count()
         if num>n:
-            return self.filter(type=NS).order_by('date')
+            return self.filter(type=NS).order_by('-date')
         else:
-            return self.filter(type=NS).order_by('date')[0:num]
+            return self.filter(type=NS).order_by('-date')[0:num]
 
     # num条女神信息
     def nvs(self, num):
         n = self.filter(type=NVS).count()
         if num>n:
-            return self.filter(type=NVS).order_by('date')
+            return self.filter(type=NVS).order_by('-date')
         else:
-            return self.filter(type=NVS).order_by('date')[0:num]
+            return self.filter(type=NVS).order_by('-date')[0:num]
 
     # 本周男帝
     def new_nd(self):
         n = self.filter(type=BZND).count()
         if n > 0:
-            return self.filter(type=BZND).order_by('date')[0]
+            return self.filter(type=BZND).order_by('-date')[0]
         else:
             return None
 
@@ -50,7 +50,7 @@ class BoysAndGirlsManager(models.Manager):
     def new_nvd(self):
         n = self.filter(type=BZNVD).count()
         if n > 0:
-            return self.filter(type=BZNVD).order_by('date')[0]
+            return self.filter(type=BZNVD).order_by('-date')[0]
         else:
             return None
 
@@ -60,9 +60,9 @@ class BoysAndGirlsManager(models.Manager):
         if n<=start:
             return []
         elif n<end:
-            return self.filter(type=NS).order_by('date')[start:n]
+            return self.filter(type=NS).order_by('-date')[start:n]
         else:
-            return self.filter(type=NS).order_by('date')[start:end]
+            return self.filter(type=NS).order_by('-date')[start:end]
 
     # 一些女神
     def some_nvs(self, start, end):
@@ -70,9 +70,9 @@ class BoysAndGirlsManager(models.Manager):
         if n<=start:
             return []
         elif n<end:
-            return self.filter(type=NVS).order_by('date')[start:n]
+            return self.filter(type=NVS).order_by('-date')[start:n]
         else:
-            return self.filter(type=NVS).order_by('date')[start:end]
+            return self.filter(type=NVS).order_by('-date')[start:end]
 
 
 class BoysAndGirls(models.Model):
@@ -101,17 +101,17 @@ class FineFoodManager(models.Manager):
     def bx(self, num):
         n = self.filter(type=BX).count()
         if num>n:
-            return self.filter(type=BX).order_by('date')
+            return self.filter(type=BX).order_by('-date')
         else:
-            return self.filter(type=BX).order_by('date')[0:num]
+            return self.filter(type=BX).order_by('-date')[0:num]
 
     # ’食堂‘推荐
     def st(self, num):
         n = self.filter(type=ST).count()
         if num>n:
-            return self.filter(type=ST).order_by('date')
+            return self.filter(type=ST).order_by('-date')
         else:
-            return self.filter(type=ST).order_by('date')[0:num]
+            return self.filter(type=ST).order_by('-date')[0:num]
 
     # 一些‘包厢’
     def some_bx(self, start, end):
@@ -119,9 +119,9 @@ class FineFoodManager(models.Manager):
         if n<=start:
             return []
         elif n<end:
-            return self.filter(type=BX).order_by('date')[start:n]
+            return self.filter(type=BX).order_by('-date')[start:n]
         else:
-            return self.filter(type=BX).order_by('date')[start:end]
+            return self.filter(type=BX).order_by('-date')[start:end]
 
     # 一些‘食堂’
     def some_st(self, start, end):
@@ -129,9 +129,9 @@ class FineFoodManager(models.Manager):
         if n<=start:
             return []
         elif n<end:
-            return self.filter(type=ST).order_by('date')[start:n]
+            return self.filter(type=ST).order_by('-date')[start:n]
         else:
-            return self.filter(type=ST).order_by('date')[start:end]
+            return self.filter(type=ST).order_by('-date')[start:end]
 
 
 class FineFood(models.Model):
