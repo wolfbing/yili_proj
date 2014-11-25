@@ -187,8 +187,8 @@ def play_audio(request):
         return render_to_response(u'音频不存在')
     else:
         res_data = {
-            'audio_url': v.url,
-            'audio_title': v.title
+            'audio_url': v['url'],
+            'audio_title': v['title']
         }
         return render_to_response('play_voice.html', res_data)
 
