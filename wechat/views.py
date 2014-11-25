@@ -375,7 +375,7 @@ def get_jdhg():
         jd['title'] = obj.title
         jd['description'] = obj.intro
         jd['pic_url'] = HOST_NAME + obj.pic.url
-        jd['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + obj.audio.url
+        jd['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + obj.audio.id
         jdl.append(jd)
     more = {
         "title": u"点击查看更多经典回顾！！",
@@ -396,7 +396,7 @@ def get_bsbs():
         bs['title'] = obj.title
         bs['description'] = obj.intro
         bs['pic_url'] = HOST_NAME + obj.pic.url
-        bs['url'] = HOST_NAME + obj.audio.url
+        bs['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + obj.audio.id
         bsl.append(bs)
     more = {
         "title": u"点击查看更多不三不四！！",
@@ -417,7 +417,7 @@ def get_bfx():
         bf['title'] = obj.title
         bf['description'] = obj.intro
         bf['pic_url'] = HOST_NAME + obj.pic.url
-        bf['url'] = HOST_NAME + obj.audio.url
+        bf['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + obj.audio.id
         bfl.append(bf)
     more = {
         "title": u"点击查看更多摆饭秀！！",
