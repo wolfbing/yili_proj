@@ -3,20 +3,34 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>音频播放</title>
+    <!--
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
     <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+    -->
 </head>
 <body>
-<div data-role="page">
-    <div data-role="content">
-        <audio src="{{ audio_url }}" controls="controls" style="width: 100%;">
-        Your browser does not support the audio tag.
-        </audio>
-    </div>
-
-</div>
+<fieldset class="comment_quote" style="white-space: normal; margin: 0px; padding: 5px; border: 1px solid rgb(204, 204, 204); color: rgb(51, 51, 51); font-size: 14px; font-family: 宋体; widows: 2; line-height: 24px; orphans: 2; background-color: rgb(255, 255, 255);">
+    <legend style="margin: 0px; padding: 0px;">
+        <span style="margin: 0px; padding: 0px; font-family: arial, helvetica, sans-serif;"><strong style="color: rgb(102, 102, 102);"><span style="margin: 0px 8px 0px 0px; padding: 4px 10px; color: rgb(255, 255, 255); border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; background-color: rgb(191, 0, 0);">{{ audio_title }}</span></strong><strong style="color: rgb(60, 117, 45);"><span style="margin: 0px; padding: 0px; color: rgb(192, 0, 0);">ID:xjspace2014</span></strong></span>&nbsp;
+    </legend>
+    <p style="text-align: center;">
+        <span style="font-family: 微软雅黑, &#39;Microsoft YaHei&#39;;"></span>
+    </p>
+    <p style="text-align: center;">
+        <audio src="{{ audio_url }}" data-ke-src="{{ audio_url }}" controls="controls" autoplay="autoplay" style="max-width: 100%; word-wrap: break-word !important; box-sizing: border-box !important;"></audio>
+    </p>
+    <p style="text-align: center;">
+        <br/>
+    </p>
+</fieldset>
+<p style="white-space: normal;">
+    <br/>
+</p>
+<p>
+    <br/>
+</p>
 
 </body>
 </html>

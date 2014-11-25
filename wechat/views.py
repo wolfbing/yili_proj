@@ -180,11 +180,17 @@ def all_voice(request, vt=JDHG):
 
 
 def play_audio(request):
-    url = request.GET['audio']
-    res_data = {
-        'audio_url': url
-    }
-    return render_to_response('play_voice.html', res_data)
+    id_str = request.GET['audio']
+    id = int(id_str)
+    v = get_voice(id)
+    if v is None:
+        return render_to_response(u'音频不存在')
+    else:
+        res_data = {
+            'audio_url': v.url,
+            'audio_title': v.title
+        }
+        return render_to_response('play_voice.html', res_data)
 
 
 # 接入微信服务器
@@ -480,10 +486,21 @@ def some_voice(page_num, type):
     vs = []
     for obj in objs:
         v = {}
-        v['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + obj.audio.url
+        v['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + obj.audio.id
         v['title'] = obj.title
         vs.append(v)
     return vs
+
+
+def get_voice(id):
+    obj = Voice.objects.get_voice_by_id(id)
+    if obj is None:
+        return None
+    else:
+        v = {}
+        v['url'] = HOST_NAME + obj.audio.url
+        v['title'] = obj.title
+        return v
 
 
 

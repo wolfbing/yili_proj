@@ -209,6 +209,14 @@ class VoiceManager(models.Manager):
         else:
             return self.filter(type=BFX).order_by('-date')[start:end]
 
+    # 通过ID获取voice
+    def get_voice_by_id(self, v_id):
+        try:
+            obj = self.get(id=v_id)
+            return obj
+        except Exception, e:
+            return None
+
 
 class Voice(models.Model):
     vt = (
