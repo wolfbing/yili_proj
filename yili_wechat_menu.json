@@ -22,6 +22,11 @@
 			"type":"click",
 			"name":"本周女帝",
 			"key":"BZNVD"
+		},
+		{
+			"type":"view",
+			"name":"报名",
+			"url":"http://121.199.32.77/wechat/attendkll/"
 		}
 		]
 	},
@@ -30,15 +35,14 @@
         "sub_button":[
         {
         	"type":"click",
-        	"name":"食堂",
-        	"key":"ST"
+        	"name":"泡美食",
+        	"key":"PMS"
         },
         {
-        	"type":"click",
-        	"name":"包厢",
-        	"key":"BX"
+        	"type":"view",
+        	"name":"推荐美食",
+        	"url":"http://121.199.32.77/wechat/recommendfood/"
         }
-            
         ]
 	},
 	{

@@ -14,6 +14,7 @@ BZNVD = 'BZNVD'
 # 有些美食
 BX = 'BX'
 ST = 'ST'
+PMS = 'PMS'
 
 #有些声音
 JDHG = 'JDHG'
@@ -113,6 +114,14 @@ class FineFoodManager(models.Manager):
         else:
             return self.filter(type=ST).order_by('-date')[0:num]
 
+    # '泡美食'
+    def pms(self, num):
+        n = self.filter(type=PMS).count()
+        if num>n:
+            return self.filter(type=PMS).order_by('-date')
+        else:
+            return self.filter(type=PMS).order_by('-date')[0:num]
+
     # 一些‘包厢’
     def some_bx(self, start, end):
         n = self.filter(type=BX).count()
@@ -133,11 +142,21 @@ class FineFoodManager(models.Manager):
         else:
             return self.filter(type=ST).order_by('-date')[start:end]
 
+    def some_pms(self, start, end):
+        n = self.filter(type=PMS).count()
+        if n<=start:
+            return []
+        elif n<end:
+            return self.filter(type=PMS).order_by('-date')[start:n]
+        else:
+            return self.filter(type=PMS).order_by('-date')[start:end]
+
 
 class FineFood(models.Model):
     ft = (
         ('ST', u'食堂'),
-        ('BX', u'包厢')
+        ('BX', u'包厢'),
+        ('PMS', u'泡美食')
     )  # 美食类型
 
     title = models.CharField(max_length=100)
@@ -245,6 +264,39 @@ class StaticMedia(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+class FansKLL(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    intro = models.TextField(max_length=5000)
+    files = models.CharField(max_length=100)
+
+
+class FansKLLMedia(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    media = models.FileField(upload_to='wechat/fanskllmedia/%Y/%m/%d', max_length=500)
+    belong = models.ForeignKey(FansKLL, null=True)
+
+
+class FansMSTJ(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    intro = models.FileField(max_length=5000)
+    files = models.CharField(max_length=100)
+
+
+class FansMSTJMedia(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    media = models.FileField(upload_to='wechat/fansmstjmedia/%Y/%m/%d', max_length=500)
+    belong = models.ForeignKey(FansMSTJ, null=True)
+
+
+
+
+
+
+
+
+
 
 
 

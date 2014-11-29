@@ -12,8 +12,10 @@ import hashlib
 import time
 from xml.etree import ElementTree as ET
 import logging
+from answer import ANSWER
 
-from models import BoysAndGirls, FineFood, Voice
+from models import BoysAndGirls, FineFood, Voice, \
+    FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia
 
 # Create your views here.
 
@@ -24,6 +26,7 @@ BZND = 'BZND'
 BZNVD = 'BZNVD'
 ST = 'ST'
 BX = 'BX'
+PMS = 'PMS' # 泡美食
 JDHG = 'JDHG'
 BSBS = 'BSBS'
 BFX = 'BFX'
@@ -34,6 +37,7 @@ EVENT_MSG = "event"
 CLICK_EVENT = "CLICK"
 SUBSCRIBE_EVENT = "subscribe"
 UNSUBSCRIBE_EVENT = "unsubscribe"
+Content = "Content"
 
 # msg judget
 MSG_TYPE = "MsgType"
@@ -69,6 +73,8 @@ STATIC_BASE_URL = HOST_NAME + "/static/"
 MEDIA_BASE_URL = HOST_NAME + "/media/"
 
 
+ADMIN_EMAIL = "weixin_youxie01@126.com"
+
 
 
 def test(request):
@@ -80,6 +86,8 @@ def main(request):
     try:
         req_data = parse_msg(request.body)
         if req_data[MSG_TYPE] == TEXT_MSG:
+            if ANSWER.get(req_data[Content]) != None:
+                return text_msg(req_data, ANSWER.get(req_data[Content]))
             return text_msg(req_data, HELP_MSG)
         elif req_data[MSG_TYPE] == EVENT_MSG:
             ###  订阅与取消订阅
@@ -108,6 +116,9 @@ def main(request):
                     return news_msg(req_data, articles)
                 elif req_data[EVENT_KEY] == BX:
                     articles = get_bx()
+                    return news_msg(req_data, articles)
+                elif req_data[EVENT_KEY] == PMS:
+                    articles = get_pms()
                     return news_msg(req_data, articles)
                 ###  有些声音
                 elif req_data[EVENT_KEY] == JDHG:
@@ -191,6 +202,80 @@ def play_audio(request):
             'audio_title': v['title']
         }
         return render_to_response('play_voice.html', res_data)
+
+
+def attend_kulala(request):
+    if request.method == "GET":
+        res_data = {
+            'action_url': reverse(attend_kulala)
+        }
+        return render_to_response('signup_kuolala.html', res_data)
+    elif request.method == 'POST':
+        res_data = {}
+        try:
+            introduction = request.POST['intro']
+            file_ids = []
+            files = []
+            for f in request.FILES:
+                item = FansKLLMedia(media=request.FILES[f])
+                file_ids.append(str(item.id))
+                item.save()
+                files.append(item)
+            kll = FansKLL(intro=introduction, files=','.join(file_ids))
+            kll.save()
+            for i in files:
+                i.belong=kll
+                i.save()
+            res_data = {
+                'result_title': u'提交成功',
+                'result': u'您的括拉拉档案提交成功！'
+            }
+        except Exception, e:
+            logger.debug(e)
+            res_data = {
+                'result_title': u'提交失败',
+                'result': u'您的括拉拉档案提交失败了- -#, '
+                          u'检查下您的输入吧，您也可以向我们提交个人档案或者反馈意见：' + ADMIN_EMAIL
+            }
+
+        return render_to_response('post_result.html', res_data)
+
+
+def recommend_food(request):
+    if request.method == 'GET':
+        res_data = {
+            'action_url': reverse(recommend_food)
+        }
+        return render_to_response('recommend_food.html', res_data)
+    elif request.method == 'POST':
+        res_data = {}
+        try:
+            introduction = request.POST['intro']
+            file_ids = []
+            files = []
+            for f in request.FILES:
+                item = FansMSTJMedia(media=request.FILES[f])
+                item.save()
+                file_ids.append(str(item.id))
+                files.append(item)
+            food = FansMSTJ(intro=introduction, files=','.join(file_ids))
+            food.save()
+            for i in files:
+                i.belong = food
+                i.save()
+
+            res_data = {
+                'result_title': u'推荐成功',
+                'result': u'推荐成功！感谢您的推荐！'
+            }
+
+        except Exception,e:
+            logger.debug(e)
+            res_data = {
+                'result_title': u'推荐失败',
+                'result': u'推荐失败了 - -#, 检查下您的输入吧~ 您也可以通过邮箱向我们推荐美食或者反馈意见: '+ADMIN_EMAIL
+            }
+        return render_to_response('post_result.html', res_data)
 
 
 # 接入微信服务器
@@ -365,6 +450,25 @@ def get_bx():
     bxl.append(more)
     return bxl
 
+def get_pms():
+    objs = FineFood.objects.pms(FINE_FOOD_NUM)
+    msl = []
+    for obj in objs:
+        ms = {}
+        ms['title'] = obj.title
+        ms['description'] = obj.intro
+        ms['pic_url'] = HOST_NAME + obj.photo.url
+        ms['url'] = obj.url
+        msl.append(ms)
+    more = {
+        "title": u"点击查看更多丰盛大餐！！",
+        "description": u"点击查看更多丰盛大餐！！",
+        "pic_url": STATIC_BASE_URL + "images/bx.jpg",
+        "url": HOST_NAME + reverse("wechat.views.all_food", kwargs={"ft": BX})
+    }
+    msl.append(more)
+    return msl
+
 
 # 经典回顾
 def get_jdhg():
@@ -462,8 +566,10 @@ def some_food(page_num, type):
     if type is BX:
         objs = FineFood.objects.some_bx(start, end)
 
-    else:
+    elif type is ST:
         objs = FineFood.objects.some_st(start, end)
+    else:
+        objs = FineFood.objects.some_pms(start, end)
     pics = []
     for obj in objs:
         pic = {}

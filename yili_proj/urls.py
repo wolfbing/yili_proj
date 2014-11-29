@@ -20,6 +20,8 @@ urlpatterns = patterns('',
     url(r'^wechat/allbfx/$', wechat_view.all_voice, {"vt": "BFX"}),
     url(r"^wechat/test/$", wechat_view.test),
     url(r'^wechat/playaudio/', wechat_view.play_audio),
+    url(r'^wechat/attendkll/$', wechat_view.attend_kulala),
+    url(r'^wechat/recommendfood/$', wechat_view.recommend_food),
 
 )
 
