@@ -75,7 +75,27 @@
     <div data-role="content">
         <form id="form" method="post" action="{{ action_url }}" data-ajax="false" enctype="multipart/form-data">
             <p id="intro_err" style="color:red;"></p>
-            <textarea name="intro" id="intro" placeholder="介绍一下自己吧～(至少三十个字哦)"></textarea>
+            <input type="text" id="age" name="age" placeholder="年龄">
+            <input type="text" id="place" name="place" placeholder="常驻地">
+            <input type="text" id="weight" name="weight" placeholder="体重">
+            <input type="text" id="hometown" name="hometown" placeholder="籍贯">
+            <input type="text" id="height" name="height" placeholder="身高">
+            <input type="text" id="occupation" name="occupation" placeholder="职业">
+            <input type="text" id="personality" name="personality" placeholder="性格">
+            <input type="text" id="hobby" name="hobby" placeholder="爱好">
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend>联系方式</legend>
+                <label for="weixin">微信</label>
+                <input type="radio" name="contacttype" id="weixin" value="微信">
+                <label for="qq">QQ</label>
+                <input type="radio" name="contacttype" id="qq" value="QQ">
+                <label for="mobile">手机</label>
+                <input type="radio" name="contacttype" id="mobile" value="手机">
+                <label for="email">邮箱</label>
+                <input type="radio" name="contacttype" id="email" value="邮箱">
+            </fieldset>
+            <input type="text" id="contact" name="contact" placeholder="联系方式">
+            <textarea name="intro" id="intro" placeholder="择偶标准、爱情宣言...让大家更了解你！"></textarea>
             <p id="file_err">至少上传一张照片，最多上传5个图片、音频文件</p>
             <input class="files" type="file" name="file1">
             <!-- <input type="button" id="addfile" value="再来一个" data-inline="true"> -->

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.template import Context
 from django.core.urlresolvers import reverse
+from django.core.files import File
 
 import string
 import hashlib
@@ -13,6 +14,10 @@ import time
 from xml.etree import ElementTree as ET
 import logging
 from answer import ANSWER
+import urllib2, urllib
+import setting as wsetting
+from datetime import datetime, timedelta
+import json
 
 from models import BoysAndGirls, FineFood, Voice, \
     FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia
@@ -31,13 +36,23 @@ JDHG = 'JDHG'
 BSBS = 'BSBS'
 BFX = 'BFX'
 
+# media type
+MEDIA_MSTJ = 'MSTJ'
+MEDIA_KLL = 'KLL'
+
 # MsgType
 TEXT_MSG = "text"
 EVENT_MSG = "event"
+IMAGE_MSG = "image"
+VOICE_MSG = "voice"
+
 CLICK_EVENT = "CLICK"
 SUBSCRIBE_EVENT = "subscribe"
 UNSUBSCRIBE_EVENT = "unsubscribe"
 Content = "Content"
+FromUserName = "FromUserName"
+MediaId = "MediaId"
+PicUrl = "PicUrl"
 
 # msg judget
 MSG_TYPE = "MsgType"
@@ -73,6 +88,7 @@ STATIC_BASE_URL = HOST_NAME + "/static/"
 MEDIA_BASE_URL = HOST_NAME + "/media/"
 
 
+
 ADMIN_EMAIL = "weixin_youxie01@126.com"
 
 
@@ -86,9 +102,24 @@ def main(request):
     try:
         req_data = parse_msg(request.body)
         if req_data[MSG_TYPE] == TEXT_MSG:
-            if ANSWER.get(req_data[Content]) != None:
-                return text_msg(req_data, ANSWER.get(req_data[Content]))
+            content = req_data[Content].strip()
+            if is_kll(content):
+                return save_kll_intro(req_data)
+            elif is_mstj(content):
+                return save_recommend_food_intro(req_data)
+            elif ANSWER.get(content)!=None:
+                return text_msg(req_data, ANSWER.get(content))
             return text_msg(req_data, HELP_MSG)
+        elif req_data[MSG_TYPE] == IMAGE_MSG:
+            if judget_media_type(req_data) == MEDIA_KLL:
+                return save_media(req_data, MEDIA_KLL, u'图片发送成功！')
+            elif judget_media_type(req_data) == MEDIA_MSTJ:
+                return save_media(req_data, MEDIA_MSTJ, u'图片发送成功')
+            else:
+                return text_msg(req_data, u'请先发送文字介绍，再发送图片、音频.')
+        elif req_data[MSG_TYPE] == VOICE_MSG:
+            media_id = req_data[MediaId]
+            return text_msg(req_data, u'音频发送成功！')
         elif req_data[MSG_TYPE] == EVENT_MSG:
             ###  订阅与取消订阅
             if req_data[EVENT] == SUBSCRIBE_EVENT:
@@ -138,6 +169,7 @@ def main(request):
             return text_msg(req_data, HELP_MSG)
     except Exception, e:
         logger.debug(e)
+        print e
         return HttpResponse("error occur!")
 
 #
@@ -607,6 +639,115 @@ def get_voice(id):
         v['url'] = HOST_NAME + obj.audio.url
         v['title'] = obj.title
         return v
+
+def is_kll(content):
+    return content.startswith(u'#括拉拉档案#')
+
+def is_mstj(content):
+    return content.startswith(u'#美食推荐#')
+
+
+def save_kll_intro(req_data):
+    content = req_data[Content]
+    openid = req_data[FromUserName]
+    utcnow = datetime.utcnow()
+    klls = FansKLL.objects.filter(fan=openid, date__year=utcnow.year, date__month=utcnow.month, date__day=utcnow.day)
+    if len(klls)>0:
+        kll = klls[0]
+        kll.intro = kll.intro + "\n" + content[7:]
+        kll.save()
+    else:
+        kll = FansKLL(fan=openid, intro = content[7:])
+        kll.save()
+    return text_msg(req_data, u"括拉拉档案文字介绍发送成功")
+
+
+def judget_media_type(req_data):
+    open_id = req_data[FromUserName]
+    utcnow = datetime.utcnow()
+    ms = FansMSTJMedia.objects.\
+        filter(fan=open_id, date__year=utcnow.year, date_month=utcnow.month, date__day=utcnow.day)\
+        .order_by('-date')
+    kll = FansKLLMedia.objects.\
+        filter(fan=open_id, date__year=utcnow.year, date_month=utcnow.month, date__day=utcnow.day)\
+        .order_by('-date')
+    if len(ms) and len(kll):
+        if ms[0].date>kll[0].date:
+            return MEDIA_MSTJ
+        else:
+            return MEDIA_KLL
+    elif len(ms):
+        return MEDIA_MSTJ
+    elif len(kll):
+        return MEDIA_KLL
+    else:
+        return None
+
+
+
+def save_media(req_data, type, success_info=u"发送成功！"):
+    try:
+        media_id = req_data[MediaId]
+        now = datetime.now()
+        delta = now - wsetting.LastTokenTime
+        if delta>=wsetting.TokenExpire:
+            str = urllib2.urlopen(wsetting.GetAccessTokenUrl).read()
+            json_res_data = json.load(str)
+            if json_res_data.get('access_token') is None:
+                return HttpResponse(text_msg(req_data), u'微信服务器请求出错')
+            else:
+                wsetting.LastTokenTime = datetime.now()
+                wsetting.AccessToken = json_res_data['access_token']
+                wsetting.TokenExpire = timedelta(seconds=int(json_res_data['expires_in']))
+        down_url = wsetting.DownloadMediaUrl.format({"mediaid":media_id, "token":wsetting.AccessToken})
+        f = urllib2.urlopen(down_url).read()
+        media = None
+        if type == MEDIA_KLL:
+            media = FansKLLMedia(media=File(f))
+        else:
+            media == FansMSTJMedia(media=File(f))
+        media.save()
+        open_id = req_data[FromUserName]
+        utcnow = datetime.utcnow()
+        entries = None
+        if type=="KLL":
+            entries = FansKLL.objects.filter(fan=open_id, date__year=utcnow.year, date__month=utcnow.month, date__day=utcnow.day)
+        else:
+            entries = FansMSTJ.objects.filter(fan=open_id, date__year=utcnow.year, date__month=utcnow.month, date__day=utcnow.day)
+        entry = None
+        if len(entries)>0:
+            entry = entries[0]
+            fs = entry.files
+            entry.files = fs+","+str(media.id)
+            entry.save()
+        else:
+            if type==MEDIA_KLL:
+                entry = FansKLL(files=str(media.id))
+            else:
+                entry = FansMSTJ(files=str(media.id))
+            entry.save()
+        media.belong = entry.id
+        media.save()
+        return text_msg(req_data, success_info)
+    except Exception, e:
+        logger.debug(e)
+        return HttpResponse("")
+
+
+def save_recommend_food_intro(req_data):
+    content = req_data[Content]
+    openid = req_data[FromUserName]
+    utcnow = datetime.utcnow()
+    mstjs = FansMSTJ.objects.filter(fan=openid, date__year=utcnow.year, date__month=utcnow.month, date__day=utcnow.day)
+    if len(mstjs)>0:
+        ms = mstjs[0]
+        ms.intro = ms.intro + "\n" + content[6:]
+        ms.save()
+    else:
+        ms = FansMSTJ(fan=openid, intro = content[6:])
+        ms.save()
+    return text_msg(req_data, u"美食推荐文字介绍发送成功！")
+
 
 
 

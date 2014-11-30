@@ -267,9 +267,22 @@ class StaticMedia(models.Model):
 
 
 class FansKLL(models.Model):
+    age = models.IntegerField(max_length=3, null=True)
+    place = models.CharField(max_length=50, null=True)
+    weight = models.IntegerField(max_length=4, null=True)
+    hometown = models.CharField(max_length=50, null=True)
+    height = models.IntegerField(max_length=4, null=True)
+    occupation = models.CharField(max_length=50, null=True)
+    personality = models.CharField(max_length=50, null=True)
+    hobby = models.CharField(max_length=50, null=True)
+    contact = models.CharField(max_length=100, null=True)
     date = models.DateTimeField(auto_now_add=True)
-    intro = models.TextField(max_length=5000)
-    files = models.CharField(max_length=100)
+    fan = models.CharField(max_length=600, blank=True)
+    intro = models.TextField(max_length=5000, null=True)
+    files = models.CharField(max_length=100, null=True)
+
+    def __unicode__(self):
+        return self.intro[0:10]
 
 
 class FansKLLMedia(models.Model):
@@ -277,17 +290,30 @@ class FansKLLMedia(models.Model):
     media = models.FileField(upload_to='wechat/fanskllmedia/%Y/%m/%d', max_length=500)
     belong = models.ForeignKey(FansKLL, null=True)
 
+    def __unicode__(self):
+        return self.media.name
+
 
 class FansMSTJ(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    intro = models.FileField(max_length=5000)
-    files = models.CharField(max_length=100)
+    fan = models.CharField(max_length=600, blank=True)
+    intro = models.FileField(max_length=5000, null=True)
+    files = models.CharField(max_length=100, null=True)
+
+    def __unicode__(self):
+        return self.intro[0:10]
 
 
 class FansMSTJMedia(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     media = models.FileField(upload_to='wechat/fansmstjmedia/%Y/%m/%d', max_length=500)
     belong = models.ForeignKey(FansMSTJ, null=True)
+
+    def __unicode__(self):
+        return self.media.name
+
+
+
 
 
 
