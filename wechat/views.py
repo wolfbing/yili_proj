@@ -686,35 +686,56 @@ def save_kll_intro(req_data):
     content = req_data[Content]
     openid = req_data[FromUserName]
     utcnow = datetime.utcnow()
-    klls = FansKLL.objects.filter(fan=openid, date__year=utcnow.year, date__month=utcnow.month, date__day=utcnow.day)
+    now = datetime.now()
+    klls = FansKLL.objects.filter(fan=openid).order_by("-date")
     if len(klls)>0:
         kll = klls[0]
-        kll.intro = kll.intro + "\n" + content[7:]
-        kll.save()
+        d = kll.date + timedelta(hours=8)
+        if now.year==d.year and now.month==d.month and now.day==d.day:
+            kll.intro = kll.intro + "\n" + content[7:]
+            kll.save()
+        else:
+            kll2 = FansKLL(fan=openid, intro = content[7:])
+            kll2.save()
     else:
         kll = FansKLL(fan=openid, intro = content[7:])
         kll.save()
-    return text_msg(req_data, u"括拉拉档案文字介绍发送成功")
+    return text_msg(req_data, u"括拉拉档案文字介绍发送成功! 继续发送您的靓照或者语音吧~")
 
 
 def judget_media_type(req_data):
     open_id = req_data[FromUserName]
     utcnow = datetime.utcnow()
-    ms = FansMSTJMedia.objects.\
-        filter(fan=open_id, date__year=utcnow.year, date_month=utcnow.month, date__day=utcnow.day)\
-        .order_by('-date')
-    kll = FansKLLMedia.objects.\
-        filter(fan=open_id, date__year=utcnow.year, date_month=utcnow.month, date__day=utcnow.day)\
-        .order_by('-date')
+    now = datetime.now()
+    ms = FansMSTJMedia.objects.filter(fan=open_id).order_by('-date')
+    kll = FansKLLMedia.objects.filter(fan=open_id).order_by('-date')
     if len(ms) and len(kll):
-        if ms[0].date>kll[0].date:
+        mst = ms[0].date + timedelta(hours=8)
+        kllt = kll[0].date + timedelta(hours=8)
+        if (mst.year==now.year and mst.month==now.month and mst.day==now.day) \
+            and (kllt.year==now.year and kllt.month==now.month and kllt.day==now.day):
+            if mst>kllt:
+                return MEDIA_MSTJ
+            else:
+                return MEDIA_KLL
+        elif (mst.year==now.year and mst.month==now.month and mst.day==now.day):
+            return MEDIA_MSTJ
+        elif (kllt.year==now.year and kllt.month==now.month and kllt.day==now.day):
+            return MEDIA_KLL
+        else:
+            return None
+    elif len(ms):
+        mst = ms[0].date + timedelta(hours=8)
+        if (mst.year==now.year and mst.month==now.month and mst.day==now.day):
             return MEDIA_MSTJ
         else:
-            return MEDIA_KLL
-    elif len(ms):
-        return MEDIA_MSTJ
+            return None
     elif len(kll):
-        return MEDIA_KLL
+        kllt = kll[0].date + timedelta(hours=8)
+        if (kllt.year==now.year and kllt.month==now.month and kllt.day==now.day):
+            return MEDIA_KLL
+        else:
+            return None
     else:
         return None
 
@@ -745,13 +766,17 @@ def save_media(req_data, type, success_info=u"发送成功！"):
         else:
             media == FansMSTJMedia(media=uf)
         media.save()
-        #open_id = req_data[FromUserName]
-        utcnow = datetime.utcnow()
-        entries = None
+        tmp_entries = None
+        now = datetime.now()
         if type=="KLL":
-            entries = FansKLL.objects.filter(fan=open_id, date__year=utcnow.year, date__month=utcnow.month, date__day=utcnow.day)
+            tmp_entries = FansKLL.objects.filter(fan=open_id).order_by('-date')
         else:
-            entries = FansMSTJ.objects.filter(fan=open_id, date__year=utcnow.year, date__month=utcnow.month, date__day=utcnow.day)
+            tmp_entries = FansMSTJ.objects.filter(fan=open_id).order_by('-date')
+        entries = []
+        for e in tmp_entries:
+            en  = e + timedelta(hours=8)
+            if en.year==now.year and en.month==now.month and en.day==now.day:
+                entries.append(en)
         entry = None
         if len(entries)>0:
             entry = entries[0]
@@ -776,11 +801,16 @@ def save_recommend_food_intro(req_data):
     content = req_data[Content]
     openid = req_data[FromUserName]
     utcnow = datetime.utcnow()
-    mstjs = FansMSTJ.objects.filter(fan=openid, date__year=utcnow.year, date__month=utcnow.month, date__day=utcnow.day)
+    now = datetime.now()
+    mstjs = FansMSTJ.objects.filter(fan=openid).order_by('-date')
     if len(mstjs)>0:
-        ms = mstjs[0]
-        ms.intro = ms.intro + "\n" + content[6:]
-        ms.save()
+        ms = mstjs[0].date + timedelta(hours=8)
+        if ms.year==now.year and ms.month==now.month and ms.day==now.day:
+            ms.intro = ms.intro + "\n" + content[6:]
+            ms.save()
+        else:
+            ms = FansMSTJ(fan=openid, intro = content[6:])
+            ms.save()
     else:
         ms = FansMSTJ(fan=openid, intro = content[6:])
         ms.save()
