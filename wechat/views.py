@@ -766,7 +766,7 @@ def save_media(req_data, type, success_info=u"发送成功！"):
                 wsetting.AccessToken = json_res_data['access_token']
                 wsetting.TokenExpire = timedelta(seconds=int(json_res_data['expires_in']))
         logger2.info('pos3')
-        down_url = wsetting.DownloadMediaUrl.format({"mediaid":media_id, "token":wsetting.AccessToken})
+        down_url = wsetting.DownloadMediaUrl % (wsetting.AccessToken, media_id)
         f = urllib2.urlopen(down_url).read()
         uf = File(f)
         uf.name = open_id + uf.name

@@ -16,5 +16,5 @@ TokenExpire = timedelta(seconds=2000)
 AccessToken = ""
 
 DownloadMediaUrl = "http://file.api.weixin.qq.com/cgi-bin/media/get" \
-                   "?access_token={token}&media_id={mediaid}"
+                   "?access_token=%s&media_id=%s"
 
