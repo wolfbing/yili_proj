@@ -275,8 +275,8 @@ def attend_kulala(request):
             files = []
             for f in request.FILES:
                 item = FansKLLMedia(media=request.FILES[f])
-                file_ids.append(str(item.id))
                 item.save()
+                file_ids.append(str(item.id))
                 files.append(item)
             kll = FansKLL(intro=introduction, files=','.join(file_ids),
                           age=age, place=place, weight=weight, hometown=hometown, height=height,
