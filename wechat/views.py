@@ -768,9 +768,12 @@ def save_media(req_data, type, success_info=u"发送成功！"):
         logger2.info('pos3')
         down_url = wsetting.DownloadMediaUrl % (wsetting.AccessToken, media_id)
         logger2.info('pos3-1')
-        f = urllib2.urlopen(down_url).read()
+        res = urllib2.urlopen(down_url)
+        f = res.read()
+        logger2.info(down_url)
         uf = File(f)
-        uf.name = open_id + uf.name
+        uf.name = open_id
+        logger2.info('pos3-2')
         media = None
         if type == MEDIA_KLL:
             media = FansKLLMedia(media=uf)
