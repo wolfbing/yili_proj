@@ -746,59 +746,61 @@ def judget_media_type(req_data):
 
 def save_media(req_data, type, success_info=u"发送成功！"):
     try:
-        try:
-            media_id = req_data[MediaId]
-            open_id = req_data[FromUserName]
-            now = datetime.now()
-            delta = now - wsetting.LastTokenTime
-            if delta>=wsetting.TokenExpire:
-                str = urllib2.urlopen(wsetting.GetAccessTokenUrl).read()
-                json_res_data = json.load(str)
-                if json_res_data.get('access_token') is None:
-                    return HttpResponse(text_msg(req_data), u'微信服务器请求出错')
-                else:
-                    wsetting.LastTokenTime = datetime.now()
-                    wsetting.AccessToken = json_res_data['access_token']
-                    wsetting.TokenExpire = timedelta(seconds=int(json_res_data['expires_in']))
-            down_url = wsetting.DownloadMediaUrl.format({"mediaid":media_id, "token":wsetting.AccessToken})
-            f = urllib2.urlopen(down_url).read()
-            uf = File(f)
-            uf.name = open_id + uf.name
-            media = None
-            if type == MEDIA_KLL:
-                media = FansKLLMedia(media=uf)
+        media_id = req_data[MediaId]
+        open_id = req_data[FromUserName]
+        now = datetime.now()
+        delta = now - wsetting.LastTokenTime
+        if delta>=wsetting.TokenExpire:
+            str = urllib2.urlopen(wsetting.GetAccessTokenUrl).read()
+            json_res_data = json.load(str)
+            if json_res_data.get('access_token') is None:
+                return HttpResponse(text_msg(req_data), u'微信服务器请求出错')
             else:
-                media == FansMSTJMedia(media=uf)
+                wsetting.LastTokenTime = datetime.now()
+                wsetting.AccessToken = json_res_data['access_token']
+                wsetting.TokenExpire = timedelta(seconds=int(json_res_data['expires_in']))
+        down_url = wsetting.DownloadMediaUrl.format({"mediaid":media_id, "token":wsetting.AccessToken})
+        f = urllib2.urlopen(down_url).read()
+        uf = File(f)
+        uf.name = open_id + uf.name
+        media = None
+        if type == MEDIA_KLL:
+            media = FansKLLMedia(media=uf)
+        else:
+            media == FansMSTJMedia(media=uf)
+        media.save()
+
+        try:
+
+            tmp_entries = None
+            now = datetime.now()
+            if type=="KLL":
+                tmp_entries = FansKLL.objects.filter(fan=open_id).order_by('-date')
+            else:
+                tmp_entries = FansMSTJ.objects.filter(fan=open_id).order_by('-date')
+            entries = []
+            for e in tmp_entries:
+                en  = e + timedelta(hours=8)
+                if en.year==now.year and en.month==now.month and en.day==now.day:
+                    entries.append(en)
+            entry = None
+            if len(entries)>0:
+                entry = entries[0]
+                fs = entry.files
+                entry.files = fs+","+str(media.id)
+                entry.save()
+            else:
+                if type==MEDIA_KLL:
+                    entry = FansKLL(files=str(media.id))
+                else:
+                    entry = FansMSTJ(files=str(media.id))
+                entry.save()
+            media.belong = entry.id
             media.save()
+            return text_msg(req_data, success_info)
         except Exception, e:
             logger.debug(e)
             return text_msg(req_data, str(e))
-        tmp_entries = None
-        now = datetime.now()
-        if type=="KLL":
-            tmp_entries = FansKLL.objects.filter(fan=open_id).order_by('-date')
-        else:
-            tmp_entries = FansMSTJ.objects.filter(fan=open_id).order_by('-date')
-        entries = []
-        for e in tmp_entries:
-            en  = e + timedelta(hours=8)
-            if en.year==now.year and en.month==now.month and en.day==now.day:
-                entries.append(en)
-        entry = None
-        if len(entries)>0:
-            entry = entries[0]
-            fs = entry.files
-            entry.files = fs+","+str(media.id)
-            entry.save()
-        else:
-            if type==MEDIA_KLL:
-                entry = FansKLL(files=str(media.id))
-            else:
-                entry = FansMSTJ(files=str(media.id))
-            entry.save()
-        media.belong = entry.id
-        media.save()
-        return text_msg(req_data, success_info)
     except Exception, e:
         logger.debug(e)
         return HttpResponse("")
