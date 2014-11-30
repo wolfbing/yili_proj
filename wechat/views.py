@@ -751,8 +751,8 @@ def save_media(req_data, type, success_info=u"发送成功！"):
         now = datetime.now()
         delta = now - wsetting.LastTokenTime
         if delta>=wsetting.TokenExpire:
-            str = urllib2.urlopen(wsetting.GetAccessTokenUrl).read()
-            json_res_data = json.load(str)
+            res_str = urllib2.urlopen(wsetting.GetAccessTokenUrl).read()
+            json_res_data = json.load(res_str)
             if json_res_data.get('access_token') is None:
                 return HttpResponse(text_msg(req_data), u'微信服务器请求出错')
             else:
@@ -770,40 +770,35 @@ def save_media(req_data, type, success_info=u"发送成功！"):
             media == FansMSTJMedia(media=uf)
         media.save()
 
-        try:
-
-            tmp_entries = None
-            now = datetime.now()
-            if type=="KLL":
-                tmp_entries = FansKLL.objects.filter(fan=open_id).order_by('-date')
+        tmp_entries = None
+        now = datetime.now()
+        if type=="KLL":
+            tmp_entries = FansKLL.objects.filter(fan=open_id).order_by('-date')
+        else:
+            tmp_entries = FansMSTJ.objects.filter(fan=open_id).order_by('-date')
+        entries = []
+        for e in tmp_entries:
+            en  = e + timedelta(hours=8)
+            if en.year==now.year and en.month==now.month and en.day==now.day:
+                entries.append(en)
+        entry = None
+        if len(entries)>0:
+            entry = entries[0]
+            fs = entry.files
+            entry.files = fs+","+str(media.id)
+            entry.save()
+        else:
+            if type==MEDIA_KLL:
+                entry = FansKLL(files=str(media.id))
             else:
-                tmp_entries = FansMSTJ.objects.filter(fan=open_id).order_by('-date')
-            entries = []
-            for e in tmp_entries:
-                en  = e + timedelta(hours=8)
-                if en.year==now.year and en.month==now.month and en.day==now.day:
-                    entries.append(en)
-            entry = None
-            if len(entries)>0:
-                entry = entries[0]
-                fs = entry.files
-                entry.files = fs+","+str(media.id)
-                entry.save()
-            else:
-                if type==MEDIA_KLL:
-                    entry = FansKLL(files=str(media.id))
-                else:
-                    entry = FansMSTJ(files=str(media.id))
-                entry.save()
-            media.belong = entry.id
-            media.save()
-            return text_msg(req_data, success_info)
-        except Exception, e:
-            logger.debug(e)
-            return text_msg(req_data, str(e))
+                entry = FansMSTJ(files=str(media.id))
+            entry.save()
+        media.belong = entry.id
+        media.save()
+        return text_msg(req_data, success_info)
     except Exception, e:
         logger.debug(e)
-        return HttpResponse("")
+        return text_msg(req_data, str(e))
 
 
 def save_recommend_food_intro(req_data):
