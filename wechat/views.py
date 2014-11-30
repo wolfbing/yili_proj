@@ -245,6 +245,31 @@ def attend_kulala(request):
     elif request.method == 'POST':
         res_data = {}
         try:
+            try:
+                age = int(request.POST['age'])
+            except:
+                age = None
+            place = request.POST['place']
+            try:
+                weight = int(request.POST['weight'])
+            except:
+                weight = None
+            hometown = request.POST['hometown']
+            try:
+                height = float(request.POST['height'])
+            except:
+                height = None
+            occupation = request.POST['occupation']
+            personality = request.POST['personality']
+            hobby = request.POST['hobby']
+            weixin = request.POST['weixin']
+            try:
+                qq = int(request.POST['qq'])
+            except:
+                qq = None
+            email = request.POST['email']
+            mobile = int(request.POST['mobile'])
+            open_mobile = (request.POST.get('openmobile') == u'open')
             introduction = request.POST['intro']
             file_ids = []
             files = []
@@ -253,7 +278,11 @@ def attend_kulala(request):
                 file_ids.append(str(item.id))
                 item.save()
                 files.append(item)
-            kll = FansKLL(intro=introduction, files=','.join(file_ids))
+            kll = FansKLL(intro=introduction, files=','.join(file_ids),
+                          age=age, place=place, weight=weight, hometown=hometown, height=height,
+                          occupation=occupation, personality=personality, hobby=hobby, weixin=weixin,
+                          qq=qq, email=email, mobile=mobile, open_mobile=open_mobile
+                          )
             kll.save()
             for i in files:
                 i.belong=kll
@@ -264,6 +293,7 @@ def attend_kulala(request):
             }
         except Exception, e:
             logger.debug(e)
+            print e
             res_data = {
                 'result_title': u'提交失败',
                 'result': u'您的括拉拉档案提交失败了- -#, '
