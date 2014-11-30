@@ -706,10 +706,9 @@ def save_kll_intro(req_data):
 def judget_media_type(req_data):
     try:
         open_id = req_data[FromUserName]
-        utcnow = datetime.utcnow()
         now = datetime.now()
-        ms = FansMSTJMedia.objects.filter(fan=open_id).order_by('-date')
-        kll = FansKLLMedia.objects.filter(fan=open_id).order_by('-date')
+        ms = FansMSTJ.objects.filter(fan=open_id).order_by('-date')
+        kll = FansKLL.objects.filter(fan=open_id).order_by('-date')
         if len(ms) and len(kll):
             mst = ms[0].date + timedelta(hours=8)
             kllt = kll[0].date + timedelta(hours=8)
