@@ -278,7 +278,7 @@ class FansKLL(models.Model):
     weixin = models.CharField(max_length=50, null=True)
     qq = models.IntegerField(max_length=50, null=True)
     email = models.CharField(max_length=100, null=True)
-    mobile = models.IntegerField(max_length=50)
+    mobile = models.IntegerField(max_length=50, default=11111111111)
     open_mobile = models.BooleanField(default=True, verbose_name=u"公开手机号码")
 
     date = models.DateTimeField(auto_now_add=True)

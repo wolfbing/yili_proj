@@ -274,7 +274,9 @@ def attend_kulala(request):
             file_ids = []
             files = []
             for f in request.FILES:
-                item = FansKLLMedia(media=request.FILES[f])
+                uf = request.FILES[f]
+                uf.name = unicode(mobile) + uf.name
+                item = FansKLLMedia(media=uf)
                 item.save()
                 file_ids.append(str(item.id))
                 files.append(item)
@@ -315,12 +317,15 @@ def recommend_food(request):
             introduction = request.POST['intro']
             file_ids = []
             files = []
+            tmp = datetime.now().strftime("%Y%m%d%H%M%S")
             for f in request.FILES:
-                item = FansMSTJMedia(media=request.FILES[f])
+                uf = request.FILES[f]
+                uf.name = tmp + uf.name
+                item = FansMSTJMedia(media=uf)
                 item.save()
                 file_ids.append(str(item.id))
                 files.append(item)
-            food = FansMSTJ(intro=introduction, files=','.join(file_ids))
+            food = FansMSTJ(intro=introduction, files=','.join(file_ids), fan=tmp)
             food.save()
             for i in files:
                 i.belong = food
@@ -718,6 +723,7 @@ def judget_media_type(req_data):
 def save_media(req_data, type, success_info=u"发送成功！"):
     try:
         media_id = req_data[MediaId]
+        open_id = req_data[FromUserName]
         now = datetime.now()
         delta = now - wsetting.LastTokenTime
         if delta>=wsetting.TokenExpire:
@@ -731,13 +737,15 @@ def save_media(req_data, type, success_info=u"发送成功！"):
                 wsetting.TokenExpire = timedelta(seconds=int(json_res_data['expires_in']))
         down_url = wsetting.DownloadMediaUrl.format({"mediaid":media_id, "token":wsetting.AccessToken})
         f = urllib2.urlopen(down_url).read()
+        uf = File(f)
+        uf.name = open_id + uf.name
         media = None
         if type == MEDIA_KLL:
-            media = FansKLLMedia(media=File(f))
+            media = FansKLLMedia(media=uf)
         else:
-            media == FansMSTJMedia(media=File(f))
+            media == FansMSTJMedia(media=uf)
         media.save()
-        open_id = req_data[FromUserName]
+        #open_id = req_data[FromUserName]
         utcnow = datetime.utcnow()
         entries = None
         if type=="KLL":
