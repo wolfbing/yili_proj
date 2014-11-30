@@ -704,39 +704,43 @@ def save_kll_intro(req_data):
 
 
 def judget_media_type(req_data):
-    open_id = req_data[FromUserName]
-    utcnow = datetime.utcnow()
-    now = datetime.now()
-    ms = FansMSTJMedia.objects.filter(fan=open_id).order_by('-date')
-    kll = FansKLLMedia.objects.filter(fan=open_id).order_by('-date')
-    if len(ms) and len(kll):
-        mst = ms[0].date + timedelta(hours=8)
-        kllt = kll[0].date + timedelta(hours=8)
-        if (mst.year==now.year and mst.month==now.month and mst.day==now.day) \
-            and (kllt.year==now.year and kllt.month==now.month and kllt.day==now.day):
-            if mst>kllt:
+    try:
+        open_id = req_data[FromUserName]
+        utcnow = datetime.utcnow()
+        now = datetime.now()
+        ms = FansMSTJMedia.objects.filter(fan=open_id).order_by('-date')
+        kll = FansKLLMedia.objects.filter(fan=open_id).order_by('-date')
+        if len(ms) and len(kll):
+            mst = ms[0].date + timedelta(hours=8)
+            kllt = kll[0].date + timedelta(hours=8)
+            if (mst.year==now.year and mst.month==now.month and mst.day==now.day) \
+                and (kllt.year==now.year and kllt.month==now.month and kllt.day==now.day):
+                if mst>kllt:
+                    return MEDIA_MSTJ
+                else:
+                    return MEDIA_KLL
+            elif (mst.year==now.year and mst.month==now.month and mst.day==now.day):
+                return MEDIA_MSTJ
+            elif (kllt.year==now.year and kllt.month==now.month and kllt.day==now.day):
+                return MEDIA_KLL
+            else:
+                return None
+        elif len(ms):
+            mst = ms[0].date + timedelta(hours=8)
+            if (mst.year==now.year and mst.month==now.month and mst.day==now.day):
                 return MEDIA_MSTJ
             else:
+                return None
+        elif len(kll):
+            kllt = kll[0].date + timedelta(hours=8)
+            if (kllt.year==now.year and kllt.month==now.month and kllt.day==now.day):
                 return MEDIA_KLL
-        elif (mst.year==now.year and mst.month==now.month and mst.day==now.day):
-            return MEDIA_MSTJ
-        elif (kllt.year==now.year and kllt.month==now.month and kllt.day==now.day):
-            return MEDIA_KLL
+            else:
+                return None
         else:
             return None
-    elif len(ms):
-        mst = ms[0].date + timedelta(hours=8)
-        if (mst.year==now.year and mst.month==now.month and mst.day==now.day):
-            return MEDIA_MSTJ
-        else:
-            return None
-    elif len(kll):
-        kllt = kll[0].date + timedelta(hours=8)
-        if (kllt.year==now.year and kllt.month==now.month and kllt.day==now.day):
-            return MEDIA_KLL
-        else:
-            return None
-    else:
+    except Exception, e:
+        logger.debug(e)
         return None
 
 
