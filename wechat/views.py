@@ -62,6 +62,7 @@ EVENT_KEY = "EventKey"
 
 # logger
 logger = logging.getLogger('wechat')
+logger2 = logging.getLogger('django')
 
 # News num
 BOYS_AND_GIRLS_NUM = 5
@@ -746,10 +747,12 @@ def judget_media_type(req_data):
 
 def save_media(req_data, type, success_info=u"发送成功！"):
     try:
+        logger2.info("pos1")
         media_id = req_data[MediaId]
         open_id = req_data[FromUserName]
         now = datetime.now()
         delta = now - wsetting.LastTokenTime
+        logger2.info('pos2')
         if delta>=wsetting.TokenExpire:
             res_str = urllib2.urlopen(wsetting.GetAccessTokenUrl).read()
             json_res_data = json.load(res_str)
@@ -759,6 +762,7 @@ def save_media(req_data, type, success_info=u"发送成功！"):
                 wsetting.LastTokenTime = datetime.now()
                 wsetting.AccessToken = json_res_data['access_token']
                 wsetting.TokenExpire = timedelta(seconds=int(json_res_data['expires_in']))
+        logger2.info('pos3')
         down_url = wsetting.DownloadMediaUrl.format({"mediaid":media_id, "token":wsetting.AccessToken})
         f = urllib2.urlopen(down_url).read()
         uf = File(f)
@@ -769,7 +773,7 @@ def save_media(req_data, type, success_info=u"发送成功！"):
         else:
             media == FansMSTJMedia(media=uf)
         media.save()
-
+        logger2.info('pos4')
         tmp_entries = None
         now = datetime.now()
         if type=="KLL":
@@ -782,6 +786,7 @@ def save_media(req_data, type, success_info=u"发送成功！"):
             if en.year==now.year and en.month==now.month and en.day==now.day:
                 entries.append(en)
         entry = None
+        logger2.info('pos5')
         if len(entries)>0:
             entry = entries[0]
             fs = entry.files
@@ -793,6 +798,7 @@ def save_media(req_data, type, success_info=u"发送成功！"):
             else:
                 entry = FansMSTJ(files=str(media.id))
             entry.save()
+        logger2.info('pos6')
         media.belong = entry.id
         media.save()
         return text_msg(req_data, success_info)
