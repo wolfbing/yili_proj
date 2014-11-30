@@ -281,7 +281,7 @@ def attend_kulala(request):
             kll = FansKLL(intro=introduction, files=','.join(file_ids),
                           age=age, place=place, weight=weight, hometown=hometown, height=height,
                           occupation=occupation, personality=personality, hobby=hobby, weixin=weixin,
-                          qq=qq, email=email, mobile=mobile, open_mobile=open_mobile
+                          qq=qq, email=email, mobile=mobile, open_mobile=open_mobile, fan=str(mobile)
                           )
             kll.save()
             for i in files:

@@ -296,13 +296,13 @@ class FansKLLMedia(models.Model):
     belong = models.ForeignKey(FansKLL, null=True)
 
     def __unicode__(self):
-        return self.media.name
+        return str(self.id)
 
 
 class FansMSTJ(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     fan = models.CharField(max_length=600, blank=True)
-    intro = models.FileField(max_length=5000, null=True)
+    intro = models.CharField(max_length=5000, null=True)
     files = models.CharField(max_length=100, null=True)
 
     def __unicode__(self):
@@ -315,7 +315,7 @@ class FansMSTJMedia(models.Model):
     belong = models.ForeignKey(FansMSTJ, null=True)
 
     def __unicode__(self):
-        return self.media.name
+        return str(self.id)
 
 
 
