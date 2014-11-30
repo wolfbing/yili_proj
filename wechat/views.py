@@ -746,33 +746,33 @@ def judget_media_type(req_data):
 
 def save_media(req_data, type, success_info=u"发送成功！"):
     try:
-        media_id = req_data[MediaId]
-        open_id = req_data[FromUserName]
-        now = datetime.now()
-        delta = now - wsetting.LastTokenTime
-        if delta>=wsetting.TokenExpire:
-            try:
+        try:
+            media_id = req_data[MediaId]
+            open_id = req_data[FromUserName]
+            now = datetime.now()
+            delta = now - wsetting.LastTokenTime
+            if delta>=wsetting.TokenExpire:
                 str = urllib2.urlopen(wsetting.GetAccessTokenUrl).read()
-            except Exception,e:
-                logger.debug(e)
-                return HttpResponse("")
-            json_res_data = json.load(str)
-            if json_res_data.get('access_token') is None:
-                return HttpResponse(text_msg(req_data), u'微信服务器请求出错')
+                json_res_data = json.load(str)
+                if json_res_data.get('access_token') is None:
+                    return HttpResponse(text_msg(req_data), u'微信服务器请求出错')
+                else:
+                    wsetting.LastTokenTime = datetime.now()
+                    wsetting.AccessToken = json_res_data['access_token']
+                    wsetting.TokenExpire = timedelta(seconds=int(json_res_data['expires_in']))
+            down_url = wsetting.DownloadMediaUrl.format({"mediaid":media_id, "token":wsetting.AccessToken})
+            f = urllib2.urlopen(down_url).read()
+            uf = File(f)
+            uf.name = open_id + uf.name
+            media = None
+            if type == MEDIA_KLL:
+                media = FansKLLMedia(media=uf)
             else:
-                wsetting.LastTokenTime = datetime.now()
-                wsetting.AccessToken = json_res_data['access_token']
-                wsetting.TokenExpire = timedelta(seconds=int(json_res_data['expires_in']))
-        down_url = wsetting.DownloadMediaUrl.format({"mediaid":media_id, "token":wsetting.AccessToken})
-        f = urllib2.urlopen(down_url).read()
-        uf = File(f)
-        uf.name = open_id + uf.name
-        media = None
-        if type == MEDIA_KLL:
-            media = FansKLLMedia(media=uf)
-        else:
-            media == FansMSTJMedia(media=uf)
-        media.save()
+                media == FansMSTJMedia(media=uf)
+            media.save()
+        except Exception, e:
+            logger.debug(e)
+            return text_msg(req_data, str(e))
         tmp_entries = None
         now = datetime.now()
         if type=="KLL":
