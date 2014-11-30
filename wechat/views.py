@@ -754,8 +754,11 @@ def save_media(req_data, type, success_info=u"发送成功！"):
         delta = now - wsetting.LastTokenTime
         logger2.info('pos2')
         if delta>=wsetting.TokenExpire:
+            logger2.info('pos2-1')
             res_str = urllib2.urlopen(wsetting.GetAccessTokenUrl).read()
+            logger2.info('pos2-2')
             json_res_data = json.load(res_str)
+            logger2.info('pos2-3')
             if json_res_data.get('access_token') is None:
                 return HttpResponse(text_msg(req_data), u'微信服务器请求出错')
             else:
