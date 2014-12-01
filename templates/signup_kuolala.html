@@ -87,7 +87,7 @@
 <body>
 <div data-role="page" id="main_page">
     <div data-role="content">
-        <p style="color: orangered">安卓用户请点击右上角，在弹出菜单中选择”在浏览器中打开“</p>
+        <p style="color: orangered">安卓用户请点击右上角，在弹出菜单中选择“在浏览器中打开”</p>
         <form id="form" method="post" action="{{ action_url }}" data-ajax="false" enctype="multipart/form-data">
             <input type="text" id="age" name="age" placeholder="年龄">
             <input type="text" id="place" name="place" placeholder="常驻地">
@@ -108,6 +108,7 @@
             </fieldset>
             <p id="intro_err" style="color:red;"></p>
             <textarea name="intro" id="intro" placeholder="择偶标准、爱情宣言...让大家更了解你！(至少20字)"></textarea>
+            <p style="color: orangered">安卓用户可能会上传文件失败，请点击右上角，在弹出菜单中选择“在浏览器中打开”</p>
             <p id="file_err">至少上传一张照片，最多上传10个图片、音频文件</p>
             <input class="files" type="file" name="file1">
             <!-- <input type="button" id="addfile" value="再来一个" data-inline="true"> -->

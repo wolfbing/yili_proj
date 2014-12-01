@@ -110,7 +110,7 @@ def main(request):
                 return save_recommend_food_intro(req_data)
             elif ANSWER.get(content)!=None:
                 return text_msg(req_data, ANSWER.get(content))
-            return text_msg(req_data, HELP_MSG)
+            return text_msg(req_data, ANSWER.get("help"))
         elif req_data[MSG_TYPE] == IMAGE_MSG:
             return text_msg(req_data, u'图片发送成功！.')
         elif req_data[MSG_TYPE] == VOICE_MSG:
@@ -118,7 +118,7 @@ def main(request):
         elif req_data[MSG_TYPE] == EVENT_MSG:
             ###  订阅与取消订阅
             if req_data[EVENT] == SUBSCRIBE_EVENT:
-                return text_msg(req_data, WELCOME_MSG)
+                return text_msg(req_data, ANSWER['welcome'])
             elif req_data[EVENT] == UNSUBSCRIBE_EVENT:
                 return text_msg(req_data, BYE_MSG)
             ###  菜单点击事件
