@@ -112,14 +112,8 @@ def main(request):
                 return text_msg(req_data, ANSWER.get(content))
             return text_msg(req_data, HELP_MSG)
         elif req_data[MSG_TYPE] == IMAGE_MSG:
-            if judget_media_type(req_data) == MEDIA_KLL:
-                return save_media(req_data, MEDIA_KLL, u'图片发送成功！')
-            elif judget_media_type(req_data) == MEDIA_MSTJ:
-                return save_media(req_data, MEDIA_MSTJ, u'图片发送成功')
-            else:
-                return text_msg(req_data, u'请先发送文字介绍，再发送图片、音频.')
+            return text_msg(req_data, u'图片发送成功！.')
         elif req_data[MSG_TYPE] == VOICE_MSG:
-            media_id = req_data[MediaId]
             return text_msg(req_data, u'音频发送成功！')
         elif req_data[MSG_TYPE] == EVENT_MSG:
             ###  订阅与取消订阅
