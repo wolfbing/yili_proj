@@ -250,6 +250,7 @@ class Voice(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     pic = models.ImageField(upload_to='wechat/voice_pic/%Y/%m', max_length=255, help_text=u'建议尺寸：大图360*200，小图200*200')
     audio = models.FileField(upload_to='wechat/voice/%Y/%m', max_length=255, help_text=u'请上传音频文件')
+    url = models.URLField(max_length=500, default=u"", help_text=u'填写需要指定的页面链接，不填则生成默认页面')
 
     objects = VoiceManager()
 
