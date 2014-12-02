@@ -268,23 +268,23 @@ class StaticMedia(models.Model):
 
 
 class FansKLL(models.Model):
-    age = models.IntegerField(max_length=3, null=True)
-    place = models.CharField(max_length=50, null=True)
-    weight = models.IntegerField(max_length=4, null=True)
-    hometown = models.CharField(max_length=50, null=True)
-    height = models.FloatField(max_length=4, null=True)
-    occupation = models.CharField(max_length=50, null=True)
-    personality = models.CharField(max_length=50, null=True)
-    hobby = models.CharField(max_length=50, null=True)
-    weixin = models.CharField(max_length=50, null=True)
-    qq = models.IntegerField(max_length=50, null=True)
-    email = models.CharField(max_length=100, null=True)
+    age = models.IntegerField(max_length=3, null=True, default=0)
+    place = models.CharField(max_length=50, null=True, blank=True)
+    weight = models.IntegerField(max_length=4, null=True, default=0)
+    hometown = models.CharField(max_length=50, null=True, blank=True)
+    height = models.FloatField(max_length=4, null=True, default=0)
+    occupation = models.CharField(max_length=50, null=True, blank=True)
+    personality = models.CharField(max_length=50, null=True, blank=True)
+    hobby = models.CharField(max_length=50, null=True, blank=True)
+    weixin = models.CharField(max_length=50, null=True, blank=True)
+    qq = models.IntegerField(max_length=50, null=True, default=0)
+    email = models.EmailField(max_length=100, null=True, blank=True)
     mobile = models.IntegerField(max_length=50, default=11111111111)
     open_mobile = models.BooleanField(default=True, verbose_name=u"公开手机号码")
 
     date = models.DateTimeField(auto_now_add=True)
     fan = models.CharField(max_length=600, blank=True)
-    intro = models.TextField(max_length=5000, null=True)
+    intro = models.TextField(max_length=5000, null=True, blank=True)
     files = models.CharField(max_length=100, null=True)
 
     def __unicode__(self):
@@ -302,9 +302,9 @@ class FansKLLMedia(models.Model):
 
 class FansMSTJ(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    fan = models.CharField(max_length=600, blank=True)
-    intro = models.CharField(max_length=5000, null=True)
-    files = models.CharField(max_length=100, null=True)
+    fan = models.CharField(max_length=600, blank=True, blank=True)
+    intro = models.CharField(max_length=5000, null=True, blank=True)
+    files = models.CharField(max_length=100, null=True, blank=True)
 
     def __unicode__(self):
         return self.intro[0:10]
