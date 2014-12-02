@@ -283,9 +283,9 @@ class FansKLL(models.Model):
     open_mobile = models.BooleanField(default=True, verbose_name=u"公开手机号码")
 
     date = models.DateTimeField(auto_now_add=True)
-    fan = models.CharField(max_length=600, blank=True)
+    fan = models.CharField(max_length=600,null=True, blank=True)
     intro = models.TextField(max_length=5000, null=True, blank=True)
-    files = models.CharField(max_length=100, null=True)
+    files = models.CharField(max_length=100, null=True, blank=True)
 
     def __unicode__(self):
         return self.intro[0:10]
@@ -302,7 +302,7 @@ class FansKLLMedia(models.Model):
 
 class FansMSTJ(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    fan = models.CharField(max_length=600, blank=True, blank=True)
+    fan = models.CharField(max_length=600, null=True, blank=True)
     intro = models.CharField(max_length=5000, null=True, blank=True)
     files = models.CharField(max_length=100, null=True, blank=True)
 
