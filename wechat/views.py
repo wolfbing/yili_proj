@@ -541,7 +541,10 @@ def get_jdhg():
         jd['title'] = obj.title
         jd['description'] = obj.intro
         jd['pic_url'] = HOST_NAME + obj.pic.url
-        jd['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
+        if obj.url==u'':
+            jd['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
+        else:
+            jd['url'] = obj.url
         jdl.append(jd)
     more = {
         "title": u"点击查看更多经典回顾！！",
@@ -562,7 +565,10 @@ def get_bsbs():
         bs['title'] = obj.title
         bs['description'] = obj.intro
         bs['pic_url'] = HOST_NAME + obj.pic.url
-        bs['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
+        if obj.url==u'':
+            bs['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
+        else:
+            bs['url'] = obj.url
         bsl.append(bs)
     more = {
         "title": u"点击查看更多不三不四！！",
@@ -583,7 +589,10 @@ def get_bfx():
         bf['title'] = obj.title
         bf['description'] = obj.intro
         bf['pic_url'] = HOST_NAME + obj.pic.url
-        bf['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
+        if obj.url==u'':
+            bf['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
+        else:
+            bf['url'] = obj.url
         bfl.append(bf)
     more = {
         "title": u"点击查看更多摆饭秀！！",
@@ -654,10 +663,10 @@ def some_voice(page_num, type):
     vs = []
     for obj in objs:
         v = {}
-        if v.url==u'':
+        if obj.url==u'' or obj.url==None:
             v['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
         else:
-            v['url'] = v.url
+            v['url'] = obj.url
         v['title'] = obj.title
         vs.append(v)
     return vs
@@ -669,7 +678,10 @@ def get_voice(id):
         return None
     else:
         v = {}
-        v['url'] = HOST_NAME + obj.audio.url
+        if obj.url==u'':
+            v['url'] = HOST_NAME + obj.audio.url
+        else:
+            v['url'] = obj.url
         v['title'] = obj.title
         return v
 
