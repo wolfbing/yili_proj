@@ -62,6 +62,11 @@
 			"type":"click",
 			"name":"摆饭秀",
 			"key":"BFX"
+		},
+		{
+			"type":"view",
+			"name":"我来秀",
+			"url":"http://121.199.32.77/wechat/fanshow/"
 		}
 		]
 	}
