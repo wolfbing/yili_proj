@@ -20,7 +20,8 @@ from datetime import datetime, timedelta
 import json
 
 from models import BoysAndGirls, FineFood, Voice, \
-    FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia
+    FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia, \
+    FanShow, FanShowMedia
 
 # Create your views here.
 
@@ -337,6 +338,45 @@ def recommend_food(request):
                 'result_title': u'推荐失败',
                 'result': u'推荐失败了 - -#, 检查下您的输入吧~ 您也可以通过邮箱向我们推荐美食或者反馈意见: '+ADMIN_EMAIL
             }
+        return render_to_response('post_result.html', res_data)
+
+
+def fan_show(request):
+    try:
+        if request.method == "GET":
+            res_data = {
+                "action_url": reverse(fan_show)
+            }
+            return render_to_response("fan_show.html", res_data)
+        else:
+            introduction = request.POST['intro']
+            file_ids = []
+            files = []
+            tmp = datetime.now().strftime("%Y%m%d%H%M%S")
+            for f in request.FILES:
+                uf = request.FILES[f]
+                uf.name = tmp + uf.name
+                item = FanShowMedia(media=uf)
+                item.save()
+                file_ids.append(str(item.id))
+                files.append(item)
+            show = FanShow(intro=introduction, files=','.join(file_ids), fan=tmp)
+            show.save()
+            for i in files:
+                i.belong = show
+                i.save()
+            res_data = {
+                'result_title': u'提交成功',
+                'result': u'提交成功！欢迎再次来秀！'
+            }
+            return render_to_response('post_result.html', res_data)
+    except Exception,e:
+        print e
+        logger.debug(e)
+        res_data = {
+            'result_title': u'提交失败',
+            'result': u"提交失败 - -! ,重新试试吧~, 或者向我们反馈一下吧~"
+        }
         return render_to_response('post_result.html', res_data)
 
 
