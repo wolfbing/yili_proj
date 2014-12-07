@@ -1,0 +1,164 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Amaze UI Test</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <link rel="icon" type="image/png" href="{{ static_url }}images/favicon.png">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="{{ static_url }}images/app-icon72x72@2x.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="{{ static_url }}images/app-icon72x72@2x.png">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="{{ static_url }}images/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+
+  <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+  <!--
+  <link rel="canonical" href="http://www.example.com/">
+  -->
+
+  <link rel="stylesheet" href="{{ static_url }}css/amazeui.min.css">
+  <link rel="stylesheet" href="{{ static_url }}css/app.css">
+</head>
+<body>
+  <div class="am-container cus-container">
+    <article>
+      <header>
+        <h4>今日语音</h4>
+        <hr />
+        <div class="am-container cus-full-line">
+          <img src="{{ static_url }}images/luopang.jpg" class="am-fl cus-avatar">
+          <span class="am-fl cus-audio-bar cus-audio-bar-left" src="{{ audio_url }}" id="audio1">
+            <img src="{{ static_url }}images/gray_player.gif" class="cus-audio-play-animation-left">
+            <i class="am-fl cus-audio-play-animation-static-left"></i>
+            <img src="{{ static_url }}images/loading.gif" class="cus-audio-loading-left">
+          </span>
+        </div>
+        <div class="am-container cus-full-line">
+          <img src="{{ static_url }}images/luopang.jpg" class="am-fr cus-avatar">
+          <span class="am-fr cus-audio-bar cus-audio-bar-right" src="{{ audio_url }}" id="audio2">
+            <img src="{{ static_url }}images/green_player.gif" class="cus-audio-play-animation-right">
+            <i class="am-fr cus-audio-play-animation-static-right"></i>
+            <img src="{{ static_url }}images/loading.gif" class="cus-audio-loading-right">
+          </span>
+        </div>
+        <div class="am-container cus-full-line">
+          <img src="{{ static_url }}images/luopang.jpg" class="am-fl cus-avatar">
+          <span class="am-fl cus-text-bulge cus-text-bulge-left"></span>
+          <span class="am-fl cus-text cus-text-left">我现在在做一个App，叫做xx故事。还不错，但是我要讲的不是这个</span>
+        </div>
+        <div class="am-container cus-full-line">
+          <img src="{{ static_url }}images/luopang.jpg" class="am-fr cus-avatar">
+          <span class="am-fr cus-text-bulge cus-text-bulge-right"></span>
+          <span class="am-fr cus-text cus-text-right">我现在在做一个App，叫做xx故事。还不错，但是我要讲的不是这个</span>
+        </div>
+        <h2>一个关于孤独的故事</h2>
+        <p class="am-inline"><small>2014-12-25 张春 <a>逻辑思维</a></small></p>
+      </header>
+
+      <div class="am-container cus-full-line">
+        <video controls="controls" preload="metadata" class="am-center">
+          <source src="{{ vedio_url }}" type="video/ogg" >
+            您的浏览器不支持播放视频！
+        </video>
+        <div class="am-text-center"><mark>视频名称</mark></div>
+      </div>
+
+      <div class="am-container cus-full-line">
+        <audio controls="controls" class="am-center" preload="metadata">
+          <source src="{{ audio_url }}" type="audio/mpeg">
+        </audio>
+        <div class="am-text-center"><mark>音频名称</mark></div>
+      </div>
+      
+      <img src="{{ static_url }}images/img0.jpg" class="am-img-thumbnail am-center" >
+      <p>我要讲一个有关孤独的故事。
+      <p>我现在在做一个App，叫做xx故事。还不错，但是我要讲的不是这个。</p>
+
+      <p>xx故事不是团队做的第一个App，以前还做过一个社交App，名字叫“花开”，讲的是“慢交友”，就是要两个人种一株花，而且，一开始不！能！聊！天！</p>
+
+      <p>这个软件一开始，要搞很久很久才发芽，发芽才能看对方资料，又要搞很久很久，才能看对方照片。总之每进一步，都要很久，很久，很久。差不多是这样。这个所谓的社交软件，除了每天面对含含糊糊的交互体验，莫名其妙的菜单，跳脱的画面之外，很长时间里，只能面对一片软件生成的土壤。</p>
+
+      <p>看到这里，你是不是想喊“这个软件去死吧”？不要慌，因为已经死了。</p>
+    </article>
+    
+  </div>
+  <footer class="am-footer am-footer-default" data-am-widget="footer">
+    <img src="{{ static_url }}images/focus.png" class="am-center am-img-thumbnail">
+    <small>
+    <span>阅读</span>&nbsp<span>10000</span>&nbsp&nbsp
+    <span class="cus-like"></span><span>100</span>
+    </small>
+  </footer>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{{ static_url }}js/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+<script src="{{ static_url }}js/amazeui.min.js"></script>
+<script>
+    var audio;
+
+    $(document).ready(function(){
+
+        $(".cus-audio-bar").click(function(){
+            var load = $(this).children().get(2);
+            if(audio==undefined){
+                audio = new Audio();
+                audio.src = $(this).attr("src");
+                audio.id = $(this).attr("id");
+                $(load).show();
+                audio.play();
+            }else if($(this).attr("id")==audio.id){
+                audio.pause();
+                audio = undefined;
+            }else{
+                audio.pause();
+                audio = new Audio();
+                audio.src = $(this).attr("src");
+                audio.id = $(this).attr("id");
+                $(load).show();
+                audio.play();
+            }
+
+            if(audio!=undefined){
+                var ani = $(this).children().get(0);
+
+                $(audio).on("pause ended", function(){
+                    $(ani).hide();
+                });
+                $(audio).on("play", function(){
+                    $(load).hide();
+                    $(ani).show();
+                });
+            }
+
+        });
+    });
+
+</script>
+
+
+</body>
+</html>
