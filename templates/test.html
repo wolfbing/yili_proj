@@ -100,15 +100,17 @@
 
       <p>看到这里，你是不是想喊“这个软件去死吧”？不要慌，因为已经死了。</p>
     </article>
-    
-  </div>
+
   <footer class="am-footer am-footer-default" data-am-widget="footer">
     <img src="{{ static_url }}images/focus.png" class="am-center am-img-thumbnail">
+      <hr />
     <small>
-    <span>阅读</span>&nbsp<span>10000</span>&nbsp&nbsp
-    <span class="cus-like"></span><span>100</span>
+    <span>阅读</span>&nbsp<span id="read-num">10000</span>&nbsp&nbsp
+    <span id="like-btn" class="cus-like"></span><span id="like-num">100</span>
     </small>
   </footer>
+    
+  </div>
 
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="{{ static_url }}js/jquery.min.js"></script>
@@ -119,9 +121,11 @@
 <script src="{{ static_url }}js/amazeui.min.js"></script>
 <script>
     var audio;
+    var article_id = 0 //{{ article_id }};
+    var like = false;
 
     $(document).ready(function(){
-
+        // 控制 audio bar 的播放
         $(".cus-audio-bar").click(function(){
             var load = $(this).children().get(2);
             if(audio==undefined){
@@ -155,9 +159,26 @@
             }
 
         });
+
+        // 点赞
+        $("#like-btn").click(function(){
+            var like_num = parseInt($("#like-num").text());
+            if(like){
+                like = false;
+                $("#like-num").text((like_num-1).toString());
+                $("#like-btn").removeClass("cus-like-clicked").addClass("cus-like");
+            }else{
+                like = true;
+                $("#like-num").text((like_num+1).toString());
+                $("#like-btn").removeClass("cus-like").addClass("cus-like-clicked");
+            }
+        });
+
     });
 
+
 </script>
+
 
 
 </body>
