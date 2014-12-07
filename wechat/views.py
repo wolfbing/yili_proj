@@ -96,7 +96,12 @@ ADMIN_EMAIL = "weixin_youxie01@126.com"
 
 
 def test(request):
-    return render_to_response("test.html")
+    res_data = {
+        "static_url": STATIC_BASE_URL,
+        "vedio_url": "http://121.199.32.77/media/wechat/staticmedia/2014/12/movie.ogg",
+        "audio_url": "http://121.199.32.77/media/wechat/staticmedia/2014/12/song.mp3"
+    }
+    return render_to_response("test.html",res_data)
 
 
 # wechat 请求入口

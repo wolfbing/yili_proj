@@ -1,0 +1,167 @@
+/* Write your styles */
+
+.cus-container {
+	box-shadow: 0px 0px 10px #888888;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.cus-audio-bar {
+	background: url("../images/sprite_v5.png") no-repeat scroll 0 0;
+	background-size: 400px 175px;
+	width: 185px;
+	height: 42px;
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	z-index: 0;
+}
+
+.cus-audio-bar-right {
+	background-position: -187px 0;
+	margin-right: 10px;
+}
+
+.cus-audio-bar-left {
+	background-position: 0 0;
+	margin-left: 10px;
+}
+
+
+.cus-avatar {
+	width: 40px;
+	height: 40px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.cus-full-line {
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.cus-audio-play-animation-static-right {
+	background: url("../images/sprite_v5.png") no-repeat scroll 0 0;
+	background-size: 400px 175px;
+	background-position: -180px -83px;
+	width: 13px;
+	height: 17px;
+	z-index: 1;
+	display: inline-block;
+	position: absolute;
+	right: 21px;
+	left: auto;
+	top: 12px;
+}
+
+.cus-audio-play-animation-right {
+	width: 13px;
+	height: 17px;
+	display: none;
+	position: absolute;
+	right: 21px;
+	left: auto;
+	top: 12px;
+	z-index: 2;
+}
+
+.cus-audio-loading-right {
+	display: none;
+	left: 20px;
+	right: auto;
+	top: 12px;
+	position: absolute;
+	z-index: 2;
+}
+
+.cus-audio-play-animation-static-left {
+	background: url("../images/sprite_v5.png") no-repeat scroll 0 0;
+	background-size: 400px 175px;
+	background-position: -180px -105px;
+	width: 13px;
+	height: 17px;
+	z-index: 1;
+	display: inline-block;
+	position: absolute;
+	left: 21px;
+	right: auto;
+	top: 12px;
+}
+
+.cus-audio-play-animation-left {
+	display: none;
+	position: absolute;
+	left: 21px;
+	right: auto;
+	top: 12px;
+	z-index: 2;
+	width: 13px;
+	height: 17px;
+}
+
+.cus-audio-loading-left {
+	display: none;
+	position: absolute;
+	right: 20px;
+	left: auto;
+	top: 12px;
+	z-index: 2;
+}
+
+.cus-text-bulge {
+	background: url("../images/sprite_v5.png") no-repeat scroll 0 0;
+	background-size: 400px 175px;
+	width: 10px;
+	height: 42px;
+	display: inline-block;
+	z-index: 1;
+}
+
+.cus-text-bulge-left {
+	margin-left: 10px;
+	margin-right: -1px;
+}
+
+.cus-text {
+	border-radius: 5px;
+	width: 60%;
+	box-shadow: 0 0 1px  #888888;
+	font-size: small;
+	padding: 10px;
+}
+
+.cus-text-left {
+	background: #f8f8f8;
+}
+
+.cus-text-bulge-right {
+	background-position: -363px 0px;
+	margin-right: 10px;
+	margin-left: -1px;
+}
+
+.cus-text-right {
+	background: #7DF04B;
+}
+
+.cus-like {
+	background: url("../images/like.png") no-repeat scroll 0 0;
+	width: 24px;
+	height: 16px;
+	display: inline-block;
+}
+
+.cus-like-clicked {
+	background: url("../images/like.png") no-repeat scroll -24px 0;
+	width: 24px;
+	height: 16px;
+	display: inline-block;
+
+}
+
+
+
+
+
