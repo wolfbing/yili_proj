@@ -323,16 +323,20 @@ class FanShow(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     fan = models.CharField(max_length=600, null=True, blank=True)
     intro = models.TextField(max_length=5000)
+    mobile = models.CharField(max_length=50, default="00000000000")
     files = models.CharField(max_length=100, null=True, blank=True)
 
     def __unicode__(self):
-        return self.intro[0:10]
+        return self.fan
 
 
 class FanShowMedia(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     media = models.FileField(upload_to="wechat/fanshowmedia/%Y%m/%d", max_length=500)
     belong = models.ForeignKey(FanShow, null=True)
+
+    def __unicode__(self):
+        return str(self.id)
 
 
 
