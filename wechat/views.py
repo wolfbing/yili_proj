@@ -355,6 +355,7 @@ def fan_show(request):
             return render_to_response("fan_show.html", res_data)
         else:
             introduction = request.POST['intro']
+            mobile_phone = request.POST['mobile']
             file_ids = []
             files = []
             tmp = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -365,7 +366,7 @@ def fan_show(request):
                 item.save()
                 file_ids.append(str(item.id))
                 files.append(item)
-            show = FanShow(intro=introduction, files=','.join(file_ids), fan=tmp)
+            show = FanShow(intro=introduction, files=','.join(file_ids), fan=mobile_phone, mobile=mobile_phone)
             show.save()
             for i in files:
                 i.belong = show

@@ -26,9 +26,19 @@
                     });
 
                     $('#submit_btn').click(function(){
+
+                        if(/^\d{11}$/.exec($("#mobile").val()) == null){
+                            $("#mobile_err").text("请输入正确格式的手机号码");
+                            return ;
+                        }else{
+                            $("#mobile_err").text("");
+                        }
+
                         if($('#intro').val().length < min_intro_num){
                             $('#intro_err').text("至少输入30个字");
                             return ;
+                        }else{
+                            $('#intro_err').text("");
                         }
 
                         var files = $('.files');
@@ -75,6 +85,8 @@
     <div data-role="content">
         <p style="color: orangered">安卓用户请点击右上角，在弹出菜单中选择“在浏览器中打开”</p>
         <form id="form" method="post" action="{{ action_url }}" data-ajax="false" enctype="multipart/form-data">
+            <p id="mobile_err" style="color:red;"></p>
+            <input name="mobile" id="mobile" type="text" placeholder="手机号码(必填)">
             <p id="intro_err" style="color:red;"></p>
             <textarea name="intro" id="intro" placeholder="介绍一下自己吧～(至少三十个字哦)"></textarea>
             <p style="color: orangered">安卓用户可能会上传文件失败，请点击右上角，在弹出菜单中选择“在浏览器中打开”</p>
