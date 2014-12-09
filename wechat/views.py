@@ -240,6 +240,7 @@ def play_audio(request):
 def attend_kulala(request):
     if request.method == "GET":
         res_data = {
+            "static_url": STATIC_BASE_URL,
             'action_url': reverse(attend_kulala)
         }
         return render_to_response('signup_kuolala.html', res_data)
@@ -309,6 +310,7 @@ def attend_kulala(request):
 def recommend_food(request):
     if request.method == 'GET':
         res_data = {
+            'static_url': STATIC_BASE_URL,
             'action_url': reverse(recommend_food)
         }
         return render_to_response('recommend_food.html', res_data)
@@ -384,6 +386,68 @@ def fan_show(request):
             'result': u"提交失败 - -! ,重新试试吧~, 或者向我们反馈一下吧~"
         }
         return render_to_response('post_result.html', res_data)
+
+
+def view_kll_post(request):
+    res_data = {
+        "static_url": STATIC_BASE_URL
+    }
+    objs = FansKLL.objects.all().order_by("-date")
+    klls = []
+    for obj in objs:
+        kll = {
+            "detail_url": reverse(view_kll_detail, kwargs={"id":obj.id}),
+            "name": obj.fan,
+            "intro": obj.intro[0:10] + u"...",
+            "date": obj.date.strftime("%Y-%m-%d %H:%M")
+        }
+        klls.append(kll)
+    res_data["klls"] = klls
+    return render_to_response("kll_list.html", res_data)
+
+
+def view_kll_detail(request, id):
+    kll = FansKLL.objects.get(id=id)
+    res_data = {
+        "static_url": STATIC_BASE_URL,
+        "age": kll.age,
+        "place": kll.place,
+        "hometown": kll.hometown,
+        "weight": kll.weight,
+        "height": kll.height,
+        "occupation": kll.occupation,
+        "personality": kll.personality,
+        "hobby": kll.hobby,
+        "weixin": kll.weixin,
+        "qq": kll.qq,
+        "mobile": kll.mobile,
+        "intro": kll.intro,
+        "open_mobile": (kll.open_mobile and u"是") or u"否",
+        "title": kll.fan,
+        "date": kll.date.strftime("%Y-%m-%d %H:%M")
+    }
+    f_ids = kll.files.split(u",")
+    files = []
+    for id in f_ids:
+        file = FansKLLMedia.objects.get(id=int(id))
+        files.append(file)
+    imgs = []
+    other_medias = []
+    for f in files:
+        s = f.media.url
+        suffix = [u".png", u".jpg", u".gif", u".bmp", u".jpeg"]
+        is_img = False
+        for su in suffix:
+            if s.endswith(su) or s.endswith(su.upper()):
+                is_img = True
+                imgs.append(s)
+                break
+        if not is_img:
+            other_medias.append(s)
+    res_data["imgs"] = imgs
+    res_data['files'] = other_medias
+    return render_to_response("kll_detail.html", res_data)
+
 
 
 # 接入微信服务器
