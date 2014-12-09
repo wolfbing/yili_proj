@@ -23,6 +23,8 @@ urlpatterns = patterns('',
     url(r'^wechat/attendkll/$', wechat_view.attend_kulala),
     url(r'^wechat/recommendfood/$', wechat_view.recommend_food),
     url(r'^wechat/fanshow/$', wechat_view.fan_show),
+    url(r"^wechat/klllist/$", wechat_view.view_kll_post),
+    url(r"^wechat/klldetail/(?P<id>\d+)/$", wechat_view.view_kll_detail),
 
 )
 

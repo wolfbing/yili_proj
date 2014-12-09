@@ -1,0 +1,158 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>括拉拉档案详情</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <link rel="icon" type="image/png" href="{{ static_url }}images/favicon.png">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="{{ static_url }}images/app-icon72x72@2x.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="{{ static_url }}images/app-icon72x72@2x.png">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="{{ static_url }}images/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+
+  <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+  <!--
+  <link rel="canonical" href="http://www.example.com/">
+  -->
+
+  <link rel="stylesheet" href="{{ static_url }}css/amazeui.min.css">
+  <link rel="stylesheet" href="{{ static_url }}css/kll_list_css.css">
+</head>
+<body>
+<div class="am-container">
+    <article id="content" class="am-article">
+        <div class="am-article-hd">
+            <h1 id="title" class="am-article-title">{{ title }}</h1>
+            <p class="am-article-meta">{{ date }}</p>
+        </div>
+        <div class="am-article-bd">
+            <ul class="am-list am-list-static am-list-border">
+                <li>年龄：{{ age }}</li>
+                <li>体重：{{ weight }}</li>
+                <li>身高：{{ height }}</li>
+                <li>常驻地：{{ place }}</li>
+                <li>籍贯：{{ hometown }}</li>
+                <li>职业：{{ occupation }}</li>
+                <li>性格：{{ personality }}</li>
+                <li>爱好：{{ hobby }}</li>
+                <li>微信：{{ weixin }}</li>
+                <li>QQ：{{ qq }}</li>
+                <li>手机：{{ mobile }}</li>
+                <li>是否公开手机：{{ open_mobile }}</li>
+                <li>简介：{{ intro }}</li>
+            </ul>
+            <ul class="am-list">
+                {% for img in imgs %}
+                    <img src="{{ img }}"></li>
+                {% endfor %}
+            </ul>
+            <span>其他附件：</span>
+            <ul class="am-list am-list-border">
+                {% for f in files %}
+                <li><a href="{{ f }}">{{ f }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </article>
+    <br>
+    <span>导出word文件</span>
+    <hr data-am-widget="divider" class="am-divider am-divider-default" />
+    <form class="am-form am-form-horizontal">
+        <div class="am-form-group">
+            <label for="filepath" class="am-form-label am-u-lg-2">文件路径</label>
+            <div class="am-u-lg-10">
+                <input id="filepath" name="filepath" type="text" class="am-form-field">
+            </div>
+
+        </div>
+        <div class="am-form-group">
+            <label for="filename" class="am-form-label am-u-lg-2">文件名</label>
+            <div class="am-u-lg-10">
+                <input id="filename" name="filename" type="text" class="am-form-field">
+            </div>
+        </div>
+
+        <button class="am-btn am-btn-primary" onclick="exportWord()">导出为word文档</button>
+    </form>
+
+</div>
+
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{{ static_url }}js/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+<script src="{{ static_url }}js/amazeui.min.js"></script>
+<script>
+
+    function exportWord() {
+        var filename = $("#filename").val();
+        var filePath = $("#filepath").val();
+        filePath = filePath.replace("/", "\\");
+        if(filePath[filePath.length-1]!="\\"){
+            filePath += "\\";
+        }
+        if(filePath != null) {
+          try {
+            var word = new ActiveXObject("Word.Application");
+            var doc = word.Documents.Add("", 0, 1);
+            var range = doc.Range(0, 1);
+            var sel = document.body.createTextRange();
+            try {
+              sel.moveToElementText(content);
+            } catch (notE) {
+              alert("导出数据失败，没有数据可以导出。");
+              window.close();
+              return;
+            }
+            sel.select();
+            sel.execCommand("Copy");
+            range.Paste();
+            //word.Application.Visible = true;// 控制word窗口是否显示
+            doc.saveAs(filePath + filename);// 保存
+            alert("导出成功");
+          } catch (e) {
+            alert("导出数据失败，需要在客户机器安装Microsoft Office Word(不限版本)，将当前站点加入信任站点，允许在IE中运行ActiveX控件。");
+          } finally {
+            try {word.quit();// 关闭word窗口
+            }
+            catch (ex) {}
+          }
+        }
+      }
+
+</script>
+<script>
+    $(document).ready(function(){
+        $("#filename").val($("#title").text()+".doc");
+        $("#filepath").val("C:\\\\");
+    });
+</script>
+
+
+</body>
+</html>
