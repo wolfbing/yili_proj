@@ -21,7 +21,7 @@ import json
 
 from models import BoysAndGirls, FineFood, Voice, \
     FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia, \
-    FanShow, FanShowMedia
+    FanShow, FanShowMedia, AtypicalVisitor
 
 # Create your views here.
 
@@ -110,13 +110,19 @@ def main(request):
         req_data = parse_msg(request.body)
         if req_data[MSG_TYPE] == TEXT_MSG:
             content = req_data[Content].strip()
+            now = datetime.now() + timedelta(hours=8)
             if is_kll(content):
                 return save_kll_intro(req_data)
             elif is_mstj(content):
                 return save_recommend_food_intro(req_data)
             elif ANSWER.get(content)!=None:
                 return text_msg(req_data, ANSWER.get(content))
-            return text_msg(req_data, ANSWER.get("help"))
+            elif AtypicalVisitor.objects.exist(req_data[FromUserName], now):
+                return HttpResponse("")
+            else:
+                obj = AtypicalVisitor(open_id=req_data[FromUserName], year=now.year, month=now.month, day=now.day)
+                obj.save()
+                return text_msg(req_data, ANSWER.get("help"))
         elif req_data[MSG_TYPE] == IMAGE_MSG:
             return text_msg(req_data, u'图片发送成功！.')
         elif req_data[MSG_TYPE] == VOICE_MSG:
@@ -167,7 +173,13 @@ def main(request):
             else:
                 return text_msg(req_data, HELP_MSG)
         else:
-            return text_msg(req_data, HELP_MSG)
+            now = datetime.now() + timedelta(hours=8)
+            if AtypicalVisitor.objects.exist(req_data[FromUserName], now):
+                return HttpResponse("")
+            else:
+                obj = AtypicalVisitor(open_id=req_data[FromUserName], year=now.year, month=now.month, day=now.day)
+                obj.save()
+                return text_msg(req_data, HELP_MSG)
     except Exception, e:
         logger.debug(e)
         print e
