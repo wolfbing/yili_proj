@@ -339,6 +339,26 @@ class FanShowMedia(models.Model):
         return str(self.id)
 
 
+class AtypicalVisitorManager(models.Manager):
+    def exist(self, openid, d):
+        try:
+            obj = self.get(open_id=openid, year=d.year, month=d.month, day=d.day)
+            return True
+        except:
+            return False
+
+
+class AtypicalVisitor(models.Model):
+    open_id = models.CharField(max_length=1000)
+    year = models.IntegerField(max_length=4)
+    month = models.IntegerField(max_length=2)
+    day = models.IntegerField(max_length=2)
+
+    objects = AtypicalVisitorManager()
+
+    def __unicode__(self):
+        return self.open_id
+
 
 
 
