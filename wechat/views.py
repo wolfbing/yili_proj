@@ -352,6 +352,7 @@ def fan_show(request):
     try:
         if request.method == "GET":
             res_data = {
+                "static_url": STATIC_BASE_URL,
                 "action_url": reverse(fan_show)
             }
             return render_to_response("fan_show.html", res_data)
