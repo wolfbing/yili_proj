@@ -41,26 +41,28 @@
 </head>
 <body>
 <div class="am-container">
-    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
-  <!--列表标题-->
-  <div class="am-list-news-hd am-cf">
-    <!--带更多链接-->
-    <a href="##">
-      <h2>括拉拉档案报名</h2>
-      <span class="am-list-news-more am-fr"></span>
-    </a>
-  </div>
-  <div class="am-list-news-bd">
-    <ul class="am-list">
-        {% for kll in klls %}
-            <li class="am-g am-list-item-dated">
-                <a href="{{ kll.detail_url }}" class="am-list-item-hd">{{ kll.name }}&nbsp;&nbsp;{{ kll.intro }}</a>
-                <span class="am-list-date">{{ kll.date }}</span>
-              </li>
-        {% endfor %}
-    </ul>
-  </div>
-</div>
+    <article id="content" class="am-article">
+        <div class="am-article-hd">
+            <h1 id="title" class="am-article-title">{{ title }}</h1>
+            <p class="am-article-meta">{{ date }}</p>
+        </div>
+        <div class="am-article-bd">
+            <p>简介：{{ intro }}</p>
+            <ul class="am-list">
+                {% for img in imgs %}
+                    <img src="{{ img }}"></li>
+                {% endfor %}
+            </ul>
+            <span>其他附件：</span>
+            <ul class="am-list am-list-border">
+                {% for f in files %}
+                <li><a href="{{ f }}">{{ f }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </article>
+    <br>
 
 </div>
 

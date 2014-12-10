@@ -77,25 +77,6 @@
 
     </article>
     <br>
-    <span>导出word文件</span>
-    <hr data-am-widget="divider" class="am-divider am-divider-default" />
-    <form class="am-form am-form-horizontal">
-        <div class="am-form-group">
-            <label for="filepath" class="am-form-label am-u-lg-2">文件路径</label>
-            <div class="am-u-lg-10">
-                <input id="filepath" name="filepath" type="text" class="am-form-field">
-            </div>
-
-        </div>
-        <div class="am-form-group">
-            <label for="filename" class="am-form-label am-u-lg-2">文件名</label>
-            <div class="am-u-lg-10">
-                <input id="filename" name="filename" type="text" class="am-form-field">
-            </div>
-        </div>
-
-        <button class="am-btn am-btn-primary" onclick="exportWord()">导出为word文档</button>
-    </form>
 
 </div>
 
@@ -107,51 +88,6 @@
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <![endif]-->
 <script src="{{ static_url }}js/amazeui.min.js"></script>
-<script>
-
-    function exportWord() {
-        var filename = $("#filename").val();
-        var filePath = $("#filepath").val();
-        filePath = filePath.replace("/", "\\");
-        if(filePath[filePath.length-1]!="\\"){
-            filePath += "\\";
-        }
-        if(filePath != null) {
-          try {
-            var word = new ActiveXObject("Word.Application");
-            var doc = word.Documents.Add("", 0, 1);
-            var range = doc.Range(0, 1);
-            var sel = document.body.createTextRange();
-            try {
-              sel.moveToElementText(content);
-            } catch (notE) {
-              alert("导出数据失败，没有数据可以导出。");
-              window.close();
-              return;
-            }
-            sel.select();
-            sel.execCommand("Copy");
-            range.Paste();
-            //word.Application.Visible = true;// 控制word窗口是否显示
-            doc.saveAs(filePath + filename);// 保存
-            alert("导出成功");
-          } catch (e) {
-            alert("导出数据失败，需要在客户机器安装Microsoft Office Word(不限版本)，将当前站点加入信任站点，允许在IE中运行ActiveX控件。");
-          } finally {
-            try {word.quit();// 关闭word窗口
-            }
-            catch (ex) {}
-          }
-        }
-      }
-
-</script>
-<script>
-    $(document).ready(function(){
-        $("#filename").val($("#title").text()+".doc");
-        $("#filepath").val("C:\\\\");
-    });
-</script>
 
 
 </body>

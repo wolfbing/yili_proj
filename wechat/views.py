@@ -399,7 +399,7 @@ def view_kll_post(request):
         kll = {
             "detail_url": reverse(view_kll_detail, kwargs={"id":obj.id}),
             "name": obj.fan,
-            "intro": obj.intro[0:10] + u"...",
+            "intro": obj.intro[0:30] + u"...",
             "date": obj.date.strftime("%Y-%m-%d %H:%M")
         }
         klls.append(kll)
@@ -449,6 +449,58 @@ def view_kll_detail(request, id):
     res_data['files'] = other_medias
     return render_to_response("kll_detail.html", res_data)
 
+
+def view_bfx_post(request):
+    res_data = {
+        "static_url": STATIC_BASE_URL
+    }
+    objs = FanShow.objects.all().order_by("-date")
+    fans = []
+    for obj in objs:
+        fan = {
+            "name": obj.fan,
+            "intro": obj.intro[0:30]+u"...",
+            "date": obj.date.strftime("%Y-%m-%d %H:%M"),
+            "detail_url": reverse(view_bfx_detail, kwargs={"id": obj.id})
+        }
+        fans.append(fan)
+    res_data["fans"] = fans
+    return render_to_response("fanshow_list.html", res_data)
+
+
+def view_bfx_detail(request, id):
+    res_data = {
+        "static_url": STATIC_BASE_URL
+    }
+    obj = FanShow.objects.get(id=id)
+    fan = {
+        "title": obj.fan,
+        "date": obj.date.strftime("%Y-%m-%d %H:%M"),
+        "intro": obj.intro
+    }
+    res_data.update(fan)
+    f_ids = obj.files.split(u",")
+    files = []
+    for id in f_ids:
+        file = FanShowMedia.objects.get(id=int(id))
+        files.append(file)
+    imgs = []
+    other_medias = []
+    for f in files:
+        s = f.media.url
+        suffix = [u".png", u".jpg", u".gif", u".bmp", u".jpeg"]
+        is_img = False
+        for su in suffix:
+            if s.endswith(su) or s.endswith(su.upper()):
+                is_img = True
+                imgs.append(s)
+                break
+        if not is_img:
+            other_medias.append(s)
+    res_data["imgs"] = imgs
+    res_data['files'] = other_medias
+
+    return render_to_response("fanshow_detail.html", res_data)
 
 
 # 接入微信服务器
