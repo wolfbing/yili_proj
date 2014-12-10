@@ -25,6 +25,8 @@ urlpatterns = patterns('',
     url(r'^wechat/fanshow/$', wechat_view.fan_show),
     url(r"^wechat/klllist/$", wechat_view.view_kll_post),
     url(r"^wechat/klldetail/(?P<id>\d+)/$", wechat_view.view_kll_detail),
+    url(r"^wechat/fanshowlist/$", wechat_view.view_bfx_post),
+    url(r"^wechat/fanshowdetail/(?P<id>\d+)/$",wechat_view.view_bfx_detail),
 
 )
 

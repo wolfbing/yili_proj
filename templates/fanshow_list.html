@@ -7,7 +7,7 @@
   <meta name="keywords" content="">
   <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>查看括拉拉档案</title>
+  <title>查看摆饭秀</title>
 
   <!-- Set render engine for 360 browser -->
   <meta name="renderer" content="webkit">
@@ -46,16 +46,16 @@
   <div class="am-list-news-hd am-cf">
     <!--带更多链接-->
     <a href="##">
-      <h2>括拉拉档案报名</h2>
+      <h2>摆饭秀报名</h2>
       <span class="am-list-news-more am-fr"></span>
     </a>
   </div>
   <div class="am-list-news-bd">
     <ul class="am-list">
-        {% for kll in klls %}
+        {% for fan in fans %}
             <li class="am-g am-list-item-dated">
-                <a href="{{ kll.detail_url }}" class="am-list-item-hd">{{ kll.name }}&nbsp;&nbsp;{{ kll.intro }}</a>
-                <span class="am-list-date">{{ kll.date }}</span>
+                <a href="{{ fan.detail_url }}" class="am-list-item-hd">{{ fan.name }}&nbsp;&nbsp;{{ fan.intro }}</a>
+                <span class="am-list-date">{{ fan.date }}</span>
               </li>
         {% endfor %}
     </ul>
