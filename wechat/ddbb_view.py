@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 import views
 import string
 import hashlib
-from wechat.models import BoysAndGirls
+from wechat.models import BoysAndGirls, Voice
 from django.core.urlresolvers import reverse
 
 ## const variant
@@ -35,6 +35,7 @@ EVENT_MSG = "event"
 
 # const variaty
 BOYS_AND_GIRLS_NUM = 5
+FANSHOW_NUM = 5
 
 # answer text
 welcome_text = u"Hello~亲爱的早饭，感谢您关注滴滴叭叭早上好，这里每天都会为大家发布各种有趣资讯，" \
@@ -56,6 +57,9 @@ def main(request):
                 return views.news_msg(req_data, articles)
             elif req_data[EVENT_KEY] == MRS:
                 articles = get_nvs()
+                return views.news_msg(req_data, articles)
+            elif req_data[EVENT_KEY] == FANSHOW:
+                articles = get_bfx()
                 return views.news_msg(req_data, articles)
             else:
                 return HttpResponse("error")
@@ -122,8 +126,35 @@ def get_nvs():
         "title": u"关注线下平台‘有些’，查看更多独身菇凉",
         "description": u"关注线下平台‘有些’，查看更多独身菇凉",
         "pic_url": views.STATIC_BASE_URL + "images/logo.png",
-        "url": views.HOST_NAME + reverse("wechat.views.all_nvs")
+        "url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201658145&idx=1&"
+               u"sn=694355939e215435794798bb6dfd755a#rd"
     }
     nvsl.append(more)
     return nvsl
+
+
+# 摆饭秀
+def get_bfx():
+    objs = Voice.objects.bfx(FANSHOW_NUM)
+    bfl = []
+    for obj in objs:
+        bf = {}
+        bf['title'] = obj.title
+        bf['description'] = obj.intro
+        bf['pic_url'] = views.HOST_NAME + obj.pic.url
+        if obj.url==u'':
+            bf['url'] = views.HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
+        else:
+            bf['url'] = obj.url
+        bfl.append(bf)
+    more = {
+        "title": u"点击查看更多摆饭秀！！",
+        "description": u"点击查看更多摆饭秀！！",
+        "pic_url": views.STATIC_BASE_URL + "images/logo.png",
+        "url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201658145&idx=1&"
+               u"sn=694355939e215435794798bb6dfd755a#rd"
+    }
+    bfl.append(more)
+    return bfl
+
 
