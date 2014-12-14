@@ -9,6 +9,8 @@ from django.shortcuts import render_to_response
 import views
 import string
 import hashlib
+from wechat.models import BoysAndGirls
+from django.core.urlresolvers import reverse
 
 ## const variant
 # menu key
@@ -19,20 +21,49 @@ FANSHOW = "FANSHOW"
 # request xml中的key
 MSG_TYPE = "MsgType"
 
+EVENT = "Event"
+EVENT_KEY = "EventKey"
+
+# event type
+CLICK_EVENT = "CLICK"
+SUBSCRIBE_EVENT = "subscribe"
+
+
 # msg type
 TEXT_MSG = "text"
+EVENT_MSG = "event"
+
+# const variaty
+BOYS_AND_GIRLS_NUM = 5
 
 # answer text
 welcome_text = u"Hello~亲爱的早饭，感谢您关注滴滴叭叭早上好，这里每天都会为大家发布各种有趣资讯，" \
+               u"快来和我们一起互动吧！么么哒~~/呲牙"
+common_res_text = u"Hello~亲爱的早饭，感谢您关注滴滴叭叭早上好，这里每天都会为大家发布各种有趣资讯，" \
                u"快来和我们一起互动吧！么么哒~~/呲牙"
 
 
 def main(request):
     req_data = views.parse_msg(request.body)
     if req_data[MSG_TYPE] == TEXT_MSG:
-        return views.text_msg(req_data, welcome_text)
+        return views.text_msg(req_data, common_res_text)
+    elif req_data[MSG_TYPE] == EVENT_MSG:
+        if req_data[EVENT] == SUBSCRIBE_EVENT:
+            return views.text_msg(req_data, welcome_text)
+        elif req_data[EVENT] == CLICK_EVENT:
+            if req_data[EVENT_KEY] == MR:
+                articles = get_ns()
+                return views.news_msg(req_data, articles)
+            elif req_data[EVENT_KEY] == MRS:
+                articles = views.get_nvs()
+                return views.news_msg(req_data, articles)
+            else:
+                return HttpResponse("error")
+        else:
+            return HttpResponse('error')
+
     else:
-        return HttpResponse("")
+        return HttpResponse("error")
 
 
 # 接入微信服务器
@@ -53,5 +84,46 @@ def connect_to_wechat_server(request):
         return HttpResponse('')
 
 
+#### get data
+# 男神
+def get_ns():
+    objs = BoysAndGirls.objects.ns(BOYS_AND_GIRLS_NUM)
+    nsl = []
+    for obj in objs:
+        ns = {}
+        ns['title'] = obj.title
+        ns['description'] = obj.intro
+        ns['pic_url'] = views.HOST_NAME + obj.photo.url
+        ns['url'] = obj.url
+        nsl.append(ns)
+    more = {
+        "title": u"关注线下平台‘有些’，查看更多孤单先森！！",
+        "description": u"关注线下平台‘有些’，查看更多孤单先森！",
+        "pic_url": views.STATIC_BASE_URL + "images/logo.png",
+        "url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201658145&idx=1&"
+               u"sn=694355939e215435794798bb6dfd755a#rd"
+    }
+    nsl.append(more)
+    return nsl
 
+
+# 男神
+def get_nvs():
+    objs = BoysAndGirls.objects.nvs(BOYS_AND_GIRLS_NUM)
+    nvsl = []
+    for obj in objs:
+        nvs = {}
+        nvs['title'] = obj.title
+        nvs['description'] = obj.intro
+        nvs['pic_url'] = views.HOST_NAME + obj.photo.url
+        nvs['url'] = obj.url
+        nvsl.append(nvs)
+    more = {
+        "title": u"关注线下平台‘有些’，查看更多独身菇凉",
+        "description": u"关注线下平台‘有些’，查看更多独身菇凉",
+        "pic_url": views.STATIC_BASE_URL + "images/logo.png",
+        "url": views.HOST_NAME + reverse("wechat.views.all_nvs")
+    }
+    nvsl.append(more)
+    return nvsl
 
