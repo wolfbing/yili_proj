@@ -1,7 +1,11 @@
+
+# -*- coding: utf-8 -*-
+
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from wechat import views as wechat_view
 import settings
+from wechat import ddbb_view
 
 urlpatterns = patterns('',
     # Examples:
@@ -28,6 +32,11 @@ urlpatterns = patterns('',
     url(r"^wechat/fanshowlist/$", wechat_view.view_bfx_post),
     url(r"^wechat/fanshowdetail/(?P<id>\d+)/$",wechat_view.view_bfx_detail),
 
+)
+
+# 滴滴叭叭URL
+urlpatterns += patterns("",
+    url(r"^wechat/ddbb/$", ddbb_view.main),
 )
 
 if settings.DEBUG:
