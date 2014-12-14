@@ -55,7 +55,7 @@ def main(request):
                 articles = get_ns()
                 return views.news_msg(req_data, articles)
             elif req_data[EVENT_KEY] == MRS:
-                articles = views.get_nvs()
+                articles = get_nvs()
                 return views.news_msg(req_data, articles)
             else:
                 return HttpResponse("error")
