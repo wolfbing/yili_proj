@@ -101,8 +101,8 @@ def get_ns():
         ns['url'] = obj.url
         nsl.append(ns)
     more = {
-        "title": u"关注线下平台‘有些’，查看更多孤单先森！！",
-        "description": u"关注线下平台‘有些’，查看更多孤单先森！",
+        "title": u"关注线下平台‘有些’，发现更多孤单先森！！",
+        "description": u"关注线下平台‘有些’，发现更多孤单先森！",
         "pic_url": views.STATIC_BASE_URL + "images/logo.png",
         "url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201658145&idx=1&"
                u"sn=694355939e215435794798bb6dfd755a#rd"
@@ -123,8 +123,8 @@ def get_nvs():
         nvs['url'] = obj.url
         nvsl.append(nvs)
     more = {
-        "title": u"关注线下平台‘有些’，查看更多独身菇凉",
-        "description": u"关注线下平台‘有些’，查看更多独身菇凉",
+        "title": u"关注线下平台‘有些’，了解更多独身菇凉",
+        "description": u"关注线下平台‘有些’，了解更多独身菇凉",
         "pic_url": views.STATIC_BASE_URL + "images/logo.png",
         "url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201658145&idx=1&"
                u"sn=694355939e215435794798bb6dfd755a#rd"
@@ -148,8 +148,8 @@ def get_bfx():
             bf['url'] = obj.url
         bfl.append(bf)
     more = {
-        "title": u"点击查看更多摆饭秀！！",
-        "description": u"点击查看更多摆饭秀！！",
+        "title": u"关注线下平台‘有些’，欣赏更多精彩的摆饭秀！！",
+        "description": u"关注线下平台‘有些’，欣赏更多精彩的摆饭秀！！",
         "pic_url": views.STATIC_BASE_URL + "images/logo.png",
         "url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201658145&idx=1&"
                u"sn=694355939e215435794798bb6dfd755a#rd"
