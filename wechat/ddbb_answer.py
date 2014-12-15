@@ -13,7 +13,7 @@ news_taiguo = {
 }
 
 news_answer = {
-    u"泰国": news_taiguo
+    u"泰国": [news_taiguo]
 }
 
 
