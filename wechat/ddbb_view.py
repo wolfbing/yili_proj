@@ -11,6 +11,7 @@ import string
 import hashlib
 from wechat.models import BoysAndGirls, Voice
 from django.core.urlresolvers import reverse
+import ddbb_answer
 
 ## const variant
 # menu key
@@ -23,6 +24,7 @@ MSG_TYPE = "MsgType"
 
 EVENT = "Event"
 EVENT_KEY = "EventKey"
+CONTENT = "Content"
 
 # event type
 CLICK_EVENT = "CLICK"
@@ -47,7 +49,10 @@ common_res_text = u"Hello~亲爱的早饭，感谢您关注滴滴叭叭早上好
 def main(request):
     req_data = views.parse_msg(request.body)
     if req_data[MSG_TYPE] == TEXT_MSG:
-        return views.text_msg(req_data, common_res_text)
+        if ddbb_answer.news_answer.get(req_data[CONTENT].strip()) is not None:
+            return views.news_msg(req_data, ddbb_answer.news_answer.get(req_data[CONTENT]))
+        else:
+            return views.text_msg(req_data, common_res_text)
     elif req_data[MSG_TYPE] == EVENT_MSG:
         if req_data[EVENT] == SUBSCRIBE_EVENT:
             return views.text_msg(req_data, welcome_text)
