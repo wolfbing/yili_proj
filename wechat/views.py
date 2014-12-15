@@ -18,6 +18,7 @@ import urllib2, urllib
 import setting as wsetting
 from datetime import datetime, timedelta
 import json
+from ddbb_answer import news_answer as db_news_answer
 
 from models import BoysAndGirls, FineFood, Voice, \
     FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia, \
@@ -117,6 +118,8 @@ def main(request):
                 return save_recommend_food_intro(req_data)
             elif ANSWER.get(content)!=None:
                 return text_msg(req_data, ANSWER.get(content))
+            elif db_news_answer.get(content) != None:
+                return news_msg(req_data, db_news_answer.get(content))
             elif AtypicalVisitor.objects.exist(req_data[FromUserName], now):
                 return HttpResponse("")
             else:
