@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="有些, aiyouxie">
+  <meta name="keywords" content="有些, aiyouxie">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{{ title }}</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <link rel="icon" type="image/png" href="{{ static_url }}images/logo-sm.png">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="{{ static_url }}images/logo-md.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="{{ static_url }}images/logo-sm.png">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="{{ static_url }}images/logo-sm.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+
+  <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+  <!--
+  <link rel="canonical" href="http://www.example.com/">
+  -->
+
+  <link rel="stylesheet" href="{{ static_url }}css/amazeui.min.css">
+  <link rel="stylesheet" href="{{ static_url }}css/mobile_index.css" >
+  <style>
+      html, body {
+          height: 100%;
+      }
+      .bg {
+          height: 100%;
+          width: 100%;
+          background-image: url("http://s.cn.bing.net/az/hprichbg/rb/QingdaoJiaozhou_ZH-CN10690497202_1366x768.jpg");
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 0;
+      }
+      .play {
+          background-image: url("{{ static_url }}images/play.png");
+          width: 40px;
+          height: 40px;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          top: -23px;
+          position: relative;
+      }
+      .pause {
+          background-image: url("{{ static_url }}images/pause.png");
+          width: 40px;
+          height: 40px;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          top: -20px;
+      }
+  </style>
+</head>
+<body>
+<div class="bg blur">
+</div>
+<div style="z-index: 1;position: relative;" class="am-container am-text-center ">
+    <br><br>
+    <h3 style="color: #ffffff">音频标题</h3>
+    <small style="color: #ffffff">作者</small>
+    <br><br>
+    <img class="am-square am-center" src="http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" width="140" height="140"/>
+    <div class="play am-center"></div>
+    <br><br>
+    <div class="am-progress am-progress-xs">
+        <div class="am-progress-bar" style="width: 80%"></div>
+    </div>
+    <span style="color: #ffffff">1:40 / 5:00</span>
+</div>
+
+<!-- 下面导入js -->
+
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{{ static_url }}js/jquery-2.1.1.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+<script src="{{ static_url }}js/amazeui.min.js"></script>
+</body>
+</html>

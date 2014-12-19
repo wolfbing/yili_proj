@@ -6,6 +6,7 @@ from django.contrib import admin
 from wechat import views as wechat_view
 import settings
 from wechat import ddbb_view
+from wechat import mobile_view
 
 urlpatterns = patterns('',
     # Examples:
@@ -32,6 +33,13 @@ urlpatterns = patterns('',
     url(r"^wechat/fanshowlist/$", wechat_view.view_bfx_post),
     url(r"^wechat/fanshowdetail/(?P<id>\d+)/$",wechat_view.view_bfx_detail),
 
+)
+
+# mobile web
+urlpatterns += patterns("",
+    url(r"^mobile/index/$", mobile_view.index),
+    url(r"^mobile/klllist/$", mobile_view.kll_list),
+    url(r"^mobile/playaudio/$", mobile_view.play_audio),
 )
 
 # 滴滴叭叭URL
