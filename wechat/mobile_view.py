@@ -33,16 +33,8 @@ def index(request):
         u"static_url": STATIC_BASE_URL,
         u"articles": index_article_list(),
         u"sliders": get_sliders(),
-        u"index_url": reverse(index),
-        u"nvs_url": reverse(kll_list, kwargs={"type":"nvs", "page":1}),
-        u"ns_url": reverse(kll_list, kwargs={"type":"ns", "page":1}),
-        u"jdhg_url": reverse(voice_list, kwargs={"type":"jdhg", "page":1}),
-        u"bsbs_url": reverse(voice_list, kwargs={"type":"bsbs", "page":1}),
-        u"kll_url": reverse("attendkll"),
-        u"mstj_url": reverse("recommendfood"),
-        u"show_url": reverse("fanshow"),
-        u"bfx_url": reverse(fanshow_list, kwargs={"page":1})
     }
+    res_data.update(base_res_data())
     return render_to_response("index.html", res_data)
 
 def kll_list(request, page, type):
@@ -52,6 +44,7 @@ def kll_list(request, page, type):
         u"objs": get_kll_list(type, page),
         u"sync_url": u"/mobile/ajaxklllist/"
     }
+    res_data.update(base_res_data())
     num = None
     if type.upper() == NS:
         res_data[u"column_name"] = u"有些男神"
@@ -83,6 +76,7 @@ def voice_list(request, type, page):
         u"objs": get_voice_list(type, page),
         u"sync_url": u"/mobile/ajaxvoicelist/"
     }
+    res_data.update(base_res_data())
     num = None
     if type.upper() == JDHG:
         res_data[u"column_name"] = u"经典回顾"
@@ -114,6 +108,7 @@ def fanshow_list(request, page):
         u"objs": get_bfx_list(page),
         u"sync_url": u"/mobile/ajaxbfxlist/"
     }
+    res_data.update(base_res_data())
     num = None
     res_data[u"column_name"] = u"摆饭秀"
     num = Voice.objects.bfx_num()
@@ -142,6 +137,7 @@ def play_audio(request, id):
         u"img_url": v.player_pic.url,
         u"static_url": STATIC_BASE_URL
     }
+    res_data.update(base_res_data())
     return render_to_response("audio_player.html", res_data)
 
 
@@ -263,3 +259,19 @@ def get_bfx_list(page):
             v["url"] = reverse(play_audio, kwargs={"id": obj.id})
         vs.append(v)
     return vs
+
+
+def base_res_data():
+    data = {
+        u"index_url": reverse(index),
+        u"nvs_url": reverse(kll_list, kwargs={"type":"nvs", "page":1}),
+        u"ns_url": reverse(kll_list, kwargs={"type":"ns", "page":1}),
+        u"jdhg_url": reverse(voice_list, kwargs={"type":"jdhg", "page":1}),
+        u"bsbs_url": reverse(voice_list, kwargs={"type":"bsbs", "page":1}),
+        u"kll_url": reverse("attendkll"),
+        u"mstj_url": reverse("recommendfood"),
+        u"show_url": reverse("fanshow"),
+        u"bfx_url": reverse(fanshow_list, kwargs={"page":1})
+    }
+    return data
+
