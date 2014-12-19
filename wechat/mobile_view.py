@@ -16,7 +16,7 @@ from views import STATIC_BASE_URL
 
 # setting
 MAX_SLIDER_NUM = 5
-LIST_NUM_PER_PAGE = 2
+LIST_NUM_PER_PAGE = 5
 
 # const variaty
 NS = u"NS"
@@ -35,7 +35,7 @@ def index(request):
         u"sliders": get_sliders(),
         u"index_url": reverse(index),
         u"nvs_url": reverse(kll_list, kwargs={"type":"nvs", "page":1}),
-        u"vs_url": reverse(kll_list, kwargs={"type":"ns", "page":1}),
+        u"ns_url": reverse(kll_list, kwargs={"type":"ns", "page":1}),
         u"jdhg_url": reverse(voice_list, kwargs={"type":"jdhg", "page":1}),
         u"bsbs_url": reverse(voice_list, kwargs={"type":"bsbs", "page":1}),
         u"kll_url": reverse("attendkll"),
