@@ -45,7 +45,7 @@
       .bg {
           height: 100%;
           width: 100%;
-          background-image: url("http://s.cn.bing.net/az/hprichbg/rb/QingdaoJiaozhou_ZH-CN10690497202_1366x768.jpg");
+          background-image: url("{{ img_url }}");
           position: absolute;
           top: 0;
           left: 0;
@@ -66,7 +66,8 @@
           height: 40px;
           background-repeat: no-repeat;
           background-size: 100% 100%;
-          top: -20px;
+          top: -23px;
+          position: relative;
       }
   </style>
 </head>
@@ -75,16 +76,16 @@
 </div>
 <div style="z-index: 1;position: relative;" class="am-container am-text-center ">
     <br><br>
-    <h3 style="color: #ffffff">音频标题</h3>
-    <small style="color: #ffffff">作者</small>
+    <h3 style="color: #ffffff">{{ title }}</h3>
+    <small style="color: #ffffff">{{ author }}</small>
     <br><br>
-    <img class="am-square am-center" src="http://amui.qiniudn.com/bw-2014-06-19.jpg?imageView/1/w/1000/h/1000/q/80" width="140" height="140"/>
-    <div class="play am-center"></div>
+    <img class="am-square am-center" src="{{ img_url }}" width="140" height="140"/>
+    <div class="play am-center" id="btn_play"></div>
     <br><br>
     <div class="am-progress am-progress-xs">
-        <div class="am-progress-bar" style="width: 80%"></div>
+        <div id="progress" class="am-progress-bar" style="width: 0%"></div>
     </div>
-    <span style="color: #ffffff">1:40 / 5:00</span>
+    <span id="currTime" style="color: #ffffff"></span><span style="color: #ffffff"> / </span><span id="totalTime" style="color: #ffffff"></span>
 </div>
 
 <!-- 下面导入js -->
@@ -97,5 +98,74 @@
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <![endif]-->
 <script src="{{ static_url }}js/amazeui.min.js"></script>
+
+<script>
+    var audio_url = "{{ audio_url }}";
+    var audio;
+    var totalTime;
+    $(document).ready(function(){
+        audio = new Audio();
+        audio.src = audio_url;
+
+        audio.addEventListener("loadedmetadata", function(){
+            var t = parseInt(audio.duration);
+            totalTime = t;
+            if (t>=3600){
+                h = parseInt(t/3600);
+                m = parseInt(t/60);
+                s = t%60;
+                $("#totalTime").text(h+":"+(m<10?"0"+m:m)+":"+(s<10?"0"+s:s));
+            }else{
+                m = parseInt(t/60);
+                s = t%60;
+                $("#totalTime").text((m<10?"0"+m:m)+":"+(s<10?"0"+s:s));
+            }
+            $("#currTime").text("00:00");
+
+        });
+
+        audio.addEventListener("ended", function(){
+            $("#btn_play").removeClass("pause");
+            $("#btn_play").addClass("play");
+        });
+
+        audio.addEventListener("timeupdate", function(){
+            var t = parseInt(audio.currentTime);
+            if (t>=3600){
+                h = parseInt(t/3600);
+                m = parseInt(t/60);
+                s = t%60;
+                $("#currTime").text(h+":"+(m<10?"0"+m:m)+":"+(s<10?"0"+s:s));
+            }else{
+                m = parseInt(t/60);
+                s = t%60;
+                $("#currTime").text((m<10?"0"+m:m)+":"+(s<10?"0"+s:s));
+            }
+            $("#progress").css("width", t/totalTime*100 + "%");
+        });
+
+        $("#btn_play").click(function(){
+            if(audio.ended){
+                $(this).removeClass("play");
+                $(this).addClass("pause");
+                audio.src = audio_url;
+                audio.play();
+            }else if(audio.paused){
+                $(this).removeClass("play");
+                $(this).addClass("pause");
+                audio.play();
+            }else{
+                $(this).removeClass("pause");
+                $(this).addClass("play");
+                audio.pause();
+            }
+
+        });
+
+
+    });
+</script>
+
+
 </body>
 </html>
