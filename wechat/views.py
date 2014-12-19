@@ -85,8 +85,8 @@ HELP_MSG = u'您可以回复...'
 #MEDIA_BASE_URL = 'http://121.199.32.77'
 #STATIC_BASE_URL = 'http://121.199.32.77'
 #HOST_NAME = 'http://121.199.32.77'
-#HOST_NAME = "http://121.199.32.77"
-HOST_NAME = "http://127.0.0.1:8000"
+HOST_NAME = "http://121.199.32.77"
+#HOST_NAME = "http://127.0.0.1:8000"
 STATIC_BASE_URL = HOST_NAME + "/static/"
 MEDIA_BASE_URL = HOST_NAME + "/media/"
 
