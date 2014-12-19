@@ -85,8 +85,8 @@ HELP_MSG = u'您可以回复...'
 #MEDIA_BASE_URL = 'http://121.199.32.77'
 #STATIC_BASE_URL = 'http://121.199.32.77'
 #HOST_NAME = 'http://121.199.32.77'
-HOST_NAME = "http://121.199.32.77"
-#HOST_NAME = "http://127.0.0.1:8000"
+#HOST_NAME = "http://121.199.32.77"
+HOST_NAME = "http://127.0.0.1:8000"
 STATIC_BASE_URL = HOST_NAME + "/static/"
 MEDIA_BASE_URL = HOST_NAME + "/media/"
 
@@ -758,7 +758,7 @@ def get_bsbs():
     return bsl
 
 
-# 摆饭秀
+# 用于自动回复的摆饭秀article－list
 def get_bfx():
     objs = Voice.objects.bfx(VOICE_NUM)
     bfl = []
@@ -781,10 +781,10 @@ def get_bfx():
     bfl.append(more)
     return bfl
 
-
+# 第page_num页的男神
 def some_ns(page_num):
     start = (page_num-1) * MORE_BOYS_AND_GIRLS_NUM
-    end = page_num * MORE_BOYS_AND_GIRLS_NUM
+    end = page_num * MORE_BOYS_AND_GIRLS_NUM # 不包括第end个
     objs = BoysAndGirls.objects.some_ns(start, end)
     pics = []
     for obj in objs:

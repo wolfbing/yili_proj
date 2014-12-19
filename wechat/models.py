@@ -23,7 +23,7 @@ BFX = 'BFX'
 
 
 class BoysAndGirlsManager(models.Manager):
-    # num条男神信息
+    # 最新的num条男神信息
     def ns(self, num):
         n = self.filter(type=NS).count()
         if num>n:
@@ -31,7 +31,7 @@ class BoysAndGirlsManager(models.Manager):
         else:
             return self.filter(type=NS).order_by('-date')[0:num]
 
-    # num条女神信息
+    # 最新的num条女神信息
     def nvs(self, num):
         n = self.filter(type=NVS).count()
         if num>n:
@@ -75,6 +75,14 @@ class BoysAndGirlsManager(models.Manager):
         else:
             return self.filter(type=NVS).order_by('-date')[start:end]
 
+    # 男神数量
+    def ns_num(self):
+        return self.filter(type=NS).count()
+
+    # 女神数量
+    def nvs_num(self):
+        return self.filter(type=NVS).count()
+
 
 class BoysAndGirls(models.Model):
     pt = (
@@ -114,7 +122,7 @@ class FineFoodManager(models.Manager):
         else:
             return self.filter(type=ST).order_by('-date')[0:num]
 
-    # '泡美食'
+    # 最新num个'泡美食'
     def pms(self, num):
         n = self.filter(type=PMS).count()
         if num>n:
@@ -174,7 +182,7 @@ class FineFood(models.Model):
 
 class VoiceManager(models.Manager):
 
-    # 经典回顾
+    # 最新num个经典回顾
     def jdhg(self, num):
         n = self.filter(type=JDHG).count()
         if num>n:
@@ -182,7 +190,7 @@ class VoiceManager(models.Manager):
         else:
             return self.filter(type=JDHG).order_by('-date')[0:num]
 
-    # 不三不四
+    # 最新num个不三不四
     def bsbs(self, num):
         n = self.filter(type=BSBS).count()
         if num>n:
@@ -190,7 +198,8 @@ class VoiceManager(models.Manager):
         else:
             return self.filter(type=BSBS).order_by('-date')[0:num]
 
-    # 摆饭秀
+    # 最新num个摆饭秀
+    # 返回list
     def bfx(self, num):
         n = self.filter(type=BFX).count()
         if num>n:
@@ -236,6 +245,18 @@ class VoiceManager(models.Manager):
         except Exception, e:
             return None
 
+    # 经典回顾的数量
+    def jdhg_num(self):
+        return self.filter(type=JDHG).count()
+
+    # 不三不四的数量
+    def bsbs_num(self):
+        return self.filter(type=BSBS).count()
+
+    # 摆饭秀的数量
+    def bfx_num(self):
+        return self.filter(type=BFX).count()
+
 
 class Voice(models.Model):
     vt = (
@@ -245,10 +266,12 @@ class Voice(models.Model):
     )  # 声音类型
 
     title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100, null=True, blank=True, default=u"")
     type = models.CharField(choices=vt, max_length=10, help_text=u'选择节目类型')
     intro = models.TextField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
-    pic = models.ImageField(upload_to='wechat/voice_pic/%Y/%m', max_length=255, help_text=u'建议尺寸：大图360*200，小图200*200')
+    pic = models.ImageField(upload_to='wechat/voice_pic/%Y/%m', max_length=255, help_text=u'要求尺寸：360：200')
+    player_pic = models.ImageField(upload_to='wechat/voice_pic/%Y/%m', null=True,max_length=255, help_text=u"要求尺寸：1：1，最小200*200")
     audio = models.FileField(upload_to='wechat/voice/%Y/%m', max_length=255, null=True, blank=True, help_text=u'请上传音频文件, audio与URL至少填一个哦！！')
     url = models.URLField(max_length=500, null=True, blank=True, default=u'', help_text=u'填写需要指定的页面链接，audio与URL至少选一个哦！！')
 
@@ -360,8 +383,22 @@ class AtypicalVisitor(models.Model):
         return self.open_id
 
 
+class IndexSliderManager(models.Manager):
+    def new_slider(self, num):
+        objs = self.filter(on=True).order_by("-date")[0:num]
+        return objs
 
 
+class IndexSlider(models.Model):
+    pic = models.ImageField(max_length=500, upload_to="mobile/index_slider/")
+    intro = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
+    on = models.BooleanField(default=True)
+
+    objects = IndexSliderManager()
+
+    def __unicode__(self):
+        return self.intro
 
 
 

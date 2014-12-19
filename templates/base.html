@@ -43,21 +43,21 @@
 
 <header class="am-topbar am-topbar-inverse am-topbar-fixed-top">
   <h1 class="am-topbar-brand">
-    <a href="#">有些</a>
+    <a href="{{ index_url }}">有些</a>
   </h1>
 
   <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
 
   <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
     <ul class="am-nav am-nav-pills am-topbar-nav">
-      <li class="am-active"><a href="#">首页</a></li>
+      <li class="am-active"><a href="{{ index_url }}">首页</a></li>
       <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
               有些朋友<span class="am-icon-caret-down"></span>
           </a>
           <ul class="am-dropdown-content">
-              <li><a href="#">女神</a></li>
-              <li><a href="#">男神</a></li>
+              <li><a href="{{ nvs_url }}">女神</a></li>
+              <li><a href="{{ ns_url }}">男神</a></li>
           </ul>
       </li>
       <li class="am-dropdown" data-am-dropdown>
@@ -65,19 +65,19 @@
               有些声音<span class="am-icon-caret-down"></span>
           </a>
           <ul class="am-dropdown-content">
-              <li><a href="#">经典回顾</a></li>
-              <li><a href="#">不三不四</a></li>
+              <li><a href="{{ jdhg_url }}">经典回顾</a></li>
+              <li><a href="{{ bsbs_url }}">不三不四</a></li>
           </ul>
       </li>
-      <li><a href="#">摆饭秀</a></li>
+      <li><a href="{{ bfx_url }}">摆饭秀</a></li>
       <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
               投稿<span class="am-icon-caret-down"></span>
           </a>
           <ul class="am-dropdown-content">
-              <li><a href="#">括拉拉档案</a></li>
-              <li><a href="#">美食推荐</a></li>
-              <li><a href="#">我来秀</a></li>
+              <li><a href="{{ kll_url }}">括拉拉档案</a></li>
+              <li><a href="{{ mstj_url }}">美食推荐</a></li>
+              <li><a href="{{ show_url }}">我来秀</a></li>
           </ul>
       </li>
     </ul>
@@ -109,5 +109,9 @@
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <![endif]-->
 <script src="{{ static_url }}js/amazeui.min.js"></script>
+
+{% block custom_js %}
+{% endblock %}
+
 </body>
 </html>
