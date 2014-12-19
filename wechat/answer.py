@@ -36,6 +36,8 @@ str_yuyangxian = u'''鱼羊一锅鲜做法:
     取鱼汤加入炖好的羊肉、红枣，以火锅方式上桌。准备萝卜、金针菇或其他蔬菜作为火锅配料。食用时根据各人口味准备蘸料食用。
     简单美味，喜欢羊肉的朋友不妨一试！
     '''
+str_daroumian = u"店名：刘记大肉面，地址：南京市三牌楼小区1号门"
+
 
 ANSWER = {
 
@@ -61,7 +63,8 @@ ANSWER = {
     u"酸菜鱼": str_suancaiyu,
     u"超火酸菜鱼": str_suancaiyu,
     u"馄饨": str_huntun,
-    u"鱼羊鲜": str_yuyangxian
+    u"鱼羊鲜": str_yuyangxian,
+    u"大肉面": str_daroumian
 
 }
 

@@ -1,0 +1,50 @@
+{
+	"button":[
+	{
+		"name": "早饭摊子",
+		"sub_button": [
+		{
+			"type": "view",
+			"name": "档案报名",
+			"url": "http://121.199.32.77/wechat/attendkll/"
+		},
+		{
+			"type": "click",
+			"name": "孤单先森",
+			"key": "MR"
+		},
+		{
+			"type": "click",
+			"name": "独身菇凉",
+			"key": "MRS"
+		},
+		{
+			"type": "click",
+			"name": "摆饭秀",
+			"key": "FANSHOW"
+		}
+		]
+	},
+	{
+		"name": "微啵在线",
+		"sub_button": [
+		{
+			"type": "view",
+			"name": "节目回听",
+			"url": "http://v.vojs.cn/m/a/j/audioplaylist.shtml?gid=1023122"
+		},
+		{
+			"type": "view",
+			"name": "微啵网",
+			"url": "http://m.vojs.cn/m/a/?menu=0"
+		},
+		{
+			"type": "view",
+			"name": "在线收听",
+			"url": "http://m1.vojs.cn/m/1011/a/a/index.shtml#index-inside-page"
+		}
+		]
+	}
+	]
+	
+}
