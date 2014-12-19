@@ -98,7 +98,7 @@ def voice_list(request, type, page):
 
 def ajax_voice_list(request, page, type):
     vs = get_voice_list(type, page)
-    return HttpResponse(json.dump(vs, ensure_ascii=False))
+    return HttpResponse(json.dumps(vs, ensure_ascii=False))
 
 
 def fanshow_list(request, page):
@@ -125,7 +125,7 @@ def fanshow_list(request, page):
 
 def ajax_fanshow_list(request, page):
     shows = get_bfx_list(page)
-    return HttpResponse(json.dump(shows, ensure_ascii=False))
+    return HttpResponse(json.dumps(shows, ensure_ascii=False))
 
 
 def play_audio(request, id):
