@@ -159,6 +159,9 @@ class FineFoodManager(models.Manager):
         else:
             return self.filter(type=PMS).order_by('-date')[start:end]
 
+    def pms_num(self):
+        return self.filter(type=PMS).count()
+
 
 class FineFood(models.Model):
     ft = (

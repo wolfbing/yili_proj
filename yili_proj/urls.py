@@ -46,6 +46,8 @@ urlpatterns += patterns("",
     url(r"^mobile/playaudio/(?P<id>\d+)/$", mobile_view.play_audio),
     url(r"^mobile/bfxlist/bfx/(?P<page>\d+)/$", mobile_view.fanshow_list),
     url(r"^mobile/ajaxbfxlist/bfx/(?P<page>\d+)/$", mobile_view.ajax_fanshow_list),
+    url(r"^mobile/pmslist/pms/(?P<page>\d+)/$", mobile_view.fine_food_list, name="finefoodlist"),
+    url(r"^mobile/ajaxpmslist/pms/(?P<page>\d+)/$", mobile_view.ajax_fine_food_list),
 )
 
 # 滴滴叭叭URL

@@ -24,7 +24,7 @@ NVS = u"NVS"
 JDHG = u"JDHG"
 BSBS = u"BSBS"
 BFX = u"BFX"
-
+PMS = u"PMS"
 
 
 def index(request):
@@ -48,6 +48,12 @@ def index(request):
             u"img_url": STATIC_BASE_URL + "images/menu_ns.jpg"
         },
         {
+            u"name": u"摆饭秀",
+            u"intro": u"摆饭秀",
+            u"url": reverse(fanshow_list, kwargs={"page":1} ),
+            u"img_url": STATIC_BASE_URL + "images/menu_bfx.jpg"
+        },
+        {
             u"name": u"经典回顾",
             u"intro": u"有些声音-经典回顾",
             u"url": reverse(voice_list, kwargs={"page":1, "type":JDHG.lower()}),
@@ -58,6 +64,12 @@ def index(request):
             u"intro": u"有些声音-不三不四",
             u"url": reverse(voice_list, kwargs={"page":1, "type":BSBS.lower()}),
             u"img_url": STATIC_BASE_URL + "images/menu_bsbs.jpg"
+        },
+        {
+            u"name": u"泡美食",
+            u"intro": u"泡美食",
+            u"url": reverse("finefoodlist", kwargs={"page":1} ),
+            u"img_url": STATIC_BASE_URL + "images/menu_pms.jpg"
         },
         {
             u"name": u"括拉拉档案",
@@ -144,6 +156,32 @@ def voice_list(request, type, page):
 def ajax_voice_list(request, page, type):
     vs = get_voice_list(type, page)
     return HttpResponse(json.dumps(vs, ensure_ascii=False))
+
+
+def fine_food_list(request, page):
+    res_data = {
+        u"title": u"泡美食",
+        u"static_url": STATIC_BASE_URL,
+        u"objs": get_pms_list(page),
+        u"sync_url": u"/mobile/ajaxpmslist/"
+    }
+    res_data.update(base_res_data())
+    res_data[u"column_name"] = u"泡美食"
+    num = FineFood.objects.pms_num()
+    res_data["type"] = PMS.lower()
+    total_page_num = num/LIST_NUM_PER_PAGE
+    if num%LIST_NUM_PER_PAGE != 0:
+        total_page_num += 1
+    res_data["total_page_num"] = total_page_num
+    res_data["current_page_num"] = int(page)
+    page_range =[p+1 for p in range(total_page_num) ]
+    res_data["page_range"] = page_range
+    return render_to_response("news_list.html", res_data)
+
+
+def ajax_fine_food_list(request, page):
+    pms = get_pms_list(page)
+    return HttpResponse(json.dumps(pms, ensure_ascii=False))
 
 
 def fanshow_list(request, page):
@@ -316,7 +354,24 @@ def base_res_data():
         u"kll_url": reverse("attendkll"),
         u"mstj_url": reverse("recommendfood"),
         u"show_url": reverse("fanshow"),
-        u"bfx_url": reverse(fanshow_list, kwargs={"page":1})
+        u"bfx_url": reverse(fanshow_list, kwargs={"page":1}),
+        u"pms_url": reverse(fine_food_list, kwargs={"page":1})
     }
     return data
+
+
+def get_pms_list(page):
+    start = (int(page)-1)*LIST_NUM_PER_PAGE
+    end = int(page)*LIST_NUM_PER_PAGE
+    objs = FineFood.objects.some_pms(start, end)
+    msl = []
+    for obj in objs:
+        ms = {
+            "title": obj.title,
+            "intro": obj.intro,
+            "pic_url": obj.photo.url
+        }
+        ms["url"] = obj.url
+        msl.append(ms)
+    return msl
 
