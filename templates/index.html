@@ -21,21 +21,54 @@
   </ul>
 </div>
 
-{% for article in articles %}
-    <a href="{{ article.url }}">
-        <div class="box">
-            <div class="am-thumbnail">
-              <img src="{{ article.pic_url }}" alt=""/>
-              <div class="am-thumbnail-caption">
-                <h3 style="margin-bottom: -0.6rem;">{{ article.title }}</h3>
-                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
-                <p style="margin-top: -1.1rem;font-size: small">{{ article.intro }}</p>
-              </div>
-            </div>
-        </div>
-    </a>
+{#{% for article in articles %}#}
+{#    <a href="{{ article.url }}">#}
+{#        <div class="box">#}
+{#            <div class="am-thumbnail">#}
+{#              <img src="{{ article.pic_url }}" alt=""/>#}
+{#              <div class="am-thumbnail-caption">#}
+{#                <h3 style="margin-bottom: -0.6rem;">{{ article.title }}</h3>#}
+{#                <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />#}
+{#                <p style="margin-top: -1.1rem;font-size: small">{{ article.intro }}</p>#}
+{#              </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </a>#}
+{##}
+{#{% endfor %}#}
 
-{% endfor %}
+  <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+  <!--列表标题-->
+{#  <div class="am-list-news-hd am-cf">#}
+{#    <!--带更多链接-->#}
+{#    <a href="###">#}
+{#      <h2></h2>#}
+{#      <span class="am-list-news-more am-fr"></span>#}
+{#    </a>#}
+{#  </div>#}
+  <div class="am-list-news-bd">
+    <ul class="am-list">
+      <!--缩略图在标题左边-->
+      {% for item in menus %}
+          <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
+            <div class="am-u-sm-4 am-list-thumb">
+              <a href="{{ item.url }}">
+                <img src="{{ item.img_url }}" alt=""
+                />
+              </a>
+            </div>
+            <div class=" am-u-sm-8 am-list-main">
+              <h3 class="am-list-item-hd">
+                <a href="{{ item.url }}">{{ item.name }}</a>
+              </h3>
+              <div class="am-list-item-text">{{ item.intro }}</div>
+            </div>
+          </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
 
 
 
