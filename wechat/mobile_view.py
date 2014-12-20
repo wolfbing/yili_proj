@@ -31,9 +31,54 @@ def index(request):
     res_data = {
         u"title": u"首页|有些",
         u"static_url": STATIC_BASE_URL,
-        u"articles": index_article_list(),
+        # u"articles": index_article_list(),
         u"sliders": get_sliders(),
     }
+    menu_data = [
+        {
+            u"name": u"女神",
+            u"intro": u"括拉拉档案每日女神",
+            u"url": reverse(kll_list, kwargs={"page":1, "type":NVS.lower()}),
+            u"img_url": STATIC_BASE_URL + "images/menu_nvs.jpg"
+        },
+        {
+            u"name": u"男神",
+            u"intro": u"括拉拉档案每日男神",
+            u"url": reverse(kll_list, kwargs={"page":1, "type":NS.lower()}),
+            u"img_url": STATIC_BASE_URL + "images/menu_ns.jpg"
+        },
+        {
+            u"name": u"经典回顾",
+            u"intro": u"有些声音-经典回顾",
+            u"url": reverse(voice_list, kwargs={"page":1, "type":JDHG.lower()}),
+            u"img_url": STATIC_BASE_URL + "images/menu_jdhg.jpg"
+        },
+        {
+            u"name": u"不三不四",
+            u"intro": u"有些声音-不三不四",
+            u"url": reverse(voice_list, kwargs={"page":1, "type":BSBS.lower()}),
+            u"img_url": STATIC_BASE_URL + "images/menu_bsbs.jpg"
+        },
+        {
+            u"name": u"括拉拉档案",
+            u"intro": u"投稿-括拉拉档案",
+            u"url": reverse("attendkll"),
+            u"img_url": STATIC_BASE_URL + "images/menu_kll.png"
+        },
+        {
+            u"name": u"美食推荐",
+            u"intro": u"投稿-美食推荐",
+            u"url": reverse("recommendfood"),
+            u"img_url": STATIC_BASE_URL + "images/menu_mstj.png"
+        },
+        {
+            u"name": u"我来秀",
+            u"intro": u"投稿-我来秀",
+            u"url": reverse("fanshow"),
+            u"img_url": STATIC_BASE_URL + "images/menu_show.png"
+        }
+    ]
+    res_data['menus'] = menu_data
     res_data.update(base_res_data())
     return render_to_response("index.html", res_data)
 
