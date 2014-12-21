@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import db_config
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -63,14 +64,7 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db3.sqlite3'),
     # }
-    "default": {
-        'ENGINE': "django.db.backends.mysql",
-        'NAME': "wechat",
-        'USER': "wechat",
-        "PASSWORD": "wechatsome01",
-        "HOST": "rdsqaurzirnvjan.mysql.rds.aliyuncs.com",
-        "PORT": "3306"
-    }
+    "default": db_config.default
 }
 
 # template dir
