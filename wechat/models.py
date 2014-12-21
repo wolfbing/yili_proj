@@ -404,6 +404,29 @@ class IndexSlider(models.Model):
         return self.intro
 
 
+class BFXManager(models.Manager):
+    # range: start - (end-1)
+    def some_bfx(self, start, end):
+        return self.all().order_by("-date")[start: end]
+
+    # 摆饭秀数量
+    def bfx_num(self):
+        return self.all().count()
+
+
+class BFX(models.Model):
+    title = models.CharField(max_length=200)
+    intro = models.TextField(max_length=200)
+    pic = models.ImageField(upload_to="wechat/bfx/")
+    url = models.URLField(max_length=1000)
+    date = models.DateTimeField(auto_now_add=True)
+
+    objects = BFXManager()
+
+    def __unicode__(self):
+        return self.title
+
+
 
 
 
