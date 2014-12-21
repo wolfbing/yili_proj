@@ -584,7 +584,7 @@ def get_ns():
         "title": u"点击欣赏更多男神！！",
         "description": u"点击欣赏更多男神！！",
         "pic_url": STATIC_BASE_URL + "images/ns.jpg",
-        "url": HOST_NAME + reverse("wechat.views.all_ns")
+        "url": HOST_NAME + reverse("kll_list", kwargs={"page":1, "type":"ns"})
     }
     nsl.append(more)
     return nsl
@@ -605,7 +605,7 @@ def get_nvs():
         "title": u"点击欣赏更多女神！！",
         "description": u"点击欣赏更多女神！！",
         "pic_url": STATIC_BASE_URL + "images/nvs.jpg",
-        "url": HOST_NAME + reverse("wechat.views.all_nvs")
+        "url": HOST_NAME + reverse("kll_list", kwargs={"type":"nvs", "page":1})
     }
     nvsl.append(more)
     return nvsl
@@ -704,7 +704,7 @@ def get_pms():
         "title": u"点击查看更多丰盛大餐！！",
         "description": u"点击查看更多丰盛大餐！！",
         "pic_url": STATIC_BASE_URL + "images/bx.jpg",
-        "url": HOST_NAME + reverse("wechat.views.all_food", kwargs={"ft": BX})
+        "url": HOST_NAME + reverse("finefoodlist", kwargs={"page":1})
     }
     msl.append(more)
     return msl
@@ -728,7 +728,7 @@ def get_jdhg():
         "title": u"点击查看更多经典回顾！！",
         "description": u"点击查看更多经典回顾！！",
         "pic_url": STATIC_BASE_URL + "images/voice.jpg",
-        "url": HOST_NAME + reverse("wechat.views.all_voice", kwargs={"vt": JDHG})
+        "url": HOST_NAME + reverse("voicelist", kwargs={"page":1, "type":"jdhg"})
     }
     jdl.append(more)
     return jdl
@@ -752,7 +752,7 @@ def get_bsbs():
         "title": u"点击查看更多不三不四！！",
         "description": u"点击查看更多不三不四！！",
         "pic_url": STATIC_BASE_URL + "images/voice.jpg",
-        "url":  HOST_NAME + reverse("wechat.views.all_voice", kwargs={"vt": BSBS})
+        "url":  HOST_NAME + reverse("voicelist", kwargs={"type":"bsbs", "page":1})
     }
     bsl.append(more)
     return bsl
@@ -776,7 +776,7 @@ def get_bfx():
         "title": u"点击查看更多摆饭秀！！",
         "description": u"点击查看更多摆饭秀！！",
         "pic_url": STATIC_BASE_URL + "images/voice.jpg",
-        "url": HOST_NAME + reverse("wechat.views.all_voice", kwargs={"vt": BFX})
+        "url": HOST_NAME + reverse("bfxlist", kwargs={"page":1})
     }
     bfl.append(more)
     return bfl
