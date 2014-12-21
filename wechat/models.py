@@ -405,6 +405,10 @@ class IndexSlider(models.Model):
 
 
 class BFXManager(models.Manager):
+    #  获取最新的num个摆饭秀
+    def bfx(self, num):
+        return self.all().order_by("-date")[0:num]
+
     # range: start - (end-1)
     def some_bfx(self, start, end):
         return self.all().order_by("-date")[start: end]
