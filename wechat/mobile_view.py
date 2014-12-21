@@ -10,7 +10,8 @@ from django.shortcuts import render_to_response
 import json
 from django.core.urlresolvers import reverse
 
-from wechat.models import BoysAndGirls, FineFood, Voice, IndexSlider, BFX
+from wechat.models import BoysAndGirls, FineFood, Voice, IndexSlider
+from wechat.models import BFX as BFShow
 
 from views import STATIC_BASE_URL
 
@@ -194,7 +195,7 @@ def fanshow_list(request, page):
     res_data.update(base_res_data())
     res_data[u"column_name"] = u"摆饭秀"
     num = BFX.objects.bfx_num()
-    res_data["type"] = BFX.lower()
+    res_data["type"] = BFShow.lower()
     total_page_num = num/LIST_NUM_PER_PAGE
     if num%LIST_NUM_PER_PAGE != 0:
         total_page_num += 1
@@ -327,7 +328,7 @@ def get_voice_list(type, page):
 def get_bfx_list(page):
     start = (int(page)-1)*LIST_NUM_PER_PAGE
     end = int(page)*LIST_NUM_PER_PAGE
-    objs = BFX.objects.some_bfx(start, end)
+    objs = BFShow.objects.some_bfx(start, end)
     vs = []
     for obj in objs:
         v = {

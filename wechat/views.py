@@ -22,7 +22,8 @@ from ddbb_answer import news_answer as db_news_answer
 
 from models import BoysAndGirls, FineFood, Voice, \
     FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia, \
-    FanShow, FanShowMedia, AtypicalVisitor, BFX
+    FanShow, FanShowMedia, AtypicalVisitor
+from models import BFX as BFShow  #  程序中已经出现BFX变量，（表命名需要注意了）
 
 # Create your views here.
 
@@ -70,6 +71,7 @@ logger2 = logging.getLogger('django')
 BOYS_AND_GIRLS_NUM = 5
 FINE_FOOD_NUM = 5
 VOICE_NUM = 5
+BFX_NUM = 5
 
 # detail num
 MORE_BOYS_AND_GIRLS_NUM = 100
@@ -760,7 +762,7 @@ def get_bsbs():
 
 # 用于自动回复的摆饭秀article－list
 def get_bfx():
-    objs = BFX.objects.bfx(VOICE_NUM)
+    objs = BFShow.objects.bfx(BFX_NUM)
     bfl = []
     for obj in objs:
         bf = {}
