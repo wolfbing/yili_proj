@@ -22,7 +22,7 @@ from ddbb_answer import news_answer as db_news_answer
 
 from models import BoysAndGirls, FineFood, Voice, \
     FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia, \
-    FanShow, FanShowMedia, AtypicalVisitor
+    FanShow, FanShowMedia, AtypicalVisitor, BFX
 
 # Create your views here.
 
@@ -744,7 +744,7 @@ def get_bsbs():
         bs['description'] = obj.intro
         bs['pic_url'] = HOST_NAME + obj.pic.url
         if obj.url==u'':
-            bs['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
+            bs['url'] = HOST_NAME + reverse("mobile_view.play_audio", kwargs={"id":obj.id})
         else:
             bs['url'] = obj.url
         bsl.append(bs)
@@ -760,17 +760,14 @@ def get_bsbs():
 
 # 用于自动回复的摆饭秀article－list
 def get_bfx():
-    objs = Voice.objects.bfx(VOICE_NUM)
+    objs = BFX.objects.bfx(VOICE_NUM)
     bfl = []
     for obj in objs:
         bf = {}
         bf['title'] = obj.title
         bf['description'] = obj.intro
         bf['pic_url'] = HOST_NAME + obj.pic.url
-        if obj.url==u'':
-            bf['url'] = HOST_NAME + reverse("wechat.views.play_audio") + "?audio=" + str(obj.id)
-        else:
-            bf['url'] = obj.url
+        bf['url'] = obj.url
         bfl.append(bf)
     more = {
         "title": u"点击查看更多摆饭秀！！",
