@@ -17,7 +17,7 @@
 /static/admin/
 
 /logs/
-/yili_proj/db_config.py*
+/yili_proj/local_settings.py*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

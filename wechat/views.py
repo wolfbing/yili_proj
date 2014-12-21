@@ -19,6 +19,7 @@ import setting as wsetting
 from datetime import datetime, timedelta
 import json
 from ddbb_answer import news_answer as db_news_answer
+from yili_proj.local_settings import HOST_NAME
 
 from models import BoysAndGirls, FineFood, Voice, \
     FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia, \
@@ -86,9 +87,6 @@ HELP_MSG = u'您可以回复...'
 # base url
 #MEDIA_BASE_URL = 'http://121.199.32.77'
 #STATIC_BASE_URL = 'http://121.199.32.77'
-#HOST_NAME = 'http://121.199.32.77'
-HOST_NAME = "http://121.199.32.77"
-#HOST_NAME = "http://127.0.0.1:8000"
 STATIC_BASE_URL = HOST_NAME + "/static/"
 MEDIA_BASE_URL = HOST_NAME + "/media/"
 

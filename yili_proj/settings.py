@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import db_config
+import local_settings
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -64,7 +64,7 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db3.sqlite3'),
     # }
-    "default": db_config.default
+    "default": local_settings.default_db
 }
 
 # template dir
