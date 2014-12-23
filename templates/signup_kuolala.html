@@ -9,6 +9,7 @@
     <script src="{{ static_url }}js/jquery.mobile-1.4.5.min.js"></script>
     <script>
         var file_num = 1;
+        var min_file_num = 2;
         var max_file_num = 10;
         var min_intro_num = 20; // 自我介绍至少三十个字
         var file_input_code = '' +
@@ -21,7 +22,7 @@
                             $('#addfile').before(file_input_code.replace(/\{(\d+)\}/g, ++file_num));
                         }
                         else{
-                            alert("最多只能添加5个文件哦～");
+                            alert("最多只能添加"+max_file_num+"个文件哦～");
                         }
                     });
 
@@ -35,13 +36,15 @@
                         }
 
                         var files = $('.files');
+                        var valid_file_num = 0; // 上传的文件数量
                         for (var i=0; i<files.length; ++i){
                             if(files.get(i).value != ""){
-                                break;
-                            }else{
-                                $('#file_err').text("至少上传一张照片！").attr("style", "color:red;");
-                                have_mistake = true;
+                                valid_file_num++;
                             }
+                        }
+                        if(valid_file_num<min_file_num){
+                            $('#file_err').text("至少上传"+min_file_num+"张照片！").attr("style", "color:red;");
+                            have_mistake = true;
                         }
 
                         if(/^\d{11}$/.exec($("#mobile").val()) == null){
@@ -87,7 +90,7 @@
 <body>
 <div data-role="page" id="main_page">
     <div data-role="content">
-        <p style="color: orangered">安卓用户请点击右上角，在弹出菜单中选择“在浏览器中打开”</p>
+        <p style="color: blue">安卓用户请点击右上角，在弹出菜单中选择“在浏览器中打开”</p>
         <form id="form" method="post" action="{{ action_url }}" data-ajax="false" enctype="multipart/form-data">
             <input type="text" id="age" name="age" placeholder="年龄">
             <input type="text" id="place" name="place" placeholder="常驻地">
@@ -108,8 +111,8 @@
             </fieldset>
             <p id="intro_err" style="color:red;"></p>
             <textarea name="intro" id="intro" placeholder="择偶标准、爱情宣言...让大家更了解你！(至少20字)"></textarea>
-            <p style="color: orangered">安卓用户可能会上传文件失败，请点击右上角，在弹出菜单中选择“在浏览器中打开”</p>
-            <p id="file_err">至少上传一张照片，最多上传10个图片、音频文件</p>
+            <p style="color: blue">安卓用户可能会上传文件失败，请点击右上角，在弹出菜单中选择“在浏览器中打开”</p>
+            <p id="file_err">至少上传2张照片，最多上传10个图片、音频文件</p>
             <input class="files" type="file" name="file1">
             <!-- <input type="button" id="addfile" value="再来一个" data-inline="true"> -->
             <a id="addfile" data-role="button" data-inline="true" href="#">再来一个</a>
