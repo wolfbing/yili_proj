@@ -720,7 +720,7 @@ def get_jdhg():
         jd['description'] = obj.intro
         jd['pic_url'] = HOST_NAME + obj.pic.url
         if obj.url==u'':
-            jd['url'] = HOST_NAME + reverse("mobile_view.play_audio", kwargs={"id":obj.id})
+            jd['url'] = HOST_NAME + reverse("mobile_audioplayer", kwargs={"id":obj.id})
         else:
             jd['url'] = obj.url
         jdl.append(jd)
