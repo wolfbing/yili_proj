@@ -13,7 +13,7 @@ import hashlib
 import time
 from xml.etree import ElementTree as ET
 import logging
-from answer import ANSWER
+from answer import ANSWER, NEWS_ANSWER
 import urllib2, urllib
 import setting as wsetting
 from datetime import datetime, timedelta
@@ -118,6 +118,8 @@ def main(request):
                 return save_recommend_food_intro(req_data)
             elif ANSWER.get(content)!=None:
                 return text_msg(req_data, ANSWER.get(content))
+            elif NEWS_ANSWER.get(content) != None:
+                return  news_msg(req_data, NEWS_ANSWER.get(content))
             elif db_news_answer.get(content) != None:
                 return news_msg(req_data, db_news_answer.get(content))
             elif AtypicalVisitor.objects.exist(req_data[FromUserName], now):

@@ -12,6 +12,13 @@ news_taiguo = {
     u"url": u"http://mp.weixin.qq.com/s?__biz=MjM5MTAwMjk5Nw==&mid=202532704&idx=1&sn=ac8fcde2a942bf92728e62341a255eac#rd"
 }
 
+news_katong = {
+    u"title": u"磊磊娜娜圣诞卡通形象新鲜出炉喽！",
+    u"description": u"圣诞节来了，小编也不知道送大家啥礼物好。想来想去还是把磊磊娜娜送给大家吧，特意制作了他们的圣诞卡通形象，大家看看，喜欢吗？",
+    u"pic_url": u"",
+    u"url": u""
+}
+
 news_answer = {
     u"泰国": [news_taiguo]
 }

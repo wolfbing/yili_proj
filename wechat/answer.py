@@ -68,6 +68,19 @@ ANSWER = {
 
 }
 
+news_katong = {
+    u"title": u"磊磊娜娜圣诞卡通形象新鲜出炉喽！",
+    u"description": u"圣诞节来了，小编也不知道送大家啥礼物好。想来想去还是把磊磊娜娜送给大家吧，特意制作了他们的圣诞卡通形象，大家看看，喜欢吗？",
+    u"pic_url": u"http://121.199.32.77/media/wechat/staticmedia/2014/12/640_13.jpeg",
+    u"url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201914089&idx=4&sn=8514beb63664b1acaed982236a6077b5#rd"
+}
+
+NEWS_ANSWER = {
+    u"卡通": [news_katong],
+    u"圣诞": [news_katong],
+    u"磊磊娜娜": [news_katong]
+}
+
 
 
 
