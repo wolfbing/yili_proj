@@ -79,10 +79,18 @@ news_katong = {
     u"url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201914089&idx=4&sn=8514beb63664b1acaed982236a6077b5#rd"
 }
 
+news_yinweiaiqing = {
+    u"title": u"磊磊娜娜年度深情演绎，《因为爱情》！",
+    u"description": u"给你一张过去的CD，听听那时我们的爱情，有时会突然忘了我还在爱着你，再唱不出那样的歌曲",
+    u"pic_url": u"http://121.199.32.77/media/wechat/staticmedia/2014/12/640_16.jpeg",
+    u"url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201947522&idx=3&sn=744262ec5ce54699a2d2c5f6f7808e28#rd"
+}
+
 NEWS_ANSWER = {
     u"卡通": [news_katong],
     u"圣诞": [news_katong],
-    u"磊磊娜娜": [news_katong]
+    u"磊磊娜娜": [news_katong],
+    u"因为爱情": [news_yinweiaiqing]
 }
 
 
