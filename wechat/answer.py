@@ -27,6 +27,8 @@ str2 = u"点击下面链接了解推荐美食的方法, 很简单的, 期待着�
 str3 = u"点击下面链接了解参加摆饭秀的方法，很简单的~ 舞台很宽敞，期待你来秀！\n" + u"http://127.0.0.1:8000/wechat/fanshow/"
 str4 = u"点击下面链接，欣赏更多女神！\n" + u"http://121.199.32.77/mobile/klllist/nvs/1/"
 str5 = u"点击下面链接，欣赏更多男神！\n" + u"http://121.199.32.77/mobile/klllist/ns/1/"
+str6 = u"点击下面链接，欣赏更多摆饭秀！\n" + u"http://121.199.32.77/mobile/bfxlist/bfx/1/"
+
 
 str_suancaiyu = u"店名：天府渔歌；\n地址：南京市洋珠巷玉带园彩霞街菜市场门口"
 str_huntun = u"店名：味真馄饨；\n地址：南京市茶南大街茶南兆园13栋44号103（茶南大街建设银行旁巷内）"
@@ -58,6 +60,8 @@ ANSWER = {
     u"女神": str4,
     u"5": str5,
     u"男神": str5,
+    u"6": str6,
+    u"摆饭秀": str6,
 
     u"common": u"",
     u"酸菜鱼": str_suancaiyu,
