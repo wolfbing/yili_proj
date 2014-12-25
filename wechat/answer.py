@@ -86,11 +86,20 @@ news_yinweiaiqing = {
     u"url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201947522&idx=3&sn=744262ec5ce54699a2d2c5f6f7808e28#rd"
 }
 
+news_nanjing = {
+    u"title": u"人生就像南京",
+    u"description": u"人生像新街口地下广场，总能找到一个出口",
+    u"pic_url": u"http://121.199.32.77/media/wechat/staticmedia/2014/12/640_19.jpeg",
+    u"url": u"http://mp.weixin.qq.com/s?__biz=MjM5NzY3NjU3MA==&mid=201984001&idx=2&sn=4b206a35d7a6c038ee9ecc9d0276d3e8#rd"
+}
+
 NEWS_ANSWER = {
     u"卡通": [news_katong],
     u"圣诞": [news_katong],
     u"磊磊娜娜": [news_katong],
-    u"因为爱情": [news_yinweiaiqing]
+    u"因为爱情": [news_yinweiaiqing],
+    u"人生": [news_nanjing],
+    u"南京": [news_nanjing]
 }
 
 
