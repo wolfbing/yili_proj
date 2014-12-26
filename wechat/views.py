@@ -23,7 +23,8 @@ from yili_proj.local_settings import HOST_NAME
 
 from models import BoysAndGirls, FineFood, Voice, \
     FansKLL, FansKLLMedia, FansMSTJ, FansMSTJMedia, \
-    FanShow, FanShowMedia, AtypicalVisitor
+    FanShow, FanShowMedia, AtypicalVisitor, \
+    TextAnswer, NewsAnswer
 from models import BFX as BFShow  #  程序中已经出现BFX变量，（表命名需要注意了）
 
 # Create your views here.
@@ -116,10 +117,10 @@ def main(request):
                 return save_kll_intro(req_data)
             elif is_mstj(content):
                 return save_recommend_food_intro(req_data)
-            elif ANSWER.get(content)!=None:
-                return text_msg(req_data, ANSWER.get(content))
-            elif NEWS_ANSWER.get(content) != None:
-                return  news_msg(req_data, NEWS_ANSWER.get(content))
+            elif TextAnswer.objects.answer(content)!=None:
+                return text_msg(req_data, TextAnswer.objects.answer(content))
+            elif NewsAnswer.objects.answer(content) != None:
+                return  news_msg(req_data, NewsAnswer.objects.answer(content))
             elif db_news_answer.get(content) != None:
                 return news_msg(req_data, db_news_answer.get(content))
             elif AtypicalVisitor.objects.exist(req_data[FromUserName], now):

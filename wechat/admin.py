@@ -2,7 +2,8 @@ from django.contrib import admin
 
 from models import BoysAndGirls, FineFood, Voice, StaticMedia, \
     FansKLLMedia, FansKLL, FansMSTJ, FansMSTJMedia, FanShowMedia, FanShow, \
-    AtypicalVisitor, IndexSlider, BFX
+    AtypicalVisitor, IndexSlider, BFX, TextAnswer, NewsAnswer, \
+    DDBBKll
 # Register your models here.
 
 admin.site.register(BoysAndGirls)
@@ -18,3 +19,6 @@ admin.site.register(FanShowMedia)
 admin.site.register(AtypicalVisitor)
 admin.site.register(IndexSlider)
 admin.site.register(BFX)
+admin.site.register(TextAnswer)
+admin.site.register(NewsAnswer)
+admin.site.register(DDBBKll)

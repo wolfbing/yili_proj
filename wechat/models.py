@@ -345,6 +345,7 @@ class FansMSTJMedia(models.Model):
         return str(self.id)
 
 
+# 用户上传的摆饭秀材料
 class FanShow(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     fan = models.CharField(max_length=600, null=True, blank=True)
@@ -355,10 +356,13 @@ class FanShow(models.Model):
     def __unicode__(self):
         return self.fan
 
+    class Meta:
+        verbose_name = u"摆饭秀(投稿)"
+
 
 class FanShowMedia(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    media = models.FileField(upload_to="wechat/fanshowmedia/%Y%m/%d", max_length=500)
+    media = models.FileField(upload_to="wechat/fanshowmedia/%Y/%m/%d", max_length=500)
     belong = models.ForeignKey(FanShow, null=True)
 
     def __unicode__(self):
@@ -373,7 +377,7 @@ class AtypicalVisitorManager(models.Manager):
         except:
             return False
 
-
+# 发消息的粉丝，（用于判断是不是今天第一次发消息）
 class AtypicalVisitor(models.Model):
     open_id = models.CharField(max_length=1000)
     year = models.IntegerField(max_length=4)
@@ -391,7 +395,7 @@ class IndexSliderManager(models.Manager):
         objs = self.filter(on=True).order_by("-date")[0:num]
         return objs
 
-
+# mobile 首页的几张图片
 class IndexSlider(models.Model):
     pic = models.ImageField(max_length=500, upload_to="mobile/index_slider/")
     intro = models.CharField(max_length=100)
@@ -417,7 +421,7 @@ class BFXManager(models.Manager):
     def bfx_num(self):
         return self.all().count()
 
-
+# 摆饭秀的article
 class BFX(models.Model):
     title = models.CharField(max_length=200)
     intro = models.TextField(max_length=200)
@@ -430,12 +434,77 @@ class BFX(models.Model):
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        verbose_name = u"摆饭秀(发布)"
 
 
+class TextAnswerManager(models.Manager):
+    # 获取key对应的answer，无则返回None
+    def answer(self, key):
+        try:
+            return self.get(keyword = key).answer
+        except:
+            return None
+
+# 自动回复-文本答案
+class TextAnswer(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    keyword = models.CharField(max_length=50, unique=True) # 关键词不能重复
+    answer = models.CharField(max_length=500)
+
+    objects = TextAnswerManager()
+
+    def __unicode__(self):
+        return self.keyword
+
+    class Meta:
+        verbose_name = u"自动回复(文本)"
 
 
+class NewsAnswerManager(models.Manager):
+    # 获取key对应的article，没有则返回None
+    def answer(self, key):
+        try:
+            obj = self.get(keyword = key)
+            article = {
+                u"title": obj.title,
+                u"description": obj.intro,
+                u"pic_url": obj.img.url,
+                u"url": obj.url
+            }
+            return [article]
+        except:
+            return None
 
 
+# 自动回复-图文答案
+class NewsAnswer(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    keyword = models.CharField(max_length=50, unique=True)
+    title = models.CharField(max_length=100)
+    intro = models.TextField(max_length=500)
+    img = models.ImageField(upload_to="wechat/answer/%Y/%m/")
+    url = models.URLField(max_length=1000)
+
+    objects = NewsAnswerManager()
+
+    def __unicode__(self):
+        return self.keyword
+
+    class Meta:
+        verbose_name = u"自动回复(图文)"
 
 
+# 滴滴叭叭的-括拉拉档案发布
+class DDBBKll(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100, verbose_name=u"标题")
+    intro = models.TextField(max_length=500, verbose_name=u"简介")
+    img = models.ImageField(upload_to="wechat/ddbb/kll/%Y/%m/", verbose_name=u"封面图片")
+    url = models.URLField(max_length=1000, verbose_name=u"详情页面链接")
 
+    class Meta:
+        verbose_name = u"滴滴叭叭-括拉拉档案"
+
+    def __unicode__(self):
+        return self.title
