@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.db.models import manager
-
+from yili_proj.local_settings import HOST_NAME
 # Create your models here.
 # 有些朋友
 NS = 'NS'
@@ -469,7 +468,7 @@ class NewsAnswerManager(models.Manager):
             article = {
                 u"title": obj.title,
                 u"description": obj.intro,
-                u"pic_url": obj.img.url,
+                u"pic_url": HOST_NAME + obj.img.url,
                 u"url": obj.url
             }
             return [article]

@@ -24,7 +24,7 @@ str_history = u"点击右上角，在进入的页面中就能看到‘查看历�
 
 str1 = u"点击下面链接了解报名括拉拉档案详情, 很简单的哦~\n" + u"http://121.199.32.77/wechat/attendkll/"
 str2 = u"点击下面链接了解推荐美食的方法, 很简单的, 期待着您的推荐哦~\n" + u"http://121.199.32.77/wechat/recommendfood/"
-str3 = u"点击下面链接了解参加摆饭秀的方法，很简单的~ 舞台很宽敞，期待你来秀！\n" + u"http://127.0.0.1:8000/wechat/fanshow/"
+str3 = u"点击下面链接了解参加摆饭秀的方法，很简单的~ 舞台很宽敞，期待你来秀！\n" + u"http://121.199.32.77/wechat/fanshow/"
 str4 = u"点击下面链接，欣赏更多女神！\n" + u"http://121.199.32.77/mobile/klllist/nvs/1/"
 str5 = u"点击下面链接，欣赏更多男神！\n" + u"http://121.199.32.77/mobile/klllist/ns/1/"
 str6 = u"点击下面链接，欣赏更多摆饭秀！\n" + u"http://121.199.32.77/mobile/bfxlist/bfx/1/"

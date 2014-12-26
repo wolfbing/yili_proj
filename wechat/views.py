@@ -136,7 +136,7 @@ def main(request):
         elif req_data[MSG_TYPE] == EVENT_MSG:
             ###  订阅与取消订阅
             if req_data[EVENT] == SUBSCRIBE_EVENT:
-                return text_msg(req_data, ANSWER['welcome'])
+                return text_msg(req_data, TextAnswer.objects.answer(u'welcome'))
             elif req_data[EVENT] == UNSUBSCRIBE_EVENT:
                 return text_msg(req_data, BYE_MSG)
             ###  菜单点击事件
