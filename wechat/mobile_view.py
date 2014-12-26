@@ -98,7 +98,7 @@ def index(request):
 
 def kll_list(request, page, type):
     res_data = {
-        u"title": u"括拉拉档案",
+        u"title": u"男神女神",
         u"static_url": STATIC_BASE_URL,
         u"objs": get_kll_list(type, page),
         u"sync_url": u"/mobile/ajaxklllist/"

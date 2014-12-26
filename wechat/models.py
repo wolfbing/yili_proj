@@ -82,7 +82,7 @@ class BoysAndGirlsManager(models.Manager):
     def nvs_num(self):
         return self.filter(type=NVS).count()
 
-
+# 男神女神发布
 class BoysAndGirls(models.Model):
     pt = (
         (NS, u'男神'),
@@ -101,6 +101,9 @@ class BoysAndGirls(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        verbose_name = u"男神女神(发布)"
 
 
 class FineFoodManager(models.Manager):
@@ -161,7 +164,7 @@ class FineFoodManager(models.Manager):
     def pms_num(self):
         return self.filter(type=PMS).count()
 
-
+# 美食发布
 class FineFood(models.Model):
     ft = (
         ('ST', u'食堂'),
@@ -180,6 +183,9 @@ class FineFood(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        verbose_name = u"美食推荐(发布)"
 
 
 class VoiceManager(models.Manager):
@@ -259,7 +265,7 @@ class VoiceManager(models.Manager):
     def bfx_num(self):
         return self.filter(type=BFX).count()
 
-
+# 音频发布
 class Voice(models.Model):
     vt = (
         ('JDHG', u'经典回顾'),
@@ -282,7 +288,10 @@ class Voice(models.Model):
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        verbose_name = u"音频(发布)"
 
+# 媒体文件
 class StaticMedia(models.Model):
     title = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
@@ -291,7 +300,11 @@ class StaticMedia(models.Model):
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        verbose_name = u"媒体文件"
 
+
+# 括拉拉档案-投稿
 class FansKLL(models.Model):
     age = models.IntegerField(max_length=3, null=True, default=0)
     place = models.CharField(max_length=50, null=True, blank=True)
@@ -315,6 +328,9 @@ class FansKLL(models.Model):
     def __unicode__(self):
         return self.intro[0:10]
 
+    class Meta:
+        verbose_name = u"男神女神(投稿)"
+
 
 class FansKLLMedia(models.Model):
     date = models.DateTimeField(auto_now_add=True)
@@ -324,7 +340,7 @@ class FansKLLMedia(models.Model):
     def __unicode__(self):
         return str(self.id)
 
-
+# 美食推荐(投稿)
 class FansMSTJ(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     fan = models.CharField(max_length=600, null=True, blank=True)
@@ -333,6 +349,9 @@ class FansMSTJ(models.Model):
 
     def __unicode__(self):
         return self.intro[0:10]
+
+    class Meta:
+        verbose_name = u"美食推荐(投稿)"
 
 
 class FansMSTJMedia(models.Model):
