@@ -235,7 +235,7 @@ def ddbb_kll_list(request, page, type):
     res_data.update(base_res_data())
     num = DDBBKll.objects.kll_num(type)
     res_data["type"] = type
-    if type.upper() == u"xs":
+    if type == u"xs":
         res_data[u"column_name"] = u"孤单先森"
     else:
         res_data[u"column_name"] = u"独身菇凉"
