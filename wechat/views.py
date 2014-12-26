@@ -407,6 +407,7 @@ def fan_show(request):
         return render_to_response('post_result.html', res_data)
 
 
+
 def view_kll_post(request):
     res_data = {
         "static_url": STATIC_BASE_URL

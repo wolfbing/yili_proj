@@ -450,7 +450,7 @@ class TextAnswerManager(models.Manager):
 class TextAnswer(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     keyword = models.CharField(max_length=50, unique=True) # 关键词不能重复
-    answer = models.CharField(max_length=500)
+    answer = models.TextField(max_length=500)
 
     objects = TextAnswerManager()
 
@@ -495,13 +495,33 @@ class NewsAnswer(models.Model):
         verbose_name = u"自动回复(图文)"
 
 
+class DDBBKllManager(models.Manager):
+    # type 只能是xs, gn，即先生、姑娘
+    def kll(self, tp, num):
+        objs = self.filter(type=tp).order_by("-date")[0:num]
+        return objs
+
+    def some_kll(self, tp, start, end):
+        return self.filter(type=tp).order_by("-date")[start:end]
+
+    def kll_num(self, tp):
+        return self.filter(type=tp).count()
+
+
 # 滴滴叭叭的-括拉拉档案发布
 class DDBBKll(models.Model):
+    t = (
+        (u"xs", u"孤单先森"),
+        (u"gn", u"独身菇凉")
+    )
     date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100, verbose_name=u"标题")
+    type = models.CharField(max_length=20, verbose_name=u"类型", choices=t)
     intro = models.TextField(max_length=500, verbose_name=u"简介")
     img = models.ImageField(upload_to="wechat/ddbb/kll/%Y/%m/", verbose_name=u"封面图片")
     url = models.URLField(max_length=1000, verbose_name=u"详情页面链接")
+
+    objects = DDBBKllManager()
 
     class Meta:
         verbose_name = u"滴滴叭叭-括拉拉档案"

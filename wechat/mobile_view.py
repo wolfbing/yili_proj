@@ -11,6 +11,7 @@ import json
 from django.core.urlresolvers import reverse
 
 from wechat.models import BoysAndGirls, FineFood, Voice, IndexSlider
+from wechat.models import DDBBKll
 from wechat.models import BFX as BFShow
 
 from views import STATIC_BASE_URL
@@ -224,6 +225,34 @@ def play_audio(request, id):
     return render_to_response("audio_player.html", res_data)
 
 
+def ddbb_kll_list(request, page, type):
+    res_data = {
+        u"title": u"括拉拉档案",
+        u"static_url": STATIC_BASE_URL,
+        u"objs": get_ddbb_kll_list(type, page),
+        u"sync_url": u"/mobile/ajaxddbbklllist/"
+    }
+    res_data.update(base_res_data())
+    num = DDBBKll.objects.kll_num(type)
+    res_data["type"] = type
+    if type.upper() == u"xs":
+        res_data[u"column_name"] = u"孤单先森"
+    else:
+        res_data[u"column_name"] = u"独身菇凉"
+    total_page_num = num/LIST_NUM_PER_PAGE
+    if num%LIST_NUM_PER_PAGE != 0:
+        total_page_num +=1
+    res_data["total_page_num"] = total_page_num
+    res_data["current_page_num"] = int(page)
+    page_range =[p+1 for p in range(total_page_num) ]
+    res_data["page_range"] = page_range
+    return render_to_response("news_list.html", res_data)
+
+def ajax_ddbb_kll_list(request, page, type):
+    klls = get_ddbb_kll_list(type, page)
+    return HttpResponse(json.dumps(klls, ensure_ascii=False))
+
+
 # index页面article-list
 def index_article_list():
     ns = BoysAndGirls.objects.ns(1)
@@ -371,4 +400,24 @@ def get_pms_list(page):
         ms["url"] = obj.url
         msl.append(ms)
     return msl
+
+
+
+# 滴滴叭叭-括拉拉档案
+def get_ddbb_kll_list(type, page):
+    start = (int(page)-1)*LIST_NUM_PER_PAGE
+    end = int(page)*LIST_NUM_PER_PAGE
+    objs = DDBBKll.objects.some_kll(type, start, end)
+    klls = []
+    for obj in objs:
+        kll = {
+            "title": obj.title,
+            "intro": obj.intro,
+            "pic_url": obj.img.url,
+            "url": obj.url
+        }
+        klls.append(kll)
+    return klls
+
+
 
