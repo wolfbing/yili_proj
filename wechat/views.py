@@ -748,7 +748,7 @@ def get_bsbs():
         bs['description'] = obj.intro
         bs['pic_url'] = HOST_NAME + obj.pic.url
         if obj.url==u'':
-            bs['url'] = HOST_NAME + reverse("mobile_view.play_audio", kwargs={"id":obj.id})
+            bs['url'] = HOST_NAME + reverse("mobile_audioplayer", kwargs={"id":obj.id})
         else:
             bs['url'] = obj.url
         bsl.append(bs)
