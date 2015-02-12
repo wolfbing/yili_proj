@@ -110,82 +110,83 @@ def test(request):
 def main(request):
     try:
         req_data = parse_msg(request.body)
-        if req_data[MSG_TYPE] == TEXT_MSG:
-            content = req_data[Content].strip()
-            now = datetime.now() + timedelta(hours=8)
-            if is_kll(content):
-                return save_kll_intro(req_data)
-            elif is_mstj(content):
-                return save_recommend_food_intro(req_data)
-            elif TextAnswer.objects.answer(content)!=None:
-                return text_msg(req_data, TextAnswer.objects.answer(content))
-            elif NewsAnswer.objects.answer(content) != None:
-                return  news_msg(req_data, NewsAnswer.objects.answer(content))
-            elif db_news_answer.get(content) != None:
-                return news_msg(req_data, db_news_answer.get(content))
-            elif AtypicalVisitor.objects.exist(req_data[FromUserName], now):
-                return HttpResponse("")
-            else:
-                obj = AtypicalVisitor(open_id=req_data[FromUserName], year=now.year, month=now.month, day=now.day)
-                obj.save()
-                return text_msg(req_data, ANSWER.get("help"))
-        elif req_data[MSG_TYPE] == IMAGE_MSG:
-            return text_msg(req_data, u'图片发送成功！.')
-        elif req_data[MSG_TYPE] == VOICE_MSG:
-            return text_msg(req_data, u'音频发送成功！')
-        elif req_data[MSG_TYPE] == EVENT_MSG:
-            ###  订阅与取消订阅
-            if req_data[EVENT] == SUBSCRIBE_EVENT:
-                return text_msg(req_data, TextAnswer.objects.answer(u'welcome'))
-            elif req_data[EVENT] == UNSUBSCRIBE_EVENT:
-                return text_msg(req_data, BYE_MSG)
-            ###  菜单点击事件
-            elif req_data[EVENT] == CLICK_EVENT:
-                ###  有些朋友
-                if req_data[EVENT_KEY] == NS:
-                    articles = get_ns()
-                    return news_msg(req_data, articles)
-                elif req_data[EVENT_KEY] == NVS:
-                    articles = get_nvs()
-                    return news_msg(req_data, articles)
-                elif req_data[EVENT_KEY] == BZND:
-                    articles = get_bznd()
-                    return news_msg(req_data, articles)
-                elif req_data[EVENT_KEY] == BZNVD:
-                    articles = get_bznvd()
-                    return news_msg(req_data, articles)
-                ###  有些美食
-                elif req_data[EVENT_KEY] == ST:
-                    articles = get_st()
-                    return news_msg(req_data, articles)
-                elif req_data[EVENT_KEY] == BX:
-                    articles = get_bx()
-                    return news_msg(req_data, articles)
-                elif req_data[EVENT_KEY] == PMS:
-                    articles = get_pms()
-                    return news_msg(req_data, articles)
-                ###  有些声音
-                elif req_data[EVENT_KEY] == JDHG:
-                    articles = get_jdhg()
-                    return news_msg(req_data, articles)
-                elif req_data[EVENT_KEY] == BSBS:
-                    articles = get_bsbs()
-                    return news_msg(req_data, articles)
-                elif req_data[EVENT_KEY] == BFX:
-                    articles = get_bfx()
-                    return news_msg(req_data, articles)
-                else:
-                    return text_msg(req_data, HELP_MSG)
-            else:
-                return text_msg(req_data, HELP_MSG)
-        else:
-            now = datetime.now() + timedelta(hours=8)
-            if AtypicalVisitor.objects.exist(req_data[FromUserName], now):
-                return HttpResponse("")
-            else:
-                obj = AtypicalVisitor(open_id=req_data[FromUserName], year=now.year, month=now.month, day=now.day)
-                obj.save()
-                return text_msg(req_data, HELP_MSG)
+        return text_msg(req_data, u"平台升级中... 敬请谅解！")
+        # if req_data[MSG_TYPE] == TEXT_MSG:
+        #     content = req_data[Content].strip()
+        #     now = datetime.now() + timedelta(hours=8)
+        #     if is_kll(content):
+        #         return save_kll_intro(req_data)
+        #     elif is_mstj(content):
+        #         return save_recommend_food_intro(req_data)
+        #     elif TextAnswer.objects.answer(content)!=None:
+        #         return text_msg(req_data, TextAnswer.objects.answer(content))
+        #     elif NewsAnswer.objects.answer(content) != None:
+        #         return  news_msg(req_data, NewsAnswer.objects.answer(content))
+        #     elif db_news_answer.get(content) != None:
+        #         return news_msg(req_data, db_news_answer.get(content))
+        #     elif AtypicalVisitor.objects.exist(req_data[FromUserName], now):
+        #         return HttpResponse("")
+        #     else:
+        #         obj = AtypicalVisitor(open_id=req_data[FromUserName], year=now.year, month=now.month, day=now.day)
+        #         obj.save()
+        #         return text_msg(req_data, ANSWER.get("help"))
+        # elif req_data[MSG_TYPE] == IMAGE_MSG:
+        #     return text_msg(req_data, u'图片发送成功！.')
+        # elif req_data[MSG_TYPE] == VOICE_MSG:
+        #     return text_msg(req_data, u'音频发送成功！')
+        # elif req_data[MSG_TYPE] == EVENT_MSG:
+        #     ###  订阅与取消订阅
+        #     if req_data[EVENT] == SUBSCRIBE_EVENT:
+        #         return text_msg(req_data, TextAnswer.objects.answer(u'welcome'))
+        #     elif req_data[EVENT] == UNSUBSCRIBE_EVENT:
+        #         return text_msg(req_data, BYE_MSG)
+        #     ###  菜单点击事件
+        #     elif req_data[EVENT] == CLICK_EVENT:
+        #         ###  有些朋友
+        #         if req_data[EVENT_KEY] == NS:
+        #             articles = get_ns()
+        #             return news_msg(req_data, articles)
+        #         elif req_data[EVENT_KEY] == NVS:
+        #             articles = get_nvs()
+        #             return news_msg(req_data, articles)
+        #         elif req_data[EVENT_KEY] == BZND:
+        #             articles = get_bznd()
+        #             return news_msg(req_data, articles)
+        #         elif req_data[EVENT_KEY] == BZNVD:
+        #             articles = get_bznvd()
+        #             return news_msg(req_data, articles)
+        #         ###  有些美食
+        #         elif req_data[EVENT_KEY] == ST:
+        #             articles = get_st()
+        #             return news_msg(req_data, articles)
+        #         elif req_data[EVENT_KEY] == BX:
+        #             articles = get_bx()
+        #             return news_msg(req_data, articles)
+        #         elif req_data[EVENT_KEY] == PMS:
+        #             articles = get_pms()
+        #             return news_msg(req_data, articles)
+        #         ###  有些声音
+        #         elif req_data[EVENT_KEY] == JDHG:
+        #             articles = get_jdhg()
+        #             return news_msg(req_data, articles)
+        #         elif req_data[EVENT_KEY] == BSBS:
+        #             articles = get_bsbs()
+        #             return news_msg(req_data, articles)
+        #         elif req_data[EVENT_KEY] == BFX:
+        #             articles = get_bfx()
+        #             return news_msg(req_data, articles)
+        #         else:
+        #             return text_msg(req_data, HELP_MSG)
+        #     else:
+        #         return text_msg(req_data, HELP_MSG)
+        # else:
+        #     now = datetime.now() + timedelta(hours=8)
+        #     if AtypicalVisitor.objects.exist(req_data[FromUserName], now):
+        #         return HttpResponse("")
+        #     else:
+        #         obj = AtypicalVisitor(open_id=req_data[FromUserName], year=now.year, month=now.month, day=now.day)
+        #         obj.save()
+        #         return text_msg(req_data, HELP_MSG)
     except Exception, e:
         logger.debug(e)
         print e
